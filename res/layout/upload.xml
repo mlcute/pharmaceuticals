@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+     >
+
+    <ImageView
+        android:id="@+id/bluebar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/bluebar" />
+
+    <RelativeLayout
+        android:id="@+id/UploadsRelative"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bluebar"
+        android:background="@drawable/gradient"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp" >
+
+        <ImageView
+            android:id="@+id/spyfeedback"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@drawable/spyfeedback"
+            android:src="@drawable/capture" />
+
+        <TextView
+            android:id="@+id/Uploads"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/spyfeedback"
+            android:text="Uploads"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:id="@+id/Scrollview"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/UploadsRelative" >
+
+        <RelativeLayout
+            android:id="@+id/Content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/UploadsRelative"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/editText1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/edittext_modified_states"
+                android:ems="10"
+                android:gravity="top"
+                android:hint="Note"
+                android:inputType="textMultiLine"
+                android:lines="2"
+                android:padding="3dp" />
+
+            <TextView
+                android:id="@+id/AttachImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editText1"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/gradient"
+                android:padding="5dp"
+                android:paddingLeft="10dp"
+                android:text="Attach Image"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/TextView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/AttachImage"
+                android:text="No Preview Available"
+                android:visibility="visible" />
+
+            <ListView
+                android:id="@+id/listView1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@id/TextView1"
+                android:layout_marginTop="1dp"
+                android:layout_weight="0.5"
+                android:drawSelectorOnTop="true" />
+        </RelativeLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/AttachAnotherImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Scrollview"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/gradient"
+        android:padding="5dp"
+        android:paddingLeft="10dp"
+        android:text="Attach Another Image"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+    <RelativeLayout
+        android:id="@+id/ButtonsRelative"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/AttachAnotherImage"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp" >
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="110dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/button_gradient"
+            android:drawableRight="@drawable/browse"
+            android:padding="5dp"
+            android:text="Browse"
+            android:textColor="#ffffff" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="110dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="25dp"
+            android:layout_toRightOf="@id/button1"
+            android:background="@drawable/button_gradient"
+            android:drawableRight="@drawable/camera"
+            android:padding="5dp"
+            android:text="Take A Pic"
+            android:textColor="#ffffff" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/RelativeSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ButtonsRelative"
+        android:padding="5dp" >
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="110dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:background="@drawable/button_gradient"
+            android:padding="5dp"
+            android:text="SUBMIT"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/bluebarBottom"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/bluebar" />
+
+</RelativeLayout>

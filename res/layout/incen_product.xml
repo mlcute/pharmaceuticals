@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:accordion="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="10dp"
+    android:fadingEdge="none"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <ListView
+            android:id="@+id/incen_product_lv"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/incen_product_total_layout"
+            android:layout_alignParentTop="true"
+            android:fadingEdge="none" />
+
+        <LinearLayout
+            android:id="@id/incen_product_total_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical" >
+
+            <com.mobcast.view.AccordionView
+                android:id="@+id/incen_product_total_acc_view"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="10dp"
+                accordion:header_layout_id="@layout/accordion_header_reverse"
+                accordion:header_layout_label_id="@id/foldText"
+                accordion:section_bottom="@layout/accordion_footer"
+                accordion:section_container="@layout/accordion_section"
+                accordion:section_container_parent="@id/section_content"
+                accordion:section_headers="@array/arr_month_q1"
+                accordion:section_visibility="@array/arr_month_q1_vis"
+                android:background="#fff5f5f5"
+                android:orientation="vertical"
+                android:visibility="visible" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:orientation="horizontal"
+                        android:padding="4dp" >
+
+                        <TextView
+                            android:id="@+id/incen_product_total_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="Total Product : "
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <TextView
+                            android:id="@+id/incen_product_total_incen"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.5"
+                            android:background="@drawable/incen_tab_shape"
+                            android:gravity="center"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <TextView
+                            android:id="@+id/incen_product_total_rs_sy"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.3"
+                            android:gravity="center"
+                            android:text="@string/Rs"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.mobcast.view.AccordionView>
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="AutofitTextView">
+        <attr name="minTextSize" format="dimension" />
+        <attr name="precision" format="float" />
+        <attr name="sizeToFit" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="image_labeled_button">
+        <attr name="icon_resource" format="reference" />
+        <attr name="icon_label" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="toggle_image_labeled_button">
+        <attr name="icon_resource_off" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="accordion">
+        <attr name="header_layout_id" format="reference" />
+        <attr name="header_layout_fold_button_id" format="reference" />
+        <attr name="header_layout_label_id" format="reference" />
+        <attr name="custom_font" format="string" />
+        <attr name="section_headers" format="reference" />
+        <attr name="section_container" format="reference" />
+        <attr name="section_container_parent" format="reference" />
+        <attr name="section_bottom" format="reference" />
+        <attr name="section_visibility" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="CustomAttributes">
+        <attr name="showNumberIndicator" format="boolean" />
+        <!-- in progress view indicate max value of progress -->
+        <attr name="max" format="integer" />
+        <!-- in progress view indicate min value of progress -->
+        <attr name="min" format="integer" />
+        <!-- in progress view indicate value of progress -->
+        <attr name="value" format="integer" />
+        <!-- in progress view indicate value of progress -->
+        <attr name="progress" format="integer" />
+        <attr name="ringWidth" format="dimension" />
+        <!-- in switche's view indicate state of view -->
+        <attr name="checked" format="boolean" />
+        <attr name="checkBoxSize" format="dimension" />
+        <attr name="thumbSize" format="dimension" />
+        <!-- in float button indicate icon resource -->
+        <attr name="iconDrawable" format="integer" />
+        <!-- in button whitch contains drawable indicate icon resource -->
+        <attr name="iconSize" format="dimension" />
+        <!-- in float button indicate if must start with animation -->
+        <attr name="animate" format="boolean" />
+        <!-- set the border of the ripple frame -->
+        <attr name="rippleBorderRadius" format="float" />
+        <!-- if true, delays calls to OnClickListeners until ripple effect ends -->
+        <attr name="clickAfterRipple" format="boolean" />
+    </declare-styleable>
+
+</resources>

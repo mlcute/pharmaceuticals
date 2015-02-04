@@ -1,0 +1,258 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/mLayout"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/bluebar" />
+
+    <RelativeLayout
+        android:id="@+id/incen_title_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/gradient"
+        android:orientation="horizontal"
+        android:paddingBottom="7dp"
+        android:paddingTop="7dp" >
+
+        <ImageView
+            android:id="@+id/titleBackIcon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="20dp"
+            android:visibility="gone"
+            android:layout_marginTop="5dp"
+            android:layout_toLeftOf="@+id/titleLayout"
+            android:contentDescription="@drawable/incen_icon"
+            android:scaleType="centerInside"
+            android:src="@drawable/incen_back" />
+
+        <LinearLayout
+            android:id="@id/titleLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/titleIcon"
+                android:layout_width="37dp"
+                android:layout_height="37dp"
+                android:layout_gravity="left|center"
+                android:layout_marginLeft="2dp"
+                android:layout_toLeftOf="@+id/titleCalc"
+                android:contentDescription="@drawable/incen_icon"
+                android:scaleType="fitXY"
+                android:src="@drawable/incen_icon" />
+
+            <TextView
+                android:id="@id/titleCalc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="left|center"
+                android:layout_marginLeft="5dp"
+                android:text="Incentive Calculator"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/incen_overflow"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
+            android:padding="2dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/incen_overflow" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/bluebar" />
+
+    <com.mobcast.view.ButtonFlat
+        android:id="@+id/annualBtn"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:background="@color/theme_color"
+        android:text="Annual"
+        android:textColor="@android:color/white"
+        android:textSize="22sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/annualBtn"
+        android:layout_marginTop="60dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_above="@id/annualBtn"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <com.mobcast.view.ButtonFlat
+                    android:id="@+id/quarterBtn1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="#BDBE00"
+                    android:gravity="center"
+                    android:text="     Quarter1\n(Jan-Feb-Mar)"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp" />
+
+                <ImageView
+                    android:id="@+id/summary1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|right"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="2dp"
+                    android:padding="2dp"
+                    android:scaleType="center"
+                    android:src="@drawable/summary_icon" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white" />
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <com.mobcast.view.ButtonFlat
+                    android:id="@+id/quarterBtn2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="#D4B07A"
+                    android:gravity="center"
+                    android:text="     Quarter2\n(Apr-May-Jun)"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp" />
+
+                <ImageView
+                    android:id="@+id/summary2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|right"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="2dp"
+                    android:padding="2dp"
+                    android:scaleType="center"
+                    android:src="@drawable/summary_icon" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_above="@id/annualBtn"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <com.mobcast.view.ButtonFlat
+                    android:id="@+id/quarterBtn3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="#D4B07A"
+                    android:gravity="center"
+                    android:text="     Quarter3\n(Jul-Aug-Sep)"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp" />
+
+                <ImageView
+                    android:id="@+id/summary3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|right"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="2dp"
+                    android:padding="2dp"
+                    android:scaleType="center"
+                    android:src="@drawable/summary_icon" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white" />
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <com.mobcast.view.ButtonFlat
+                    android:id="@+id/quarterBtn4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="#BDBE00"
+                    android:gravity="center"
+                    android:text="     Quarter4\n(Oct-Nov-Dec)"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp" />
+
+                <ImageView
+                    android:id="@+id/summary4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|right"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="2dp"
+                    android:padding="2dp"
+                    android:scaleType="center"
+                    android:src="@drawable/summary_icon" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/white" />
+    </LinearLayout>
+
+</RelativeLayout>

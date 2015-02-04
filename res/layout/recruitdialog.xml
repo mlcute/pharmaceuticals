@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff" >
+
+    <TextView
+        android:id="@+id/RDContent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.90"
+        android:background="#ffffff"
+        android:scrollbars="vertical"
+        android:editable="true"
+        android:text="Content goes here"
+        android:textColor="#13a0e2"
+         />
+
+    <Button
+        android:id="@+id/RDBack"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.10"
+        android:layout_gravity="bottom|center"
+        android:background="#13a0e2"
+        android:text="back"
+        android:textColor="#ffffff" />
+
+</LinearLayout>

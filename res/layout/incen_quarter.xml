@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:accordion="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="10dp"
+    android:fadingEdge="none"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <com.mobcast.view.AccordionView
+            android:id="@+id/incen_quarter_acc_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            accordion:header_layout_fold_button_id="@id/foldButton"
+            accordion:header_layout_id="@layout/accordion_header"
+            accordion:header_layout_label_id="@id/foldText"
+            accordion:section_bottom="@layout/accordion_footer"
+            accordion:section_container="@layout/accordion_section"
+            accordion:section_container_parent="@id/section_content"
+            accordion:section_headers="@array/arr_month_q1"
+            accordion:section_visibility="@array/arr_month_q1_vis"
+            android:background="#fff5f5f5"
+            android:orientation="vertical"
+            android:visibility="visible" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:padding="4dp" >
+
+                    <TextView
+                        android:id="@+id/incen_quarter_text"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:gravity="left|center"
+                        android:text="@string/incen_quarter"
+                        android:textColor="@color/theme_color"
+                        android:textSize="@dimen/incen_size" />
+
+                    <EditText
+                        android:id="@+id/incen_quarter_slider_per"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/incen_tab_shape"
+                        android:gravity="center"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberSigned"
+                        android:maxLength="3"
+                        android:textColor="@color/theme_color"
+                        android:textSize="@dimen/incen_size" />
+                    
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.3"
+                        android:gravity="center"
+                        android:text="%"
+                        android:textColor="@color/theme_color"
+                        android:textSize="@dimen/incen_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal"
+                    android:padding="4dp" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="90%"
+                        android:textColor="@color/theme_color"
+                        android:textSize="@dimen/incen_size" />
+
+                    <com.mobcast.view.Slider
+                        android:id="@+id/activity_quarter_slider"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="5"
+                        android:background="#006999"
+                        android:gravity="center"
+                        materialdesign:max="110"
+                        materialdesign:min="88"
+                        materialdesign:showNumberIndicator="false" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="110%"
+                        android:textColor="@color/theme_color"
+                        android:textSize="@dimen/incen_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:padding="4dp" >
+
+                    <TextView
+                        android:id="@+id/incen_quarter_total_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:gravity="left|center"
+                        android:text="Total Quarter : "
+                        android:textColor="@color/theme_color"
+                        android:textSize="@dimen/incen_size" />
+
+                    <TextView
+                        android:id="@+id/incen_quarter_total_incen"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/incen_tab_shape"
+                        android:gravity="center"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberSigned"
+                        android:textColor="@color/theme_color"
+                        android:textSize="@dimen/incen_size" />
+                    
+                    <TextView
+                        android:id="@+id/incen_quarter_rs_sy"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.3"
+                        android:gravity="center"
+                        android:text="@string/Rs"
+                        android:textColor="@color/theme_color"
+                        android:textSize="@dimen/incen_size" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.mobcast.view.AccordionView>
+    </LinearLayout>
+
+</ScrollView>

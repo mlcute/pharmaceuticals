@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    >
+    
+
+    <ScrollView
+        android:id="@+id/sv2" 
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+         >
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/bluebar" />
+            
+            <LinearLayout android:orientation="horizontal"
+     		   android:gravity="center"
+     		   android:background="@drawable/gradient"
+     		   android:layout_width="fill_parent"
+     		   android:layout_height="wrap_content"
+     		   android:paddingTop="15dp"
+     		   android:paddingBottom="15dp"
+     		   >
+    
+ <ImageView android:src="@drawable/icons24"
+      		 android:contentDescription="@drawable/recruitment1"
+              android:layout_width="40dp"
+              android:layout_height="40dp"
+              
+       		   />
+  <TextView  android:text="News"
+      		 android:textSize="20sp"
+      		 android:textColor="#ffffff"
+      		 android:layout_width="wrap_content"
+      		 android:layout_height="wrap_content"/>
+  </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/rl1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#13a0e2" >
+
+                    <TextView
+                        android:id="@+id/tvNTtitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/listgradientnormal"
+                        android:gravity="left"
+                        android:padding="5dp"
+                        android:text="100 Mn Galaxy &apos;S&apos; Smartphone Sell Samsung Electronics Said"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/linearLayout1"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/gradient"
+                android:gravity="center_vertical" >
+
+                <Button
+                    android:id="@+id/iv6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/ic_share" />
+
+                <TextView
+                    android:id="@+id/tvNTtime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:padding="0dp"
+                    android:layout_marginLeft="15dp"
+                    android:text="Sat 25th Jan 2012"
+                    android:textAppearance="?android:attr/textAppearance"
+                    android:textColor="#ffffff" />
+            </RelativeLayout>
+            
+             <TextView
+        android:id="@+id/tvLink"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/scrollView1"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="10dp"
+         android:textColor="#1b58b8"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold"
+        android:layout_marginLeft="15dp"
+        android:textSize="14sp"
+        android:text="By: " />
+             
+             <TextView
+        android:id="@+id/tvNTsummary"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        
+        android:padding="5dp"
+        android:paddingTop="10dp"
+        android:text="TextView" />
+            
+        </LinearLayout>
+        
+        
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/bluebar" />
+
+   
+
+</RelativeLayout>

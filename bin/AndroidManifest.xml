@@ -1,0 +1,333 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.sanofi.in.mobcast"
+    android:installLocation="auto"
+    android:versionCode="37"
+    android:versionName="1.5.61" >
+
+    <uses-sdk android:minSdkVersion="8"
+        android:targetSdkVersion="21"
+        />
+    <!-- <uses-permission android:name="android.permission.CALL_PHONE" /> -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <!-- <uses-permission android:name="android.permission.WRITE_CONTACTS" /> -->
+    <!-- receives GCM messages -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <!-- GCM connects to Google services -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <!-- GCM requires a Google account -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.READ_OWNER_DATA" />
+    <!-- wake the processor if a GCM message is received -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> -->
+    <permission
+        android:name="com.sanofi.in.mobcast.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.sanofi.in.mobcast.permission.C2D_MESSAGE" />
+
+    <application
+        android:name="com.sanofi.in.mobcast.ApplicationLoader"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
+        <activity
+            android:name="com.sanofi.in.mobcast.MainActivity"
+            android:label="@string/title_activity_main"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- <receiver android:name="com.sanofi.in.mobcast.BootReceiver" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.BOOT_COMPLETED" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+        <service android:name="com.sanofi.in.mobcast.BootIntentService" />
+
+        <receiver android:name="com.sanofi.in.mobcast.WifiReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.sanofi.in.mobcast.WifiIntentService" />
+        <!-- <receiver android:name=".AlarmReceiver" > -->
+        <!-- </receiver> -->
+        <receiver
+            android:name="com.google.android.gcm.GCMBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.sanofi.in.mobcast" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.sanofi.in.mobcast.GCMIntentService" >
+        </service>
+        <service android:name="com.sanofi.in.mobcast.GcmService" >
+        </service>
+        <!--
+        <receiver android:name=".NetworkChangeReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        -->
+        <service android:name="com.parse.PushService" />
+        <!--
+        <receiver android:name="com.parse.ParseBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+        -->
+        <receiver
+            android:name="com.sanofi.in.mobcast.GcmBroadcastReceiver"
+            android:exported="false"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+
+                <!-- Receives the actual messages. -->
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <!-- <action android:name="com.example.UPDATE_STATUS" /> -->
+                <category android:name="com.sanofi.in.mobcast" />
+            </intent-filter>
+        </receiver>
+        <!-- <receiver -->
+        <!-- android:name="com.parse.GcmBroadcastReceiver" -->
+        <!-- android:permission="com.google.android.c2dm.permission.SEND" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.google.android.c2dm.intent.RECEIVE" /> -->
+        <!-- <action android:name="com.google.android.c2dm.intent.REGISTRATION" /> -->
+        <!-- <category android:name="com.sanofi.in.mobcast" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+        <activity
+            android:name="com.sanofi.in.mobcast.Document"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.SmsLogin"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.VideoFullscreen"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.sanofi.in.mobcast.Search"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.Leads"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.FeedbackNewRating"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.FeedbackNewRadio"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.FeedbackNewCheck"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.FeedbackNewSubjective"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.PreDashboardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.Imageupload"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.FeedbackView"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.FeedbackNewList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.TrainingVideo"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.TrainingAudio"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.Message"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.EmployeeCommunication"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.LoginV2"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.Login"
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.MenuActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.sanofi.in.mobcast.Home1"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.Categorization"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.Event"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.EventListView"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.HRandTraining"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.CommonUtilities"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.Settings"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.Announcements"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.AnnounceListView"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.Recruitment"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.AnnounceVideo"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.audio"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.AnnounceText"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.ImageFullscreen"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.FullVideo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.TrainingListView"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.NewsVideo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.NewsList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.NewsText"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.RecruitList"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.Award"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.AwardList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.DocumentList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.FeedbackCheck"
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.FeedbackList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.FeedbackSubjective"
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.FeedbackRating"
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.NewsImage"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.NewsAudio"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.FeedbackRadio"
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.PdfViewerMobCastActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.AboutActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sanofi.in.mobcast.ForgetPassword"
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mobcast.calc.IncenCalActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mobcast.calc.MonthlyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mobcast.calc.QuarterlyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mobcast.calc.IncenMonthlyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mobcast.calc.IncenQuarterlyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mobcast.calc.IncenProductActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mobcast.calc.IncenKPIActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mobcast.calc.IncenAnnualActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mobcast.calc.IncenDashBoardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mobcast.calc.IncenSummaryActivity"
+            android:screenOrientation="portrait" />
+        <receiver android:name="com.mobcast.receiver.EventYesReceiver" />
+        <receiver android:name="com.mobcast.receiver.EventNoReceiver" />
+        <receiver android:name="com.mobcast.receiver.EventCalendarReceiver" />
+        <receiver android:name="com.mobcast.receiver.AwardCongratulateReceiver" />
+    </application>
+
+</manifest>

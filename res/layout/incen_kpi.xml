@@ -1,0 +1,1205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:accordion="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="10dp"
+    android:orientation="vertical" >
+
+    <ListView
+        android:id="@+id/incen_kpi_listView"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/incen_kpi_total_layout"
+        android:layout_alignParentTop="true"
+        android:fadingEdge="none"
+        android:listSelector="#00000000" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fadingEdge="none"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="30dp" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Coverage"
+                android:textColor="@color/theme_color" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/theme_color" />
+
+            <!-- Coverage Month 1 -->
+
+            <com.mobcast.view.AccordionView
+                android:id="@+id/incen_kpi_acc_view_coverage_1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="10dp"
+                accordion:header_layout_fold_button_id="@id/foldButton"
+                accordion:header_layout_id="@layout/accordion_header"
+                accordion:header_layout_label_id="@id/foldText"
+                accordion:section_bottom="@layout/accordion_footer"
+                accordion:section_container="@layout/accordion_section"
+                accordion:section_container_parent="@id/section_content"
+                accordion:section_headers="@array/arr_month_q1"
+                accordion:section_visibility="@array/arr_month_q1_vis"
+                android:background="#fff5f5f5"
+                android:orientation="vertical"
+                android:visibility="visible" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="90% and Above"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_month_1_switchView1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="85% to &lt; 90%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_month_1_switchView2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="80% to &lt; 85%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_month_1_switchView3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="70% to &lt; 80%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_month_1_switchView4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="Below 70%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_month_1_switchView5"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.mobcast.view.AccordionView>
+
+            <!-- Coverage Month 2 -->
+
+            <com.mobcast.view.AccordionView
+                android:id="@+id/incen_kpi_acc_view_coverage_2"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="10dp"
+                accordion:header_layout_fold_button_id="@id/foldButton"
+                accordion:header_layout_id="@layout/accordion_header"
+                accordion:header_layout_label_id="@id/foldText"
+                accordion:section_bottom="@layout/accordion_footer"
+                accordion:section_container="@layout/accordion_section"
+                accordion:section_container_parent="@id/section_content"
+                accordion:section_headers="@array/arr_month_q1"
+                accordion:section_visibility="@array/arr_month_q1_vis"
+                android:background="#fff5f5f5"
+                android:orientation="vertical"
+                android:visibility="visible" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="90% and Above"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_month_2_switchView1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="85% to &lt; 90%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_month_2_switchView2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="80% to &lt; 85%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_month_2_switchView3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="70% to &lt; 80%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_month_2_switchView4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="Below 70%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_month_2_switchView5"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.mobcast.view.AccordionView>
+
+            <!-- Coverage Month 3 -->
+
+            <com.mobcast.view.AccordionView
+                android:id="@+id/incen_kpi_acc_view_coverage_3"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="10dp"
+                accordion:header_layout_fold_button_id="@id/foldButton"
+                accordion:header_layout_id="@layout/accordion_header"
+                accordion:header_layout_label_id="@id/foldText"
+                accordion:section_bottom="@layout/accordion_footer"
+                accordion:section_container="@layout/accordion_section"
+                accordion:section_container_parent="@id/section_content"
+                accordion:section_headers="@array/arr_month_q1"
+                accordion:section_visibility="@array/arr_month_q1_vis"
+                android:background="#fff5f5f5"
+                android:orientation="vertical"
+                android:visibility="visible" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="90% and Above"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_month_3_switchView1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="85% to &lt; 90%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_month_3_switchView2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="80% to &lt; 85%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_month_3_switchView3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="70% to &lt; 80%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_month_3_switchView4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="Below 70%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_month_3_switchView5"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.mobcast.view.AccordionView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="CPA"
+                android:textColor="@color/theme_color" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/theme_color" />
+
+            <!-- CPA ListView -->
+
+
+            <!-- <ListView -->
+            <!-- android:id="@+id/incen_kpi_lv" -->
+            <!-- android:layout_width="fill_parent" -->
+            <!-- android:layout_height="fill_parent" -->
+            <!-- android:layout_marginTop="5dp" /> -->
+
+
+            <!-- <com.mobcast.view.ExpandedListView -->
+            <!-- android:id="@+id/incen_kpi_lv" -->
+            <!-- android:layout_width="fill_parent" -->
+            <!-- android:layout_height="wrap_content" /> -->
+
+
+            <!-- CPA Month 1 -->
+
+            <com.mobcast.view.AccordionView
+                android:id="@+id/incen_kpi_acc_view_cpa_1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="10dp"
+                accordion:header_layout_fold_button_id="@id/foldButton"
+                accordion:header_layout_id="@layout/accordion_header"
+                accordion:header_layout_label_id="@id/foldText"
+                accordion:section_bottom="@layout/accordion_footer"
+                accordion:section_container="@layout/accordion_section"
+                accordion:section_container_parent="@id/section_content"
+                accordion:section_headers="@array/arr_month_q1"
+                accordion:section_visibility="@array/arr_month_q1_vis"
+                android:background="#fff5f5f5"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="90% and Above"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_cpa_1_switchView1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="85% to &lt; 90%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_cpa_1_switchView2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="80% to &lt; 85%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_cpa_1_switchView3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="70% to &lt; 80%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_cpa_1_switchView4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="Below 70%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_cpa_1_switchView5"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.mobcast.view.AccordionView>
+
+            <!-- CPA Month 2 -->
+
+            <com.mobcast.view.AccordionView
+                android:id="@+id/incen_kpi_acc_view_cpa_2"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="10dp"
+                accordion:header_layout_fold_button_id="@id/foldButton"
+                accordion:header_layout_id="@layout/accordion_header"
+                accordion:header_layout_label_id="@id/foldText"
+                accordion:section_bottom="@layout/accordion_footer"
+                accordion:section_container="@layout/accordion_section"
+                accordion:section_container_parent="@id/section_content"
+                accordion:section_headers="@array/arr_month_q1"
+                accordion:section_visibility="@array/arr_month_q1_vis"
+                android:background="#fff5f5f5"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="90% and Above"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_cpa_2_switchView1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="85% to &lt; 90%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_cpa_2_switchView2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="80% to &lt; 85%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_cpa_2_switchView3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="70% to &lt; 80%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_cpa_2_switchView4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="Below 70%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_cpa_2_switchView5"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.mobcast.view.AccordionView>
+
+            <!-- CPA Month 3 -->
+
+            <com.mobcast.view.AccordionView
+                android:id="@+id/incen_kpi_acc_view_cpa_3"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="10dp"
+                accordion:header_layout_fold_button_id="@id/foldButton"
+                accordion:header_layout_id="@layout/accordion_header"
+                accordion:header_layout_label_id="@id/foldText"
+                accordion:section_bottom="@layout/accordion_footer"
+                accordion:section_container="@layout/accordion_section"
+                accordion:section_container_parent="@id/section_content"
+                accordion:section_headers="@array/arr_month_q1"
+                accordion:section_visibility="@array/arr_month_q1_vis"
+                android:background="#fff5f5f5"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="90% and Above"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_cpa_3_switchView1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="85% to &lt; 90%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_cpa_3_switchView2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="80% to &lt; 85%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_cpa_3_switchView3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="70% to &lt; 80%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_cpa_3_switchView4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="Below 70%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_cpa_3_switchView5"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.mobcast.view.AccordionView>
+
+            <!-- CPA Month 4 -->
+
+            <com.mobcast.view.AccordionView
+                android:id="@+id/incen_kpi_acc_view_cpa_4"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="10dp"
+                accordion:header_layout_fold_button_id="@id/foldButton"
+                accordion:header_layout_id="@layout/accordion_header"
+                accordion:header_layout_label_id="@id/foldText"
+                accordion:section_bottom="@layout/accordion_footer"
+                accordion:section_container="@layout/accordion_section"
+                accordion:section_container_parent="@id/section_content"
+                accordion:section_headers="@array/arr_month_q1"
+                accordion:section_visibility="@array/arr_month_q1_vis"
+                android:background="#fff5f5f5"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="90% and Above"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_cpa_4_switchView1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="85% to &lt; 90%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_cpa_4_switchView2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="80% to &lt; 85%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_cpa_4_switchView3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="70% to &lt; 80%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_cpa_4_switchView4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/incen_kpi_coverage_size"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:gravity="left|center"
+                            android:text="Below 70%"
+                            android:textColor="@color/theme_color"
+                            android:textSize="@dimen/incen_size" />
+
+                        <CheckBox
+                            android:id="@+id/incen_kpi_cpa_4_switchView5"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:button="@drawable/sanofi_btn_check_holo_light"
+                            android:checked="false"
+                            android:gravity="center" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.mobcast.view.AccordionView>
+
+            <LinearLayout
+                android:id="@+id/incen_kpi_cpa_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@id/incen_kpi_total_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
+
+        <com.mobcast.view.AccordionView
+            android:id="@+id/incen_kpi_total_acc_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="10dp"
+            accordion:header_layout_id="@layout/accordion_header_reverse"
+            accordion:header_layout_label_id="@id/foldText"
+            accordion:section_bottom="@layout/accordion_footer"
+            accordion:section_container="@layout/accordion_section"
+            accordion:section_container_parent="@id/section_content"
+            accordion:section_headers="@array/arr_month_q1"
+            accordion:section_visibility="@array/arr_month_q1_vis"
+            android:background="#fff5f5f5"
+            android:orientation="vertical"
+            android:visibility="visible" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:padding="4dp" >
+
+                    <TextView
+                        android:id="@+id/incen_kpi_total_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:gravity="left|center"
+                        android:text="Total : "
+                        android:textColor="@color/theme_color"
+                        android:textSize="@dimen/incen_size" />
+
+                    <TextView
+                        android:id="@+id/incen_kpi_total_incen"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/incen_tab_shape"
+                        android:gravity="center"
+                        android:textColor="@color/theme_color"
+                        android:textSize="@dimen/incen_size" />
+
+                    <TextView
+                        android:id="@+id/incen_kpi_total_rs_sy"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.3"
+                        android:gravity="center"
+                        android:text="@string/Rs"
+                        android:textColor="@color/theme_color"
+                        android:textSize="@dimen/incen_size" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.mobcast.view.AccordionView>
+    </LinearLayout>
+
+</RelativeLayout>

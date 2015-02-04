@@ -1,0 +1,908 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <com.mobcast.view.MyScrollView
+        android:id="@+id/activity_quarter_sl1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fadingEdge="none"
+        android:visibility="visible" >
+
+        <LinearLayout
+            android:id="@+id/quarterLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RadioGroup
+                android:id="@+id/radioGroupQuarter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/radioQuarter1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="Q1"
+                    android:textColor="@color/theme_color" />
+
+                <RadioButton
+                    android:id="@+id/radioQuarter2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Q2"
+                    android:textColor="@color/theme_color" />
+
+                <RadioButton
+                    android:id="@+id/radioQuarter3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Q3"
+                    android:textColor="@color/theme_color" />
+
+                <RadioButton
+                    android:id="@+id/radioQuarter4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Q4"
+                    android:textColor="@color/theme_color" />
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:padding="4dp" >
+
+                <TextView
+                    android:id="@+id/activity_quarter_month_1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:gravity="left|center"
+                    android:text="Month 1"
+                    android:textColor="@color/theme_color" />
+
+                <EditText
+                    android:id="@+id/activity_quarter_month_1_per"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/incen_tab_shape"
+                    android:gravity="center"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberSigned"
+                    android:maxLength="3"
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"
+                    android:gravity="center"
+                    android:text="%"
+                    android:textColor="@color/theme_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="90%"
+                    android:textColor="@color/theme_color" />
+
+                <com.mobcast.view.Slider
+                    android:id="@+id/activity_quarter_month_1_slider"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="6"
+                    android:background="#006999"
+                    android:gravity="center"
+                    materialdesign:max="110"
+                    materialdesign:min="90"
+                    materialdesign:showNumberIndicator="false" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="110%"
+                    android:textColor="@color/theme_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:padding="4dp" >
+
+                <TextView
+                    android:id="@+id/activity_quarter_month_2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:gravity="left|center"
+                    android:text="Month 2"
+                    android:textColor="@color/theme_color" />
+
+                <EditText
+                    android:id="@+id/activity_quarter_month_2_per"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/incen_tab_shape"
+                    android:gravity="center"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberSigned"
+                    android:maxLength="3"
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"
+                    android:gravity="center"
+                    android:text="%"
+                    android:textColor="@color/theme_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="90%"
+                    android:textColor="@color/theme_color" />
+
+                <com.mobcast.view.Slider
+                    android:id="@+id/activity_quarter_month_2_slider"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="6"
+                    android:background="#006999"
+                    android:gravity="center"
+                    materialdesign:max="110"
+                    materialdesign:min="90"
+                    materialdesign:showNumberIndicator="false" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="110%"
+                    android:textColor="@color/theme_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:padding="4dp" >
+
+                <TextView
+                    android:id="@+id/activity_quarter_month_3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:gravity="left|center"
+                    android:text="Month 3"
+                    android:textColor="@color/theme_color" />
+
+                <EditText
+                    android:id="@+id/activity_quarter_month_3_per"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/incen_tab_shape"
+                    android:gravity="center"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberSigned"
+                    android:maxLength="3"
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"
+                    android:gravity="center"
+                    android:text="%"
+                    android:textColor="@color/theme_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="90%"
+                    android:textColor="@color/theme_color" />
+
+                <com.mobcast.view.Slider
+                    android:id="@+id/activity_quarter_month_3_slider"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="6"
+                    android:background="#006999"
+                    android:gravity="center"
+                    materialdesign:max="110"
+                    materialdesign:min="90"
+                    materialdesign:showNumberIndicator="false" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="110%"
+                    android:textColor="@color/theme_color" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="10dp"
+                android:background="@color/theme_color" />
+
+            <com.mobcast.view.ExpandedListView
+                android:id="@+id/activity_quarter_lv"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:id="@+id/pro_layout_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:padding="4dp" >
+
+                    <TextView
+                        android:id="@+id/activity_quarter_pro_1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:gravity="left|center"
+                        android:text="Month 3"
+                        android:textColor="@color/theme_color" />
+
+                    <EditText
+                        android:id="@+id/activity_quarter_pro_1_per"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/incen_tab_shape"
+                        android:gravity="center"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberSigned"
+                        android:maxLength="3"
+                        android:textColor="@color/theme_color" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.3"
+                        android:gravity="center"
+                        android:text="%"
+                        android:textColor="@color/theme_color" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/activity_quarter_pro_1_min"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="90%"
+                        android:textColor="@color/theme_color" />
+
+                    <com.mobcast.view.Slider
+                        android:id="@+id/activity_quarter_pro_1_slider"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="6"
+                        android:background="#006999"
+                        android:gravity="center"
+                        materialdesign:max="110"
+                        materialdesign:min="90"
+                        materialdesign:showNumberIndicator="false" />
+
+                    <TextView
+                        android:id="@+id/activity_quarter_pro_1_max"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="110%"
+                        android:textColor="@color/theme_color" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/pro_layout_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:padding="4dp" >
+
+                    <TextView
+                        android:id="@+id/activity_quarter_pro_2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:gravity="left|center"
+                        android:text="Month 3"
+                        android:textColor="@color/theme_color" />
+
+                    <EditText
+                        android:id="@+id/activity_quarter_pro_2_per"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/incen_tab_shape"
+                        android:gravity="center"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberSigned"
+                        android:maxLength="3"
+                        android:textColor="@color/theme_color" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.3"
+                        android:gravity="center"
+                        android:text="%"
+                        android:textColor="@color/theme_color" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/activity_quarter_pro_2_min"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="90%"
+                        android:textColor="@color/theme_color" />
+
+                    <com.mobcast.view.Slider
+                        android:id="@+id/activity_quarter_pro_2_slider"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="6"
+                        android:background="#006999"
+                        android:gravity="center"
+                        materialdesign:max="110"
+                        materialdesign:min="90"
+                        materialdesign:showNumberIndicator="false" />
+
+                    <TextView
+                        android:id="@+id/activity_quarter_pro_2_max"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="110%"
+                        android:textColor="@color/theme_color" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/pro_layout_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:padding="4dp" >
+
+                    <TextView
+                        android:id="@+id/activity_quarter_pro_3"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:gravity="left|center"
+                        android:text="Month 3"
+                        android:textColor="@color/theme_color" />
+
+                    <EditText
+                        android:id="@+id/activity_quarter_pro_3_per"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/incen_tab_shape"
+                        android:gravity="center"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberSigned"
+                        android:maxLength="3"
+                        android:textColor="@color/theme_color" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.3"
+                        android:gravity="center"
+                        android:text="%"
+                        android:textColor="@color/theme_color" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/activity_quarter_pro_3_min"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="90%"
+                        android:textColor="@color/theme_color" />
+
+                    <com.mobcast.view.Slider
+                        android:id="@+id/activity_quarter_pro_3_slider"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="6"
+                        android:background="#006999"
+                        android:gravity="center"
+                        materialdesign:max="110"
+                        materialdesign:min="90"
+                        materialdesign:showNumberIndicator="false" />
+
+                    <TextView
+                        android:id="@+id/activity_quarter_pro_3_max"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="110%"
+                        android:textColor="@color/theme_color" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/pro_layout_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:padding="4dp" >
+
+                    <TextView
+                        android:id="@+id/activity_quarter_pro_4"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:gravity="left|center"
+                        android:text="Month 3"
+                        android:textColor="@color/theme_color" />
+
+                    <EditText
+                        android:id="@+id/activity_quarter_pro_4_per"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/incen_tab_shape"
+                        android:gravity="center"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberSigned"
+                        android:maxLength="3"
+                        android:textColor="@color/theme_color" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.3"
+                        android:gravity="center"
+                        android:text="%"
+                        android:textColor="@color/theme_color" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/activity_quarter_pro_4_min"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="90%"
+                        android:textColor="@color/theme_color" />
+
+                    <com.mobcast.view.Slider
+                        android:id="@+id/activity_quarter_pro_4_slider"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="6"
+                        android:background="#006999"
+                        android:gravity="center"
+                        materialdesign:max="110"
+                        materialdesign:min="90"
+                        materialdesign:showNumberIndicator="false" />
+
+                    <TextView
+                        android:id="@+id/activity_quarter_pro_4_max"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="110%"
+                        android:textColor="@color/theme_color" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/pro_layout_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:padding="4dp" >
+
+                    <TextView
+                        android:id="@+id/activity_quarter_pro_5"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:gravity="left|center"
+                        android:text="Month 3"
+                        android:textColor="@color/theme_color" />
+
+                    <EditText
+                        android:id="@+id/activity_quarter_pro_5_per"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/incen_tab_shape"
+                        android:gravity="center"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberSigned"
+                        android:maxLength="3"
+                        android:textColor="@color/theme_color" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.3"
+                        android:gravity="center"
+                        android:text="%"
+                        android:textColor="@color/theme_color" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/activity_quarter_pro_5_min"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="90%"
+                        android:textColor="@color/theme_color" />
+
+                    <com.mobcast.view.Slider
+                        android:id="@+id/activity_quarter_pro_5_slider"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="6"
+                        android:background="#006999"
+                        android:gravity="center"
+                        materialdesign:max="110"
+                        materialdesign:min="90"
+                        materialdesign:showNumberIndicator="false" />
+
+                    <TextView
+                        android:id="@+id/activity_quarter_pro_5_max"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="110%"
+                        android:textColor="@color/theme_color" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/activity_quarter_showIncentive"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/incen_button_shape"
+                android:gravity="center"
+                android:text="Show Incentive"
+                android:textColor="@color/theme_color"
+                android:textSize="22sp"
+                android:visibility="visible" />
+        </LinearLayout>
+    </com.mobcast.view.MyScrollView>
+
+    <ScrollView
+        android:id="@+id/activity_quarter_sl2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:fadingEdge="none"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/incen_button_shape"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="10dp" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="left|center"
+                    android:text="Quarter Coverage(avg) : "
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:id="@+id/activity_quarter_coverage"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/incen_tab_white_shape"
+                    android:gravity="center"
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
+                    android:gravity="center"
+                    android:text="%"
+                    android:textColor="@color/theme_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="left|center"
+                    android:text="Weightage"
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:id="@+id/activity_quarter_coverage_wt"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/incen_tab_white_shape"
+                    android:gravity="center"
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:id="@+id/activity_month_mid_incen_rs_sy"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
+                    android:gravity="center"
+                    android:text="@string/rs"
+                    android:textColor="@color/theme_color"
+                    android:visibility="invisible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="left|center"
+                    android:text="CPA(A+B+C) : "
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:id="@+id/activity_quarter_cpa"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/incen_tab_white_shape"
+                    android:gravity="center"
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
+                    android:gravity="center"
+                    android:text="%"
+                    android:textColor="@color/theme_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="left|center"
+                    android:text="Weightage"
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:id="@+id/activity_quarter_cpa_avg"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/incen_tab_white_shape"
+                    android:gravity="center"
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:id="@+id/activity_month_month_incen_rs_sy"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
+                    android:gravity="center"
+                    android:text="@string/Rs"
+                    android:textColor="@color/theme_color"
+                    android:visibility="invisible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="left|center"
+                    android:text="Total Incentive (KPI) : "
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:id="@+id/activity_quarter_kpi"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/incen_tab_white_shape"
+                    android:gravity="center"
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:id="@+id/activity_quarter_kpi_rs_sy"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
+                    android:gravity="center"
+                    android:text="@string/Rs"
+                    android:textColor="@color/theme_color" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/activity_quarter_close"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/incen_button_shape"
+        android:gravity="center"
+        android:text="Close"
+        android:textColor="@color/theme_color"
+        android:textSize="22sp"
+        android:visibility="gone" />
+
+</RelativeLayout>

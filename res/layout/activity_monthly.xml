@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ScrollView
+        android:id="@+id/activity_month_sl1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:fadingEdge="none"
+        android:visibility="visible" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:padding="4dp" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:gravity="left|center"
+                    android:text="Mid Month Achievement"
+                    android:textColor="@color/theme_color" />
+
+                <EditText
+                    android:id="@+id/activity_month_midmonth_per"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/incen_tab_shape"
+                    android:gravity="center"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberSigned"
+                    android:maxLength="3"
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"
+                    android:gravity="center"
+                    android:text="%"
+                    android:textColor="@color/theme_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="90%"
+                    android:textColor="@color/theme_color" />
+
+<!--                 <SeekBar -->
+<!--                     android:id="@+id/activity_month_mid_slider" -->
+<!--                     android:layout_width="0dp" -->
+<!--                     android:layout_height="20dp" -->
+<!--                     android:layout_gravity="center" -->
+<!--                     android:layout_weight="6" -->
+<!--                     android:max="400" -->
+<!--                     android:progressDrawable="@drawable/styled_progress" -->
+<!--                     android:thumb="@drawable/styleprogressforcicle" /> -->
+
+                <com.mobcast.view.Slider
+                    android:id="@+id/activity_month_mid_slider"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="6"
+                    android:background="#006999"
+                    android:gravity="center"
+                    materialdesign:max="110"
+                    materialdesign:min="90"
+                    materialdesign:showNumberIndicator="false" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="110%"
+                    android:textColor="@color/theme_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:padding="4dp" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:gravity="left|center"
+                    android:text="Monthly Achievement"
+                    android:textColor="@color/theme_color" />
+
+                <EditText
+                    android:id="@+id/activity_month_month_per"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/incen_tab_shape"
+                    android:gravity="center"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberSigned"
+                    android:maxLength="3"
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"
+                    android:gravity="center"
+                    android:text="%"
+                    android:textColor="@color/theme_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="90%"
+                    android:textColor="@color/theme_color" />
+
+                <com.mobcast.view.Slider
+                    android:id="@+id/activity_month_month_slider"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="6"
+                    android:background="#006999"
+                    android:gravity="center"
+                    materialdesign:max="110"
+                    materialdesign:min="90"
+                    materialdesign:showNumberIndicator="false" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="110%"
+                    android:textColor="@color/theme_color" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/activity_month_sl2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:fadingEdge="none"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/incen_button_shape"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="10dp" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="left|center"
+                    android:text="Mid Month Incentive is : "
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:id="@+id/activity_month_mid_incen_per"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/incen_tab_white_shape"
+                    android:gravity="center"
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
+                    android:gravity="center"
+                    android:text="%"
+                    android:textColor="@color/theme_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="left|center" />
+
+                <TextView
+                    android:id="@+id/activity_month_mid_incen_rs"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/incen_tab_white_shape"
+                    android:gravity="center"
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:id="@+id/activity_month_mid_incen_rs_sy"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
+                    android:gravity="center"
+                    android:text="@string/rs"
+                    android:textColor="@color/theme_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="left|center"
+                    android:text="Monthly Incentive is : "
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:id="@+id/activity_month_month_incen_per"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/incen_tab_white_shape"
+                    android:gravity="center"
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
+                    android:gravity="center"
+                    android:text="%"
+                    android:textColor="@color/theme_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="left|center" />
+
+                <TextView
+                    android:id="@+id/activity_month_month_incen_rs"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/incen_tab_white_shape"
+                    android:gravity="center"
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:id="@+id/activity_month_month_incen_rs_sy"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
+                    android:gravity="center"
+                    android:text="@string/Rs"
+                    android:textColor="@color/theme_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="left|center"
+                    android:text="Total Incentive : "
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:id="@+id/activity_month_incen_rs"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/incen_tab_white_shape"
+                    android:gravity="center"
+                    android:textColor="@color/theme_color" />
+
+                <TextView
+                    android:id="@+id/activity_month_incen_rs_sy"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
+                    android:gravity="center"
+                    android:text="@string/Rs"
+                    android:textColor="@color/theme_color" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/activity_month_showIncentive"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/incen_button_shape"
+        android:gravity="center"
+        android:text="Show Incentive"
+        android:textColor="@color/theme_color"
+        android:textSize="22sp" />
+
+</RelativeLayout>

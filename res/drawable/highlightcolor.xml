@@ -1,0 +1,40 @@
+
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    
+
+<!-- Bottom and right 2dp Shadow -->
+<item
+    
+    >
+    <shape >
+
+        <solid android:color="#1a8cff" />
+        <corners android:radius="3dp" />
+
+    </shape>
+</item>
+
+<!-- grey gradient Top color -->
+<item 
+    android:right="2dp" 
+	android:bottom="2dp" 
+	android:top="2dp"
+	android:left="2dp">
+    <shape>
+	<gradient 
+       android:type="linear" 
+       android:angle="-90" 
+       android:endColor="#ffffffff" 
+       android:startColor="#ffffffff" />
+    <corners android:radius="3dp" />
+   
+
+
+    </shape>
+
+</item>
+
+
+</layer-list>

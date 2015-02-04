@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical">
+   <ImageView android:src="@drawable/bluebar"
+       		  android:scaleType="fitXY"
+        	   android:layout_width="fill_parent"
+        	   android:layout_height="wrap_content"
+        	   android:adjustViewBounds="true"
+        	   />   
+ <LinearLayout android:orientation="horizontal"
+     		   android:gravity="center"
+     		   android:background="@drawable/gradient"
+     		   android:layout_width="fill_parent"
+     		   android:layout_height="wrap_content"
+     		   android:paddingTop="15dp"
+     		   android:paddingBottom="15dp"
+     		   >
+    
+ <ImageView android:src="@drawable/documentwhite"
+      		 android:contentDescription="@drawable/recruitment1"
+              android:layout_width="40dp"
+              android:layout_height="40dp"
+              android:layout_marginLeft="5dp"
+       		   />
+  <TextView  android:text="Documents"
+      		 android:textSize="20sp"
+      		 android:layout_marginLeft="5dp"
+      		 android:textColor="#ffffff"
+      		 android:layout_width="wrap_content"
+      		 android:layout_height="wrap_content"/>
+  
+   <RelativeLayout android:layout_width="fill_parent"
+      				android:layout_height="wrap_content"
+      				android:layout_gravity="right"
+      				>
+      				
+      				 
+
+  <ImageButton
+      android:id="@+id/sample_button"
+      android:layout_width="40dp"
+      android:layout_height="40dp"
+      android:layout_alignParentRight="true"
+       android:src="@drawable/search"
+      android:layout_marginRight="5dp"
+      android:background="@drawable/button_gradient"  />
+  
+    </RelativeLayout> 
+  
+  </LinearLayout>
+  <ListView  android:id="@+id/documentList"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:scrollbars="vertical"
+             android:layout_weight="0.5"
+             
+             android:headerDividersEnabled="true"
+             android:footerDividersEnabled="true"
+             android:listSelector="@drawable/listselector"
+     android:cacheColorHint="#000000"
+     android:drawSelectorOnTop="true" />
+   <ImageView
+         android:layout_width="fill_parent"
+         android:scaleType="fitXY"
+         android:layout_height="wrap_content"
+         android:src="@drawable/bluebar"
+         android:adjustViewBounds="true" />
+     
+</LinearLayout>

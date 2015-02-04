@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:autofit="http://schemas.android.com/apk/res-auto"
+    		  android:layout_width="match_parent"
+    		  android:layout_height="match_parent"
+    	      android:orientation="vertical"
+    		  android:background="@drawable/listgradientnormal"
+    		  >
+   <ScrollView android:layout_width="fill_parent" 
+       android:layout_height="fill_parent"  android:id="@+id/sv"
+       
+       >
+    <LinearLayout android:layout_width="match_parent"
+    		  android:layout_height="match_parent"
+    	      android:orientation="vertical"
+    		  >
+    		  
+    
+   <ImageView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+         	  android:src="@drawable/bluebar"
+         	  android:scaleType="fitXY"
+              android:adjustViewBounds="true" />
+   
+    <LinearLayout android:orientation="horizontal"
+     		   android:gravity="center"
+     		   android:background="@drawable/gradient"
+     		   android:layout_width="fill_parent"
+     		   android:layout_height="wrap_content"
+     		   android:paddingTop="15dp"
+     		   android:paddingBottom="15dp">
+  <ImageView android:src="@drawable/icons30"
+      		 android:contentDescription="@drawable/icons30"
+              android:layout_width="40dp"
+              android:layout_height="30dp"
+              
+       		   />
+  <TextView  android:text="Awards"
+      		 android:textSize="20sp"
+      		 android:textColor="#ffffff"
+      		 android:layout_width="wrap_content"
+      		 android:layout_height="wrap_content"/>
+      
+     </LinearLayout>
+   
+   
+    <FrameLayout android:layout_width="fill_parent"
+                 android:layout_height="wrap_content">
+     <ImageView
+        		 android:scaleType="fitCenter"
+        	     android:id="@+id/awardImage"
+        	     android:layout_width="fill_parent"
+        		 android:layout_height="200dp"
+        		 android:src="@drawable/award"/>
+    
+     <LinearLayout 
+     	    android:layout_gravity="bottom|left"
+            android:orientation="horizontal"		    
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:background="#88000000">
+     
+         <ImageView 
+            android:src="@drawable/icons30"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+          />
+        
+         <com.mobcast.util.AutofitTextView
+            android:id="@+id/awardTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="The award title"
+            android:maxLines="2"
+            autofit:minTextSize="8sp"
+            android:textAppearance="?android:attr/textAppearanceLarge" 
+            android:layout_marginLeft="10dp"
+            android:textColor="#ffffff"
+     />
+   </LinearLayout> 
+   </FrameLayout>
+   <RelativeLayout 
+       android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/gradient">
+
+      <ImageButton
+          android:id="@+id/ccount"
+          android:scaleType="fitCenter"
+          android:layout_width="40dp"
+          android:layout_height="30dp"
+          android:background="#00FFFFFF"
+          android:layout_marginRight="10dp"
+          android:src="@drawable/recruitmentswhite"
+          android:layout_alignParentRight="true"
+          android:layout_centerVertical="true" />
+      
+      <ImageButton
+          android:id="@+id/cshare"
+          android:layout_width="40dp"
+          android:layout_height="30dp"
+          android:background="#00FFFFFF"
+          android:layout_marginRight="15dp"
+          android:src="@drawable/ic_share"
+          android:layout_toLeftOf="@id/ccount"
+          android:layout_centerVertical="true" />
+
+      <TextView
+          android:id="@+id/awardTime"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentLeft="true"
+          android:layout_centerVertical="true"
+          android:padding="5dp"
+          android:text="Sat 25th Jan 2012"
+          android:textAppearance="?android:attr/textAppearanceMedium"
+          android:textColor="#ffffff" />
+
+   </RelativeLayout>
+      
+      <TextView
+        android:id="@+id/awardType"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingTop="10dp"
+        android:layout_weight="0.5"
+        android:text="TextView"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:textColor="#000000"
+        android:padding="5dp"/>
+      
+    <TextView
+        android:id="@+id/awardSummary"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingTop="10dp"
+        android:layout_weight="0.5"
+        android:text="TextView"
+        android:textColor="#000000"
+        android:padding="5dp"/>
+   
+</LinearLayout>
+</ScrollView>
+
+   <ImageView
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:layout_alignParentBottom="true"
+       android:layout_alignParentLeft="true"
+       android:scaleType="fitXY"
+       android:adjustViewBounds="true"
+       android:src="@drawable/bluebar" />
+</RelativeLayout>
+

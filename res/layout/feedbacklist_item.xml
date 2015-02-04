@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    		  android:orientation="horizontal"
+    		  android:layout_width="match_parent"    		  
+    		  android:layout_height="100dp"
+    		  android:background="@drawable/listgradientnormal"
+    		  >
+    		  
+   <!-- datebox -->
+   
+   <LinearLayout
+          android:id="@+id/lb" 
+        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="0dp"
+        android:orientation="horizontal"
+        android:background="@drawable/bluegradient">
+
+        <com.sanofi.in.mobcast.VerticalTextView
+            android:id="@+id/feedbackDate"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:maxLength="10"
+            android:padding="5dp"
+            android:gravity="center|center_horizontal"
+            android:text="Date"
+            
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+         
+         </LinearLayout>
+   
+   <!-- stuff1 -->
+   
+   <LinearLayout 
+    		  android:orientation="vertical"
+    		  android:layout_width="wrap_content"    		  
+    		  android:layout_height="100dp"
+    		  android:paddingLeft="5dp"
+    		  android:gravity="center"
+    		  
+    		  >    
+    		  
+       <!-- here -->
+       
+      
+    	<TextView
+          android:id="@+id/feedbackTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="16sp"
+        android:text="Feedback title goes here"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="5dp"
+        
+         />  
+             
+       
+       <!-- stuff2 -->
+       
+       <LinearLayout
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginRight="10dp"
+           android:layout_gravity="center_vertical"
+           android:orientation="horizontal" >
+    		  
+           <LinearLayout 
+		   android:layout_width="60dp"
+		   android:layout_height="60dp"
+		   android:orientation="vertical"
+		   android:background="@drawable/gradient"
+		   android:gravity="center"
+		   android:padding="5dp">
+		   
+               <TextView
+        android:id="@+id/feedbackQuestionNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="14"
+        android:layout_below="@+id/tvListTitle"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+         />
+		   
+               <TextView
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Questions"
+        android:textColor="#ffffff"
+        android:gravity="center"
+        android:textSize="10sp"
+       />
+               
+               
+               
+		   </LinearLayout>
+		   
+           <LinearLayout android:orientation="vertical"
+    		  android:layout_width="wrap_content"
+    		  android:layout_height="wrap_content"
+    		  android:layout_marginLeft="5dp">
+               
+               <TextView
+                   android:id="@+id/feedbackDescription"
+                   android:layout_width="200dp"
+                   android:layout_height="60dp"
+                   android:layout_gravity="center_vertical"
+                   android:ellipsize="end"
+                   android:maxLines="2"
+                   android:text="a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a "
+                   android:textColor="#000000"
+                   android:textSize="16sp" />
+               
+               </LinearLayout>
+           
+           </LinearLayout>
+       
+       
+      </LinearLayout>
+   
+  
+  </LinearLayout>

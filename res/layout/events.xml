@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/base"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/bluebar" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp" >
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:contentDescription="@drawable/recruitment1"
+                android:src="@drawable/eventwhite" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Events"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/sv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/listgradientnormal"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Title of Event"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/details"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="0dp"
+                    android:background="@drawable/gradient"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:padding="2dp"
+                    android:paddingBottom="3dp"
+                    android:text="Details"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#ffffff" />
+
+                <!-- central layout starts -->
+
+                <LinearLayout
+                    android:id="@+id/rl2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/listgradientnormal"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="65dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:weightSum="1" >
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:gravity="center" >
+
+                            <TextView
+                                android:id="@+id/tvDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="26"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textColor="#13a0e2" />
+
+                            <TextView
+                                android:id="@+id/superscript"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBaseline="@+id/tvDate"
+                                android:layout_alignBottom="@+id/tvDate"
+                                android:layout_toRightOf="@+id/tvDate"
+                                android:text="th"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="#13a0e2" />
+
+                            <TextView
+                                android:id="@+id/tvMonth"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tvDate"
+                                android:text="may"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="#13a0e2" />
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="2dip"
+                            android:layout_height="50dip"
+                            android:layout_weight="0.001"
+                            android:background="#13a0e2" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:gravity="center" >
+
+                            <TextView
+                                android:id="@+id/tvDay"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="SUN"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textColor="#13a0e2" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/view1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:layout_centerVertical="true"
+                        android:background="#13a0e2" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="65dp"
+                        android:orientation="horizontal" >
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="2dp" >
+
+                            <TextView
+                                android:id="@+id/tvTime"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:gravity="center"
+                                android:text="00:00"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textColor="#13a0e2" />
+
+                            <TextView
+                                android:id="@+id/tvTimeam"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:gravity="center"
+                                android:text="pm"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textColor="#13a0e2" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="to"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textColor="#13a0e2"
+                            android:textSize="20sp"
+                            android:layout_weight="0.001" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="2dp" >
+
+                            <TextView
+                                android:id="@+id/tvEndTime"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:gravity="center"
+                                android:text="00:00"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textColor="#13a0e2" />
+
+                            <TextView
+                                android:id="@+id/tvEndTimeam"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:gravity="center"
+                                android:text="pm"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textColor="#13a0e2" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:layout_centerVertical="true"
+                        android:background="#13a0e2" />
+
+                    <TextView
+                        android:id="@+id/tvVenue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="5dp"
+                        android:text="Location , locality , Area , City"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="#13a0e2" />
+
+                    <TextView
+                        android:id="@+id/options"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/gradient"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:padding="2dp"
+                        android:paddingBottom="3dp"
+                        android:text="Options"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#ffffff" />
+
+                    <LinearLayout
+                        android:id="@+id/optionsspace"
+                        android:layout_width="match_parent"
+                        android:layout_height="75dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="5dp" >
+
+                        <Button
+                            android:id="@+id/bYes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/yes0"
+                            android:text="" />
+
+                        <Button
+                            android:id="@+id/bNo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/no0"
+                            android:text="" />
+
+                        <Button
+                            android:id="@+id/bCalendar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/calender0"
+                            android:text="" />
+
+                        <Button
+                            android:id="@+id/bShare"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/share0"
+                            android:text="" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- central layout ends -->
+
+                <View
+                    android:id="@+id/separator"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dip"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
+                    android:background="#ffffff" />
+
+                <TextView
+                    android:id="@+id/abt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/gradient"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:padding="2dp"
+                    android:paddingBottom="3dp"
+                    android:text="About the Event"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#ffffff" />
+
+                <ScrollView
+                    android:id="@+id/sv2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="0dp"
+                    android:fillViewport="true"
+                    android:paddingTop="5dp" >
+
+                    <TextView
+                        android:id="@+id/tvSummary"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="top"
+                        android:layout_marginLeft="10dp"
+                        android:padding="5dp"
+                        android:text="Test 123 Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test "
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                </ScrollView>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/bluebar" />
+
+</RelativeLayout>

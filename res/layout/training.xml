@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+     >
+
+    <VideoView
+        android:id="@+id/vvTraining"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:clickable="true"
+        android:layout_centerHorizontal="true" />
+
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#0A000000"
+    android:layout_alignBottom="@+id/vvTraining" >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tvideo"
+        android:id="@+id/ivTv" />
+    
+    <TextView
+        android:id="@+id/tvTtitle"
+        android:layout_width="fill_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/ivTv"
+        android:layout_centerHorizontal="true"
+        android:textColor="#ffffff"
+        android:text="100mn Galxay S Smartphone sell Samsung Electronics Said to media" />
+    
+    </RelativeLayout>
+
+<TextView
+    android:id="@+id/tvTtime"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:padding="5dp"
+    android:layout_below="@+id/vvTraining"
+    android:text="Sat, 25th Jan 2012"
+    android:textColor="#1B58B8" />
+
+<TextView
+    android:id="@+id/tvDuration"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:layout_alignBaseline="@+id/tvTtime"
+    android:layout_alignBottom="@+id/textView1"
+    android:layout_alignParentRight="true"
+    android:textColor="#1B58B8"
+    android:text="7:15 min" />
+
+<ScrollView 
+   android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentRight="true"
+    android:padding="5dp"
+    android:layout_below="@+id/tvTtime" >
+
+<TextView
+    android:id="@+id/tvTsummary"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentRight="true"
+    android:padding="5dp"
+    android:layout_below="@+id/tvTtime"
+    android:text="Description goes Here" />
+
+</ScrollView>
+    
+</RelativeLayout>

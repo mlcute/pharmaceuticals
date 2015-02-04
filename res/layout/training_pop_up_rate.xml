@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/card_shape"
+    android:minWidth="@dimen/min_pop_width"
+    android:padding="3dp"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="@dimen/min_pop_width"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient"
+            android:minWidth="@dimen/min_pop_width"
+            android:padding="3dp"
+            android:text="Content was engaging"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+        <RatingBar
+            android:id="@+id/feedbackStarRating1"
+            style="@style/ratingbar"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:isIndicator="false"
+            android:minWidth="@dimen/min_pop_width"
+            android:numStars="5"
+            android:stepSize="1"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/gradient"
+            android:minWidth="@dimen/min_pop_width"
+            android:padding="3dp"
+            android:text="Content was practical and interactive"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+        <RatingBar
+            android:id="@+id/feedbackStarRating2"
+            style="@style/ratingbar"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:isIndicator="false"
+            android:minWidth="@dimen/min_pop_width"
+            android:numStars="5"
+            android:stepSize="0.1"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/gradient"
+            android:minWidth="@dimen/min_pop_width"
+            android:padding="3dp"
+            android:text="Content was relevant to the objectives of the program"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+        <RatingBar
+            android:id="@+id/feedbackStarRating3"
+            style="@style/ratingbar"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:isIndicator="false"
+            android:minWidth="@dimen/min_pop_width"
+            android:numStars="5"
+            android:stepSize="0.1"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/gradient"
+            android:minWidth="@dimen/min_pop_width"
+            android:padding="3dp"
+            android:singleLine="false"
+            android:text="Learning  will be  useful  in  my  work"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+        <RatingBar
+            android:id="@+id/feedbackStarRating4"
+            style="@style/ratingbar"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:isIndicator="false"
+            android:minWidth="@dimen/min_pop_width"
+            android:numStars="5"
+            android:stepSize="0.1"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/gradient"
+            android:minWidth="@dimen/min_pop_width"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/training_pop_up_rate_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Cancel"
+                android:textAppearance="?android:attr/textAppearance"
+                android:textColor="#ffffff" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="7dp"
+                android:layout_marginTop="7dp"
+                android:background="@android:color/white" />
+
+            <TextView
+                android:id="@+id/training_pop_up_rate_submit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:minWidth="@dimen/min_pop_width"
+                android:padding="5dp"
+                android:text="Submit"
+                android:textAppearance="?android:attr/textAppearance"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

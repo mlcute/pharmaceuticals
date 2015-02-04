@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@drawable/listgradientnormal">
+    
+        <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+         >
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/bluebar" />
+            
+            <LinearLayout android:orientation="horizontal"
+     		   android:gravity="center"
+     		   android:background="@drawable/gradient"
+     		   android:layout_width="fill_parent"
+     		   android:layout_height="wrap_content"
+     		   android:paddingTop="15dp"
+     		   android:paddingBottom="15dp"
+     		   >
+    
+ <ImageView
+       android:id="@+id/iconimage"
+     android:src="@drawable/icons29"
+      		 android:contentDescription="@drawable/recruitment1"
+              android:layout_width="40dp"
+              android:layout_height="40dp"
+              
+       		   />
+  <TextView
+      android:id="@+id/maintitle"  
+      android:text="Quiz"
+      		 android:textSize="20sp"
+      		 android:textColor="#ffffff"
+      		 android:layout_width="wrap_content"
+      		 android:layout_height="wrap_content"/>
+  </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/rl1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#13a0e2" >
+
+                    <TextView
+                        android:id="@+id/tvATtitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/listgradientnormal"
+                        android:gravity="left"
+                        android:padding="5dp"
+                        android:text="100 Mn Galaxy &apos;S&apos; Smartphone Sell Samsung Electronics Said"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#000000"
+                        
+                        android:textStyle="bold" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/linearLayout1"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/gradient"
+                android:gravity="center_vertical" >
+
+               
+                                 
+                <TextView
+                    android:id="@+id/tvDoctime"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:padding="5dp"
+                    
+                    android:text="Sat 25th Jan 2012"
+                    android:textAppearance="?android:attr/textAppearance"
+                    android:textColor="#ffffff" />
+                
+                  <TextView
+                    android:id="@+id/tvDocBy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:padding="5dp"
+                    
+                    android:text="By Marketing"
+                    android:textAppearance="?android:attr/textAppearance"
+                    android:textColor="#ffffff" 
+                    android:visibility="invisible"
+                    /> 
+                
+            </RelativeLayout>
+            
+            <Button 
+                 android:id="@+id/BtnOpenFile"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:gravity="center_horizontal"
+                android:layout_margin="10dp"
+                    android:padding="5dp"
+                    android:background="@drawable/gradient"
+                    android:text="Start"
+                     android:textAppearance="?android:attr/textAppearance"
+                    android:textColor="#ffffff"
+                />
+            
+             <TextView
+                 	android:id="@+id/tvDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:background="@drawable/gradient"
+                    android:text="Details"
+                    android:textAppearance="?android:attr/textAppearance"
+                    android:textColor="#ffffff" />
+            
+             
+             <TextView
+        android:id="@+id/tvATsummary"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        
+        android:padding="5dp"
+        android:paddingTop="10dp"
+        android:text="TextView" />
+            
+        </LinearLayout>
+        
+        
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/bluebar" />
+
+    
+    
+    </RelativeLayout>

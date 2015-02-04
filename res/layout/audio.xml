@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/base"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+
+<LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
+             android:layout_width="match_parent"
+           android:layout_height="match_parent"
+    	      android:orientation="vertical"
+    		  >
+    		  
+   <ImageView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+         	  android:src="@drawable/bluebar"
+         	   android:scaleType="fitXY"
+              android:adjustViewBounds="true" />
+   <LinearLayout android:orientation="horizontal"
+     		   android:gravity="center"
+     		   android:background="@drawable/gradient"
+     		   android:layout_width="fill_parent"
+     		   android:layout_height="wrap_content"
+     		   android:paddingTop="15dp"
+     		   android:paddingBottom="15dp"
+     		   >
+    
+ <ImageView android:src="@drawable/icons22"
+      		 android:contentDescription="@drawable/recruitment1"
+              android:layout_width="40dp"
+              android:id="@+id/icon"
+              android:layout_height="40dp"
+              
+       		   />
+  <TextView  android:text="Announcements"
+      		 android:textSize="20sp"
+      		 android:textColor="#ffffff"
+      		 android:id="@+id/mtitle"
+      		 android:layout_width="wrap_content"
+      		 android:layout_height="wrap_content"/>
+  </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" 
+                  android:id="@+id/audioView">
+
+                <ImageView
+                    android:scaleType="center"
+                    android:id="@+id/play1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="150dp"
+                    android:clickable="true"
+                    android:visibility="visible"
+                    android:src="@drawable/play1" />
+					<ImageView
+                    android:scaleType="center"
+                    android:id="@+id/pause1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="150dp"
+                    android:visibility="gone"
+                    android:clickable="true"
+                    android:src="@drawable/pause1" />
+                 
+
+            </FrameLayout>
+             <TextView
+                       android:layout_gravity="bottom|left"
+                       android:id="@+id/tvVtitle"
+                       android:layout_width="fill_parent"
+                       android:layout_height="wrap_content"
+                       android:padding="10dp"
+                       android:text="Title goes here"
+                       android:background="#88000000"
+                       android:textAppearance="?android:attr/textAppearanceLarge"
+                       android:textColor="#ffffff" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                
+                        android:background="@drawable/gradient">
+                   <RelativeLayout
+                        android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                    <Button
+                    android:id="@+id/iv6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/ic_share" />
+
+                    <TextView
+                        android:id="@+id/tvVDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/iv6"
+                        android:padding="5dp"
+                        android:text="Sat 25th Jan 2012"
+                        android:layout_marginLeft="5dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#ffffff" />
+					
+                    </RelativeLayout>
+                    
+                  </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvVFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_margin="10dp"
+                android:text="By Brand and Marketing" />
+
+            <TextView
+                android:id="@+id/tvVsummary"
+                android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingTop="10dp"
+        android:layout_weight="0.5"
+        android:text="TextView"
+        android:textColor="#000000"
+        android:layout_marginLeft="5dp"
+        android:padding="5dp"/>
+                        
+
+   
+    
+   
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
+
+<ImageView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+         	  android:src="@drawable/bluebar"
+         	  android:layout_alignParentBottom="true"
+         	   android:scaleType="fitXY"
+              android:adjustViewBounds="true" />
+
+</RelativeLayout>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/base"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <ScrollView
+            android:id="@+id/scrollView1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/bluebar" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gradient"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp" >
+
+                    <ImageView
+                        android:id="@+id/miconimage"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:contentDescription="@drawable/recruitment1"
+                        android:src="@drawable/icons22" />
+
+                    <TextView
+                        android:id="@+id/mtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Announcements"
+                        android:textColor="#ffffff"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/listgradientnormal"
+                    android:orientation="vertical" >
+
+                    <FrameLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" >
+
+                        <ImageView
+                            android:id="@+id/vbackground"
+                            android:layout_width="fill_parent"
+                            android:layout_height="200dp"
+                            android:layout_gravity="center_horizontal"
+                            android:clickable="true"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/logo"
+                            android:visibility="visible" />
+
+                        <com.sanofi.in.mobcast.CustomVideoView
+                            android:id="@+id/vvType"
+                            android:layout_width="fill_parent"
+                            android:layout_height="200dp"
+                            android:layout_gravity="center_horizontal"
+                            android:clickable="true"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/logo"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/vbackgroundplay"
+                            android:layout_width="fill_parent"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center"
+                            android:clickable="true"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/play1"
+                            android:visibility="visible" />
+                    </FrameLayout>
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:id="@+id/tvVtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_toLeftOf="@+id/vfullscreenplay"
+                            android:padding="10dp"
+                            android:text="Title goes here "
+                            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                        <ImageView
+                            android:id="@+id/vfullscreenplay"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:clickable="true"
+                            android:src="@drawable/full_screen"
+                            android:visibility="visible" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gradient"
+                    android:orientation="horizontal" >
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+
+                        <Button
+                            android:id="@+id/iv6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/ic_share" />
+
+                        <TextView
+                            android:id="@+id/tvVDetail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="5dp"
+                            android:layout_toLeftOf="@+id/iv6"
+                            android:padding="5dp"
+                            android:text="Sat 25th Jan 2012"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#ffffff" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvVFrom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="By Brand and Marketing"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvVsummary"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="0.5"
+                    android:padding="5dp"
+                    android:paddingTop="10dp"
+                    android:text="TextView"
+                    android:textColor="#000000" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/bluebar" />
+
+</RelativeLayout>

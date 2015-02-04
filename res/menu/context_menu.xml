@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@+id/read"
+		  android:title="Mark as read" />
+	<item android:id="@+id/unread"
+	      android:title="Mark as unread" />
+	<item android:id="@+id/delete"
+	      android:title="Delete" /> 
+	<item android:id="@+id/view"
+	      android:title="View" /> 
+</menu>

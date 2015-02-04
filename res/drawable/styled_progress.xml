@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/SecondaryProgress"
+        android:layout_height="10px"
+        android:layout_gravity="center_vertical|fill_horizontal"
+        android:drawable="@drawable/sliderunfilled"/>
+    <item
+        android:id="@+id/progress"
+        android:layout_height="10px"
+        android:layout_gravity="center_vertical"
+        android:drawable="@drawable/sliderfilled"/>
+
+</layer-list>

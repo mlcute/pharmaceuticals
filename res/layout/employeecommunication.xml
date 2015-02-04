@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+     >
+    <ImageView android:src="@drawable/bluebar"
+        		android:scaleType="fitXY"
+        	   android:layout_width="fill_parent"
+        	   android:layout_height="wrap_content"
+        	   android:adjustViewBounds="true"
+        	   />   
+ <ImageView 
+     android:src="@drawable/logo"
+     android:layout_height="wrap_content"
+     android:layout_width="wrap_content"
+     android:layout_gravity="center"
+     android:layout_marginTop="10dp"/>
+   <!--  android:layout_width="300dp" --> 
+ 
+ 
+    
+     
+  
+     <GridView
+    android:id="@+id/gridview1"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="40dp"
+    android:numColumns="3"
+    android:verticalSpacing="40dp"
+    android:horizontalSpacing="28dp"
+    android:stretchMode="columnWidth"
+    
+    android:gravity="left"
+    android:layout_weight=".5"
+     /> 
+     
+     <ImageView
+         android:layout_width="fill_parent"
+         android:scaleType="fitXY"
+         android:layout_height="wrap_content"
+         android:src="@drawable/bluebar"
+         android:adjustViewBounds="true" />
+     
+
+
+</LinearLayout>

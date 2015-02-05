@@ -122,6 +122,21 @@ public class Utilities {
 
 		return s;
 	}
+	
+	public static String getFixedCPATitle(int nProducts) {
+		String s = "";
+		for (int i = 0; i < nProducts; i++) {
+			if (i == nProducts - 1) {
+				s = s + charArr[i];
+			} else {
+				s = s + charArr[i] + " + ";
+			}
+		}
+
+		s = "(" + s + ")";
+
+		return s;
+	}
 
 	public static void setListViewHeightBasedOnChildren(ListView listView) {
 		ListAdapter listAdapter = listView.getAdapter();

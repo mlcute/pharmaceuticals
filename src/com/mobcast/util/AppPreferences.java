@@ -296,7 +296,7 @@ public class AppPreferences {
 	public boolean isIncenFirstTime() {
 		return sharedPreferences.getBoolean("isIncenFirstTime", false);
 	}
-	
+
 	public void setIncenPdfPath(String str) {// JAN-FEB-MAR
 		editor = sharedPreferences.edit();
 		editor.putString("incenPdfPath", str);
@@ -581,6 +581,16 @@ public class AppPreferences {
 
 	public String getProductNumber() { // JAN-FEB-MAR
 		return sharedPreferences.getString("productTotalNumber", null);
+	}
+	
+	public void setPrincipalProductNumber(String str) {
+		editor = sharedPreferences.edit();
+		editor.putString("principalProductTotalNumber", str);
+		editor.commit();
+	}
+
+	public String getPrinciapProductNumber() { // JAN-FEB-MAR
+		return sharedPreferences.getString("principalProductTotalNumber", null);
 	}
 
 	public void setProduct1(String[] str) {// JAN-FEB-MAR
@@ -1219,4 +1229,313 @@ public class AppPreferences {
 	public String getAnnualCheck() { // JAN-FEB-MAR : COVERAGE : 40 %
 		return sharedPreferences.getString("annualQCheck", null);
 	}
+
+	/*
+	 * Additional Preferences for HERTIAGE TEAM
+	 */
+
+	public void setKPIRightFreqQ1(String[] str) {// APR_MAY-JUN
+		editor = sharedPreferences.edit();
+		editor.putString("KPIRightQ1", str[0]);
+		editor.putString("KPIRightQ2", str[1]);
+		editor.putString("KPIRightQ3", str[2]);
+		editor.commit();
+	}
+
+	public String[] getKPIRightFreqQ1() { // APR-MAY-JUN
+		String[] mStr = new String[3];
+		mStr[0] = sharedPreferences.getString("KPIRightQ1", null);
+		mStr[1] = sharedPreferences.getString("KPIRightQ2", null);
+		mStr[2] = sharedPreferences.getString("KPIRightQ3", null);
+		return mStr;
+	}
+
+	public void setKPIRightFreqQ2(String[] str) {// APR_MAY-JUN
+		editor = sharedPreferences.edit();
+		editor.putString("KPIRightQ4", str[0]);
+		editor.putString("KPIRightQ5", str[1]);
+		editor.putString("KPIRightQ6", str[2]);
+		editor.commit();
+	}
+
+	public String[] getKPIRightFreqQ2() { // APR-MAY-JUN
+		String[] mStr = new String[3];
+		mStr[0] = sharedPreferences.getString("KPIRightQ4", null);
+		mStr[1] = sharedPreferences.getString("KPIRightQ5", null);
+		mStr[2] = sharedPreferences.getString("KPIRightQ6", null);
+		return mStr;
+	}
+
+	public void setKPIRightFreqQ3(String[] str) {// APR_MAY-JUN
+		editor = sharedPreferences.edit();
+		editor.putString("KPIRightQ7", str[0]);
+		editor.putString("KPIRightQ8", str[1]);
+		editor.putString("KPIRightQ9", str[2]);
+		editor.commit();
+	}
+
+	public String[] getKPIRightFreqQ3() { // APR-MAY-JUN
+		String[] mStr = new String[3];
+		mStr[0] = sharedPreferences.getString("KPIRightQ7", null);
+		mStr[1] = sharedPreferences.getString("KPIRightQ8", null);
+		mStr[2] = sharedPreferences.getString("KPIRightQ9", null);
+		return mStr;
+	}
+
+	public void setKPIRightFreqQ4(String[] str) {// APR_MAY-JUN
+		editor = sharedPreferences.edit();
+		editor.putString("KPIRightQ10", str[0]);
+		editor.putString("KPIRightQ11", str[1]);
+		editor.putString("KPIRightQ12", str[2]);
+		editor.commit();
+	}
+
+	public String[] getKPIRightFreqQ4() { // APR-MAY-JUN
+		String[] mStr = new String[3];
+		mStr[0] = sharedPreferences.getString("KPIRightQ10", null);
+		mStr[1] = sharedPreferences.getString("KPIRightQ11", null);
+		mStr[2] = sharedPreferences.getString("KPIRightQ12", null);
+		return mStr;
+	}
+
+	public void setKPIRightFreqAvgQ1(String str) {// APR_MAY-JUN
+		editor = sharedPreferences.edit();
+		editor.putString("KPIRightFreqAvgQ1", str);
+		editor.commit();
+	}
+
+	public String getKPIRightFreqAvgQ1() { // APR-MAY-JUN
+		return sharedPreferences.getString("KPIRightFreqAvgQ1", null);
+	}
+
+	public void setKPIRightFreqAvgQ2(String str) {// APR_MAY-JUN
+		editor = sharedPreferences.edit();
+		editor.putString("KPIRightFreqAvgQ2", str);
+		editor.commit();
+	}
+
+	public String getKPIRightFreqAvgQ2() { // APR-MAY-JUN
+		return sharedPreferences.getString("KPIRightFreqAvgQ2", null);
+	}
+
+	public void setKPIRightFreqAvgQ3(String str) {// APR_MAY-JUN
+		editor = sharedPreferences.edit();
+		editor.putString("KPIRightFreqAvgQ3", str);
+		editor.commit();
+	}
+
+	public String getKPIRightFreqAvgQ3() { // APR-MAY-JUN
+		return sharedPreferences.getString("KPIRightFreqAvgQ3", null);
+	}
+
+	public void setKPIRightFreqAvgQ4(String str) {// APR_MAY-JUN
+		editor = sharedPreferences.edit();
+		editor.putString("KPIRightFreqAvgQ4", str);
+		editor.commit();
+	}
+
+	public String getKPIRightFreqAvgQ4() { // APR-MAY-JUN
+		return sharedPreferences.getString("KPIRightFreqAvgQ4", null);
+	}
+
+	public void setKPIPOBQ1(String[] str) {// APR_MAY-JUN
+		editor = sharedPreferences.edit();
+		editor.putString("KPIPOBQ1", str[0]);
+		editor.putString("KPIPOBQ2", str[1]);
+		editor.putString("KPIPOBQ3", str[2]);
+		editor.commit();
+	}
+
+	public String[] getKPIPOBQ1() { // APR-MAY-JUN
+		String[] mStr = new String[3];
+		mStr[0] = sharedPreferences.getString("KPIPOBQ1", null);
+		mStr[1] = sharedPreferences.getString("KPIPOBQ2", null);
+		mStr[2] = sharedPreferences.getString("KPIPOBQ3", null);
+		return mStr;
+	}
+
+	public void setKPIPOBQ2(String[] str) {// APR_MAY-JUN
+		editor = sharedPreferences.edit();
+		editor.putString("KPIPOBQ4", str[0]);
+		editor.putString("KPIPOBQ5", str[1]);
+		editor.putString("KPIPOBQ6", str[2]);
+		editor.commit();
+	}
+
+	public String[] getKPIPOBQ2() { // APR-MAY-JUN
+		String[] mStr = new String[3];
+		mStr[0] = sharedPreferences.getString("KPIPOBQ4", null);
+		mStr[1] = sharedPreferences.getString("KPIPOBQ5", null);
+		mStr[2] = sharedPreferences.getString("KPIPOBQ6", null);
+		return mStr;
+	}
+
+	public void setKPIPOBQ3(String[] str) {// APR_MAY-JUN
+		editor = sharedPreferences.edit();
+		editor.putString("KPIPOBQ7", str[0]);
+		editor.putString("KPIPOBQ8", str[1]);
+		editor.putString("KPIPOBQ9", str[2]);
+		editor.commit();
+	}
+
+	public String[] getKPIPOBQ3() { // APR-MAY-JUN
+		String[] mStr = new String[3];
+		mStr[0] = sharedPreferences.getString("KPIPOBQ7", null);
+		mStr[1] = sharedPreferences.getString("KPIPOBQ8", null);
+		mStr[2] = sharedPreferences.getString("KPIPOBQ9", null);
+		return mStr;
+	}
+
+	public void setKPIPOBQ4(String[] str) {// APR_MAY-JUN
+		editor = sharedPreferences.edit();
+		editor.putString("KPIPOBQ10", str[0]);
+		editor.putString("KPIPOBQ11", str[1]);
+		editor.putString("KPIPOBQ12", str[2]);
+		editor.commit();
+	}
+
+	public String[] getKPIPOBQ4() { // APR-MAY-JUN
+		String[] mStr = new String[3];
+		mStr[0] = sharedPreferences.getString("KPIPOBQ10", null);
+		mStr[1] = sharedPreferences.getString("KPIPOBQ11", null);
+		mStr[2] = sharedPreferences.getString("KPIPOBQ12", null);
+		return mStr;
+	}
+
+	public void setKPIPOBAvgQ1(String str) {// APR_MAY-JUN
+		editor = sharedPreferences.edit();
+		editor.putString("KPIPOBAvgQ1", str);
+		editor.commit();
+	}
+
+	public String getKPIPOBAvgQ1() { // APR-MAY-JUN
+		return sharedPreferences.getString("KPIPOBAvgQ1", null);
+	}
+
+	public void setKPIPOBAvgQ2(String str) {// APR_MAY-JUN
+		editor = sharedPreferences.edit();
+		editor.putString("KPIPOBAvgQ2", str);
+		editor.commit();
+	}
+
+	public String getKPIPOBAvgQ2() { // APR-MAY-JUN
+		return sharedPreferences.getString("KPIPOBAvgQ2", null);
+	}
+
+	public void setKPIPOBAvgQ3(String str) {// APR_MAY-JUN
+		editor = sharedPreferences.edit();
+		editor.putString("KPIPOBAvgQ3", str);
+		editor.commit();
+	}
+
+	public String getKPIPOBAvgQ3() { // APR-MAY-JUN
+		return sharedPreferences.getString("KPIPOBAvgQ3", null);
+	}
+
+	public void setKPIPOBAvgQ4(String str) {// APR_MAY-JUN
+		editor = sharedPreferences.edit();
+		editor.putString("KPIPOBAvgQ4", str);
+		editor.commit();
+	}
+
+	public String getKPIPOBAvgQ4() { // APR-MAY-JUN
+		return sharedPreferences.getString("KPIPOBAvgQ4", null);
+	}
+
+	/*
+	 * Additional Preferences for BIO - SURGERY TEAM
+	 */
+
+	public void setIncenBioSurgeryTeam(boolean value) {
+		editor = sharedPreferences.edit();
+		editor.putBoolean("isIncenBioSurgeryTeam", value);
+		editor.commit();
+	}
+
+	public boolean isIncenBioSurgeryTeam() {
+		return sharedPreferences.getBoolean("isIncenBioSurgeryTeam", false);
+	}
+
+	public void setIncenRenealTeam(boolean value) {
+		editor = sharedPreferences.edit();
+		editor.putBoolean("isIncenRenealTeam", value);
+		editor.commit();
+	}
+
+	public boolean isIncenRenealTeam() {
+		return sharedPreferences.getBoolean("isIncenRenealTeam", false);
+	}
+
+	public void setIncenHeritageTeam(boolean value) {
+		editor = sharedPreferences.edit();
+		editor.putBoolean("isIncenHeritageTeam", value);
+		editor.commit();
+	}
+
+	public boolean isIncenHeritageTeam() {
+		return sharedPreferences.getBoolean("isIncenHeritageTeam", false);
+	}
+
+	public String getIncenTeamName() {
+		return sharedPreferences.getString("incenTeamName", null);
+	}
+
+	public void setIncenTeamName(String str) {
+		editor = sharedPreferences.edit();
+		editor.putString("incenTeamName", str);
+		editor.commit();
+	}
+
+	/*
+	 * 
+	 */
+
+	public void setIncenBioSurgeryVialSlider1(String str) {// JAN-FEB-MAR :
+															// COVERAGE : 40 %
+		editor = sharedPreferences.edit();
+		editor.putString("incenBioSurgeryVialSlider1", str);
+		editor.commit();
+	}
+
+	public String getIncenBioSurgeryVialSlider1() { // JAN-FEB-MAR : COVERAGE :
+													// 40 %
+		return sharedPreferences.getString("incenBioSurgeryVialSlider1", null);
+	}
+
+	public void setIncenBioSurgeryVialSlider2(String str) {// JAN-FEB-MAR :
+															// COVERAGE : 40 %
+		editor = sharedPreferences.edit();
+		editor.putString("incenBioSurgeryVialSlider2", str);
+		editor.commit();
+	}
+
+	public String getIncenBioSurgeryVialSlider2() { // JAN-FEB-MAR : COVERAGE :
+													// 40 %
+		return sharedPreferences.getString("incenBioSurgeryVialSlider2", null);
+	}
+
+	public void setIncenBioSurgeryVialSlider3(String str) {// JAN-FEB-MAR :
+															// COVERAGE : 40 %
+		editor = sharedPreferences.edit();
+		editor.putString("incenBioSurgeryVialSlider3", str);
+		editor.commit();
+	}
+
+	public String getIncenBioSurgeryVialSlider3() { // JAN-FEB-MAR : COVERAGE :
+													// 40 %
+		return sharedPreferences.getString("incenBioSurgeryVialSlider3", null);
+	}
+
+	public void setIncenBioSurgeryVialSlider4(String str) {// JAN-FEB-MAR :
+															// COVERAGE : 40 %
+		editor = sharedPreferences.edit();
+		editor.putString("incenBioSurgeryVialSlider4", str);
+		editor.commit();
+	}
+
+	public String getIncenBioSurgeryVialSlider4() { // JAN-FEB-MAR : COVERAGE :
+													// 40 %
+		return sharedPreferences.getString("incenBioSurgeryVialSlider4", null);
+	}
+
 }

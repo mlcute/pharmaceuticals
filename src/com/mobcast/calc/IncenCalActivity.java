@@ -1,24 +1,40 @@
 package com.mobcast.calc;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.HashMap;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -40,8 +56,12 @@ import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
+import com.mobcast.calc.IncenAnnualActivity.AsyncDownloadPdfDataFromApi;
+import com.mobcast.calc.IncenAnnualActivity.AsyncDownloadPdfPathFromApi;
 import com.mobcast.util.BuildVars;
 import com.mobcast.util.Constants;
+import com.mobcast.util.RestClient;
+import com.mobcast.util.Utilities;
 import com.sanofi.in.mobcast.ApplicationLoader;
 import com.sanofi.in.mobcast.R;
 
@@ -72,6 +92,8 @@ public class IncenCalActivity extends TabActivity implements
 	private int mCoachMarksCounter = 0;
 
 	private Animation mAnimAlpha;
+	
+	private static final String TAG = IncenCalActivity.class.getSimpleName();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -539,9 +561,26 @@ public class IncenCalActivity extends TabActivity implements
 	}
 
 	private void showPdf() {
-		File file1 = new File("/sdcard/incen.pdf");
-		if (!file1.exists()) {
-			copyPdfFromAssets();
+//		File file1 = new File("/sdcard/incen.pdf");
+//		if (!file1.exists()) {
+//			copyPdfFromAssets();
+//		}
+		
+		if (!TextUtils.isEmpty(ApplicationLoader.getPreferences()
+				.getIncenPdfPath())) {
+			File mFile = new File(Environment.getExternalStorageDirectory()
+					.getAbsolutePath()
+					+ Constants.APP_FOLDER
+					+ getString(R.string.pdf)
+					+ "/"
+					+ ApplicationLoader.getPreferences().getIncenPdfPath());
+			if (!mFile.exists()) {
+				showDownloadDialog();
+			} else {
+				showOpenPdfDialog();
+			}
+		} else {
+			showDownloadDialog();
 		}
 	}
 
@@ -587,6 +626,314 @@ public class IncenCalActivity extends TabActivity implements
 		}
 	}
 
+	private void showOpenPdfDialog() {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				IncenCalActivity.this);
+		// set title
+		alertDialogBuilder
+				.setTitle(getResources().getString(R.string.app_name));
+
+		// set dialog message
+		alertDialogBuilder
+				.setMessage(
+						getResources().getString(
+								R.string.download_alert_message))
+				.setCancelable(true)
+				.setPositiveButton("Open",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								try {
+									openPDFReaderIntent(ApplicationLoader
+											.getPreferences().getIncenPdfPath());
+								} catch (Exception e) {
+									Toast.makeText(IncenCalActivity.this,
+											"No PdfReader Application Found!",
+											Toast.LENGTH_SHORT).show();
+								}
+							}
+						});
+		alertDialogBuilder.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						dialog.dismiss();
+					}
+				});
+
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		// show it
+		alertDialog.show();
+	}
+
+	private void showDownloadDialog() {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				IncenCalActivity.this);
+		// set title
+		alertDialogBuilder
+				.setTitle(getResources().getString(R.string.app_name));
+
+		// set dialog message
+		alertDialogBuilder
+				.setMessage(
+						getResources().getString(
+								R.string.download_alert_message))
+				.setCancelable(true)
+				.setPositiveButton("Download",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								downloadPdfFromUrl();
+							}
+						});
+		alertDialogBuilder.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						dialog.dismiss();
+					}
+				});
+
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		// show it
+		alertDialog.show();
+	}
+
+	public void downloadPdfFromUrl() {
+		if (Utilities.isInternetConnected()) {
+			new AsyncDownloadPdfPathFromApi(true).execute();
+		} else {
+			Toast.makeText(IncenCalActivity.this,
+					"Please check your internet connection!",
+					Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	public class AsyncDownloadPdfPathFromApi extends
+			AsyncTask<Void, Void, Void> {
+		private ProgressDialog mProgress;
+		private boolean isPdfAvailable = false;
+		private boolean forceUser = false;
+		private String pdfPath;
+
+		public AsyncDownloadPdfPathFromApi(boolean forceUser) {
+			this.forceUser = forceUser;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			if (forceUser) {
+				mProgress = new ProgressDialog(IncenCalActivity.this);
+				mProgress.setMessage("Please wait");
+				mProgress.setCanceledOnTouchOutside(false);
+				mProgress.setCancelable(false);
+				mProgress.show();
+			}
+		}
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			// TODO Auto-generated method stub
+			SharedPreferences pref;
+			pref = getSharedPreferences("MobCastPref", 0);
+			String temp1 = pref.getString("name", "tushar@mobcast.in");
+
+			HashMap<String, String> formValue = new HashMap<String, String>();
+			formValue.put("device", "android");
+			formValue.put(com.mobcast.util.Constants.user_id, temp1);
+
+			String str = RestClient.postData(Constants.INCEN_SCHEME_PDF,
+					formValue);
+			try {
+				JSONObject mJSONObj = new JSONObject(str);
+				pdfPath = mJSONObj.getString("pdfPath");
+				if (!TextUtils.isEmpty(pdfPath)) {
+					isPdfAvailable = true;
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			if (forceUser) {
+				if (mProgress != null)
+					mProgress.dismiss();
+			}
+
+			if (isPdfAvailable) {
+				new AsyncDownloadPdfDataFromApi(true, pdfPath).execute(pdfPath);
+			} else {
+				Toast.makeText(IncenCalActivity.this,
+						"Incentive Scheme Pdf not available!",
+						Toast.LENGTH_SHORT).show();
+			}
+		}
+	}
+
+	public class AsyncDownloadPdfDataFromApi extends
+			AsyncTask<String, String, String> {
+		private ProgressDialog mProgress;
+		private boolean forceUser = false;
+		private String pdfPath;
+		private String mFileName;
+
+		public AsyncDownloadPdfDataFromApi(boolean forceUser, String pdfPath) {
+			this.forceUser = forceUser;
+			this.pdfPath = pdfPath;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			if (forceUser) {
+				mProgress = new ProgressDialog(IncenCalActivity.this);
+				mProgress.setMessage("Downloading...");
+				mProgress.setCanceledOnTouchOutside(false);
+				mProgress.setCancelable(false);
+				mProgress.setMax(100);
+				mProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+				Drawable customDrawable = getResources().getDrawable(
+						R.drawable.custom_progressbar);
+				mProgress.setProgressDrawable(customDrawable);
+				mProgress.show();
+			}
+		}
+
+		@Override
+		protected void onProgressUpdate(String... progress) {
+			// TODO Auto-generated method stub
+			// super.onProgressUpdate(values);
+			mProgress.setProgress(Integer.parseInt(progress[0]));
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			try {
+				URL mURL = new URL(pdfPath);
+				String mRoot = Environment.getExternalStorageDirectory()
+						.toString();
+				String foldername = "";
+				foldername = getResources().getString(R.string.pdf);
+
+				File mDir = new File(mRoot + "/.mobcast/" + foldername);
+
+				mFileName = Utilities.getFileNameFromURL(pdfPath);
+
+				ApplicationLoader.getPreferences().setIncenPdfPath(mFileName);
+
+				mDir.mkdirs();
+
+				File mFile = new File(mDir, mFileName);
+				if (mFile.exists())
+					mFile.delete();
+
+				URLConnection mConnection = mURL.openConnection();
+				InputStream inputStream = mConnection.getInputStream();
+				BufferedInputStream bis = new BufferedInputStream(inputStream);
+				FileOutputStream mFileOutputStream = new FileOutputStream(mFile);
+				byte data[] = new byte[1024];
+				int current = 0;
+				long total = 0;
+				int lenghtOfFile = mConnection.getContentLength();
+				while ((current = bis.read()) != -1) {
+					total += current;
+					publishProgress("" + (int) ((total * 100) / lenghtOfFile));
+					mFileOutputStream.write(data, 0, current);
+				}
+				mFileOutputStream.flush();
+				mFileOutputStream.close();
+				inputStream.close();
+			} catch (Exception e) {
+			}
+			return "false";
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			if (forceUser) {
+				if (mProgress != null)
+					mProgress.dismiss();
+			}
+
+			if (!TextUtils.isEmpty(mFileName)) {
+				try {
+					openPDFReaderIntent(mFileName);
+				} catch (Exception e) {
+					Toast.makeText(IncenCalActivity.this,
+							"No PdfReader Application Found!",
+							Toast.LENGTH_SHORT).show();
+					Log.i(TAG, e.toString());
+				}
+			} else {
+				Toast.makeText(IncenCalActivity.this,
+						"Incentive Scheme Pdf not available!",
+						Toast.LENGTH_SHORT).show();
+			}
+		}
+	}
+
+	public void openPDFReaderIntent(String mName) {
+		File file = new File(Environment.getExternalStorageDirectory()
+				.getAbsolutePath()
+				+ Constants.APP_FOLDER
+				+ getString(R.string.pdf) + "/" + mName);
+		if (file.exists())
+			Log.d("file", "exists");
+		else
+			Log.e("file", "does not exists");
+		double bytes = file.length() / 500;
+		int time = (int) bytes;
+		Log.e("file length", time + "");
+		// file.renameTo(new File(file.getAbsoluteFile()+".pdf"));
+		File folder = new File(Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + Constants.APP_FOLDER_TEMP);
+		folder.mkdirs();
+		File file1 = new File(Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + Constants.APP_FOLDER_TEMP + mName);
+		if (file1.exists())
+			file1.delete();
+
+		try {
+
+			InputStream in = new FileInputStream(file);
+			OutputStream out = new FileOutputStream(file1);
+
+			// Transfer bytes from in to out
+			byte[] buf = new byte[1024];
+			int len;
+			while ((len = in.read(buf)) > 0) {
+				out.write(buf, 0, len);
+			}
+			in.close();
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		Intent show = new Intent(Intent.ACTION_VIEW);
+		show.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+		show.setAction(Intent.ACTION_VIEW);
+		show.setDataAndType(Uri.fromFile(file1), "application/pdf");
+		startActivity(show);
+	}
 	/*
 	 * Flurry Analytics
 	 */

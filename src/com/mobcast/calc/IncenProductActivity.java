@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +40,6 @@ import com.mobcast.view.AccordionView;
 import com.mobcast.view.Slider;
 import com.mobcast.view.Slider.OnValueChangedListener;
 import com.sanofi.in.mobcast.ApplicationLoader;
-import com.sanofi.in.mobcast.MainActivity;
 import com.sanofi.in.mobcast.R;
 
 public class IncenProductActivity extends FragmentActivity {
@@ -65,7 +65,10 @@ public class IncenProductActivity extends FragmentActivity {
 	public String[] mPerValueArr;
 	public String mTotalArr;
 
+	public String mSliderValueAdd;
+
 	public int whichQuarter;
+	public boolean isRestore = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -170,6 +173,25 @@ public class IncenProductActivity extends FragmentActivity {
 						.findViewById(R.id.incen_item_product_total_incen);
 				holder.mListTotalRsSy = (TextView) v
 						.findViewById(R.id.incen_item_product_rs_sy);
+				if (ApplicationLoader.getPreferences().isIncenBioSurgeryTeam()
+						|| ApplicationLoader.getPreferences()
+								.isIncenRenealTeam()) {
+					holder.mListNameAdd = (TextView) v
+							.findViewById(R.id.incen_biosurgery_name);
+					holder.mListPerAdd = (EditText) v
+							.findViewById(R.id.incen_biosurgery_slider_per);
+					holder.mListSliderAdd = (Slider) v
+							.findViewById(R.id.incen_biosurgery_slider);
+					holder.mListSliderMinAdd = (TextView) v
+							.findViewById(R.id.incen_biosurgery_slider_min);
+					holder.mListSliderMaxAdd = (TextView) v
+							.findViewById(R.id.incen_biosurgery_slider_max);
+
+					holder.bioSurgeryPerLayout = (LinearLayout) v
+							.findViewById(R.id.bioSurgeryPerLayout);
+					holder.bioSurgerySliderLayout = (LinearLayout) v
+							.findViewById(R.id.bioSurgerySliderLayout);
+				}
 				v.setTag(holder);
 			} else {
 				v = convertView;
@@ -189,15 +211,65 @@ public class IncenProductActivity extends FragmentActivity {
 			holder.mListSlider.setMax(Integer.parseInt(mProduct.get(position)
 					.getmMax()));
 
-			setListSlider(holder.mListSlider, holder.mListPer,
-					holder.mListTotal, position);
-			setListEditPer(position, holder.mListPer, holder.mListSlider,
-					mProduct.get(position).getmMin(), mProduct.get(position)
-							.getmMax(), holder.mListTotal);
+			setListSlider(holder.mListSlider, holder.mListSliderAdd,
+					holder.mListPer, holder.mListTotal, position);
+			setListEditPer(holder.mListSliderAdd, position, holder.mListPer,
+					holder.mListSlider, mProduct.get(position).getmMin(),
+					mProduct.get(position).getmMax(), holder.mListTotal);
 			setListRupeeFont(holder.mListTotalRsSy);
 			restoreQuarterType(whichQuarter, position, holder.mListSlider,
 					holder.mListPer, holder.mListTotal);
+
+			if (ApplicationLoader.getPreferences().isIncenBioSurgeryTeam()
+					|| ApplicationLoader.getPreferences().isIncenRenealTeam()) {
+				if (position == 0) {
+					if (ApplicationLoader.getPreferences()
+							.isIncenBioSurgeryTeam()) {
+
+						addAdditionalSlider(holder.bioSurgeryPerLayout,
+								holder.bioSurgerySliderLayout,
+								holder.mListNameAdd, holder.mListSliderAdd,
+								"Vial", 50, holder.mListSliderMaxAdd);
+						addSetListSlider(holder.mListSlider, holder.mListTotal,
+								holder.mListSliderAdd, holder.mListPerAdd,
+								true, position, holder.mListPer,
+								mProduct.get(position).getmMin(),
+								mProduct.get(position).getmMax());
+						addSetListEditPer(holder.mListSlider,
+								holder.mListTotal, holder.mListPerAdd,
+								holder.mListSliderAdd, "50", true, 360, 0);
+						addRestoreQuarterType(whichQuarter,
+								holder.mListSliderAdd,holder.mListPerAdd);
+					} else {
+						addAdditionalSlider(holder.bioSurgeryPerLayout,
+								holder.bioSurgerySliderLayout,
+								holder.mListNameAdd, holder.mListSliderAdd,
+								"Boxes", 30,holder.mListSliderMaxAdd);
+						addSetListSlider(holder.mListSlider, holder.mListTotal,
+								holder.mListSliderAdd, holder.mListPerAdd,
+								false, position, holder.mListPer,
+								mProduct.get(position).getmMin(),
+								mProduct.get(position).getmMax());
+						addSetListEditPer(holder.mListSlider,
+								holder.mListTotal, holder.mListPerAdd,
+								holder.mListSliderAdd, "30", false, 150, 0);
+						addRestoreQuarterType(whichQuarter,
+								holder.mListSliderAdd, holder.mListPerAdd);
+					}
+				}
+			}
+
 			return v;
+		}
+
+		public void addAdditionalSlider(LinearLayout bioSurgeryPerLayout,
+				LinearLayout bioSurgerySliderLayout, TextView mListNameAdd,
+				Slider mSlider, String mName, int max, TextView mListSliderMaxAdd) {
+			bioSurgeryPerLayout.setVisibility(View.VISIBLE);
+			bioSurgerySliderLayout.setVisibility(View.VISIBLE);
+			mListNameAdd.setText(mName);
+			mSlider.setMax(max);
+			mListSliderMaxAdd.setText(String.valueOf(max));
 		}
 
 		public void setListRupeeFont(TextView mRsSy) {
@@ -252,6 +324,29 @@ public class IncenProductActivity extends FragmentActivity {
 			setValuesFromPreferences(position, mSlider, mSliderPer, mTotalView);
 		}
 
+		public void addRestoreQuarterType(int whichQuarter, Slider mSlider, EditText mEditTextPer) {
+			switch (whichQuarter) {
+			case 1:
+				mSliderValueAdd = ApplicationLoader.getPreferences()
+						.getIncenBioSurgeryVialSlider1();
+				break;
+			case 2:
+				mSliderValueAdd = ApplicationLoader.getPreferences()
+						.getIncenBioSurgeryVialSlider2();
+				break;
+			case 3:
+				mSliderValueAdd = ApplicationLoader.getPreferences()
+						.getIncenBioSurgeryVialSlider3();
+				break;
+			case 4:
+				mSliderValueAdd = ApplicationLoader.getPreferences()
+						.getIncenBioSurgeryVialSlider4();
+				break;
+			}
+			addCheckValuesFromPreferencesNullOrNot();
+			addSetValuesFromPreferences(mSlider, mEditTextPer);
+		}
+
 		public void setValuesFromPreferences(int mPosition, Slider mSlider,
 				EditText mSliderPer, TextView mTotalTextView) {
 
@@ -262,6 +357,11 @@ public class IncenProductActivity extends FragmentActivity {
 			mTotalTextView.setText(mTotalValueArr[mPosition]);
 
 			mTotalProductTv.setText(mTotalArr);
+		}
+
+		public void addSetValuesFromPreferences(Slider mSlider, EditText mEditTextPer) {
+			mSlider.setValue(Integer.parseInt(mSliderValueAdd));
+			mEditTextPer.setText(mSliderValueAdd);
 		}
 
 		public void checkValuesFromPreferencesNullOrNot() {
@@ -298,23 +398,34 @@ public class IncenProductActivity extends FragmentActivity {
 			}
 		}
 
+		public void addCheckValuesFromPreferencesNullOrNot() {
+			try {
+				if (mSliderValueAdd == null) {
+					mSliderValueAdd = "0";
+				}
+			} catch (Exception e) {
+				Log.i(TAG, e.toString());
+				mSliderValueAdd = "0";
+			}
+		}
+
 		public void setListSlider(final Slider mSlider,
-				final EditText mEditText, final TextView mTextView,
-				final int position) {
+				final Slider mSliderAdd, final EditText mEditText,
+				final TextView mTextView, final int position) {
 			mSlider.setOnValueChangedListener(new OnValueChangedListener() {
 				@Override
 				public void onValueChanged(int value) {
 					// TODO Auto-generated method stub
 					try {
-						if (value < mSlider.getMin()+2) {
+						if (value < mSlider.getMin() + 2) {
 							mEditText.setText("0");
 						} else {
 							mEditText.setText(String.valueOf(value));
 						}
 						mSliderValueArr[position] = String.valueOf(value);
-						businessIncenLogic(position, value, mEditText,
-								mTextView, String.valueOf(mSlider.getMin()),
-								false);
+						businessIncenLogic(mSlider, mTextView, mSliderAdd,
+								position, value, mEditText, mTextView,
+								String.valueOf(mSlider.getMin()), false);
 					} catch (Exception e) {
 						Log.i(TAG, e.toString());
 					}
@@ -322,7 +433,26 @@ public class IncenProductActivity extends FragmentActivity {
 			});
 		}
 
-		public void businessIncenLogic(int mPosition, int mSliderValue,
+		public void addSetListSlider(final Slider mListSlider,
+				final TextView mListTotal, final Slider mSlider,
+				final EditText mEditText, final boolean isBioSurgery,
+				final int position, final EditText mListPer,
+				String mProductMin, String mProductMax) {
+			mSlider.setOnValueChangedListener(new OnValueChangedListener() {
+				@Override
+				public void onValueChanged(int value) {
+					// TODO Auto-generated method stub
+					try {
+						mEditText.setText(String.valueOf(value));
+					} catch (Exception e) {
+						Log.i(TAG, e.toString());
+					}
+				}
+			});
+		}
+
+		public void businessIncenLogic(Slider mListSlider, TextView mListTotal,
+				Slider mSlider, int mPosition, int mSliderValue,
 				EditText mSliderPer, TextView mProductTotal, String minValue,
 				boolean isPointToZero) {
 			try {
@@ -343,6 +473,21 @@ public class IncenProductActivity extends FragmentActivity {
 					}
 				}
 
+				if (ApplicationLoader.getPreferences().isIncenBioSurgeryTeam()
+						|| ApplicationLoader.getPreferences()
+								.isIncenRenealTeam()) {
+					if (mPosition == 0) {
+						if (ApplicationLoader.getPreferences()
+								.isIncenBioSurgeryTeam()) {
+								addBusinessIncenLogic(mListSlider, mListTotal,
+										mSlider, 50, 360);
+						} else {
+								addBusinessIncenLogic(mListSlider, mListTotal,
+										mSlider, 30, 150);	
+						}
+					}
+				}
+
 				mTotalValueArr[mPosition] = mProductTotal.getText().toString();
 
 				int intTotalArr = 0;
@@ -357,9 +502,28 @@ public class IncenProductActivity extends FragmentActivity {
 			}
 		}
 
-		public void setListEditPer(final int position, final EditText mEditPer,
-				final Slider mSlider, final String min, final String max,
-				final TextView mProductTotal) {
+		public void addBusinessIncenLogic(Slider mListSlider,
+				TextView mListTotal, Slider mSlider, int max, int multiple) {
+			try {
+				String str[] = mProduct.get(0).getmSlab();
+				String mProductSlabValue = str[(str.length - 1) / 2];
+				if (mListSlider.getValue() >= 100) {
+					mListTotal.setText(String.valueOf(Integer
+							.parseInt(mProductSlabValue)
+							+ (mSlider.getValue() * multiple)));
+				}
+				mSliderValueAdd = String.valueOf(mSlider.getValue());
+				if(!isRestore){
+					addSaveQuarter(whichQuarter);	
+				}
+			} catch (Exception e) {
+				Log.i(TAG, e.toString());
+			}
+		}
+
+		public void setListEditPer(final Slider mSliderAdd, final int position,
+				final EditText mEditPer, final Slider mSlider,
+				final String min, final String max, final TextView mProductTotal) {
 			mEditPer.addTextChangedListener(new TextWatcher() {
 				@Override
 				public void onTextChanged(CharSequence mString, int arg1,
@@ -378,8 +542,40 @@ public class IncenProductActivity extends FragmentActivity {
 				@Override
 				public void afterTextChanged(Editable mString) {
 					// TODO Auto-generated method stub
-					validateListEditBox(mSlider, mString.toString(), min, max,
-							mEditPer, mProductTotal, position);
+					validateListEditBox(mSlider, mSliderAdd,
+							mString.toString(), min, max, mEditPer,
+							mProductTotal, position);
+				}
+			});
+		}
+
+		public void addSetListEditPer(final Slider mListSlider,
+				final TextView mListTotal, final EditText mEditPer,
+				final Slider mSlider, final String max,
+				final boolean isBioSurgery, final int multiple,
+				final int mPosition) {
+			mEditPer.addTextChangedListener(new TextWatcher() {
+				@Override
+				public void onTextChanged(CharSequence mString, int arg1,
+						int arg2, int arg3) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence mString, int arg1,
+						int arg2, int arg3) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void afterTextChanged(Editable mString) {
+					// TODO Auto-generated method stub
+					addValidateListEditBox(mListSlider, mListTotal, mSlider,
+							mString.toString(), max, mEditPer, multiple,
+							mPosition);
+					isRestore = false;
 				}
 			});
 		}
@@ -434,8 +630,29 @@ public class IncenProductActivity extends FragmentActivity {
 
 		}
 
-		public void validateListEditBox(Slider mSlider, String mString,
-				String min, String max, EditText mEditTextPer,
+		public void addSaveQuarter(int quarterType) {
+			switch (quarterType) {
+			case 1:
+				ApplicationLoader.getPreferences()
+						.setIncenBioSurgeryVialSlider1(mSliderValueAdd);
+				break;
+			case 2:
+				ApplicationLoader.getPreferences()
+						.setIncenBioSurgeryVialSlider2(mSliderValueAdd);
+				break;
+			case 3:
+				ApplicationLoader.getPreferences()
+						.setIncenBioSurgeryVialSlider3(mSliderValueAdd);
+				break;
+			case 4:
+				ApplicationLoader.getPreferences()
+						.setIncenBioSurgeryVialSlider4(mSliderValueAdd);
+				break;
+			}
+		}
+
+		public void validateListEditBox(Slider mSlider, Slider mSliderAdd,
+				String mString, String min, String max, EditText mEditTextPer,
 				TextView mProductTotal, int mPosition) {
 			try {
 				if (!TextUtils.isEmpty(mString.toString())) {
@@ -446,7 +663,8 @@ public class IncenProductActivity extends FragmentActivity {
 										.parseInt(max)) {
 							mSlider.setValue(Integer.parseInt(mString
 									.toString()));
-							businessIncenLogic(mPosition, mSlider.getValue(),
+							businessIncenLogic(mSlider, mProductTotal,
+									mSliderAdd, mPosition, mSlider.getValue(),
 									mEditTextPer, mProductTotal, min, false);
 						} else {
 							// if (mToast == null
@@ -462,14 +680,16 @@ public class IncenProductActivity extends FragmentActivity {
 								mSlider.setValue(Integer.parseInt(min) - 1);
 								// mEditTextPer.setText(min);
 								// mEditTextPer.setText("0");
-								businessIncenLogic(mPosition,
+								businessIncenLogic(mSlider, mProductTotal,
+										mSliderAdd, mPosition,
 										mSlider.getValue(), mEditTextPer,
 										mProductTotal, min, true);
 							} else if (Integer.parseInt(mString) > Integer
 									.parseInt(max)) {
 								mSlider.setValue(Integer.parseInt(max));
 								// mEditTextPer.setText(max);
-								businessIncenLogic(mPosition,
+								businessIncenLogic(mSlider, mProductTotal,
+										mSliderAdd, mPosition,
 										mSlider.getValue(), mEditTextPer,
 										mProductTotal, min, false);
 							}/*
@@ -483,12 +703,14 @@ public class IncenProductActivity extends FragmentActivity {
 					} else if (mString.toString().length() == 1) {
 						if (Integer.parseInt(mString) == 0) {
 							mSlider.setValue(Integer.parseInt(min) - 1);
-							businessIncenLogic(mPosition, mSlider.getValue(),
+							businessIncenLogic(mSlider, mProductTotal,
+									mSliderAdd, mPosition, mSlider.getValue(),
 									mEditTextPer, mProductTotal, min, true);
 						} else if (Integer.parseInt(mString) > 0
 								&& Integer.parseInt(mString) <= 10) {
 							mSlider.setValue(Integer.parseInt(min) - 1);
-							businessIncenLogic(mPosition, mSlider.getValue(),
+							businessIncenLogic(mSlider, mProductTotal,
+									mSliderAdd, mPosition, mSlider.getValue(),
 									mEditTextPer, mProductTotal, min, true);
 						}
 					}
@@ -502,8 +724,60 @@ public class IncenProductActivity extends FragmentActivity {
 					// }
 					if (Integer.parseInt(mString) == 0) {
 						mSlider.setValue(Integer.parseInt(min) - 1);
-						businessIncenLogic(mPosition, mSlider.getValue(),
-								mEditTextPer, mProductTotal, min, true);
+						businessIncenLogic(mSlider, mProductTotal, mSliderAdd,
+								mPosition, mSlider.getValue(), mEditTextPer,
+								mProductTotal, min, true);
+					}
+				}
+			} catch (Exception e) {
+				Log.i(TAG, e.toString());
+			}
+		}
+
+		public void addValidateListEditBox(Slider mListSlider,
+				TextView mListTotal, Slider mSlider, String mString,
+				String max, EditText mEditTextPer, int multiple, int mPosition) {
+			try {
+				if (!TextUtils.isEmpty(mString.toString())) {
+					if (mString.toString().length() >= 2) {
+						if (Integer.parseInt(mString.toString()) >= 0
+								&& Integer.parseInt(mString.toString()) <= Integer
+										.parseInt(max)) {
+							mSlider.setValue(Integer.parseInt(mString
+									.toString()));
+							businessIncenLogic(mListSlider, mListTotal,
+									mSlider, mPosition, mListSlider.getValue(),
+									mEditTextPer, mListTotal,
+									String.valueOf(mListSlider.getMin()), false);
+						} else {
+							if (Integer.parseInt(mString) > Integer
+									.parseInt(max)) {
+								mSlider.setValue(Integer.parseInt(max));
+								businessIncenLogic(mListSlider, mListTotal,
+										mSlider, mPosition,
+										mListSlider.getValue(), mEditTextPer,
+										mListTotal,
+										String.valueOf(mListSlider.getMin()),
+										false);
+							}
+						}
+					} else if (mString.toString().length() == 1) {
+						if (Integer.parseInt(mString) >= 0
+								&& Integer.parseInt(mString) <= 10) {
+							mSlider.setValue(Integer.parseInt(mString));
+							businessIncenLogic(mListSlider, mListTotal,
+									mSlider, mPosition, mListSlider.getValue(),
+									mEditTextPer, mListTotal,
+									String.valueOf(mListSlider.getMin()), false);
+						}
+					}
+				} else {
+					if (Integer.parseInt(mString) == 0) {
+						mSlider.setValue(0);
+						businessIncenLogic(mListSlider, mListTotal, mSlider,
+								mPosition, mListSlider.getValue(),
+								mEditTextPer, mListTotal,
+								String.valueOf(mListSlider.getMin()), false);
 					}
 				}
 			} catch (Exception e) {
@@ -521,6 +795,15 @@ public class IncenProductActivity extends FragmentActivity {
 		TextView mListSliderMax;
 		TextView mListTotal;
 		TextView mListTotalRsSy;
+
+		TextView mListNameAdd;
+		EditText mListPerAdd;
+		Slider mListSliderAdd;
+		TextView mListSliderMinAdd;
+		TextView mListSliderMaxAdd;
+
+		LinearLayout bioSurgerySliderLayout;
+		LinearLayout bioSurgeryPerLayout;
 	}
 
 	public void getProductJSON() {
@@ -548,6 +831,19 @@ public class IncenProductActivity extends FragmentActivity {
 			JSONObject mJSONObj = new JSONObject(str);
 			JSONArray mJSONArray = mJSONObj.getJSONArray("products");
 
+			try {
+				ApplicationLoader.getPreferences().setIncenTeamName(mJSONObj.getString("team"));
+				if(ApplicationLoader.getPreferences().getIncenTeamName().compareToIgnoreCase("Bio Surgery") == 0){
+					ApplicationLoader.getPreferences().setIncenBioSurgeryTeam(true);
+				}else if(ApplicationLoader.getPreferences().getIncenTeamName().compareToIgnoreCase("Renal Team") == 0){
+					ApplicationLoader.getPreferences().setIncenRenealTeam(true);
+				}else if(ApplicationLoader.getPreferences().getIncenTeamName().compareToIgnoreCase("Heritage-OTC") == 0){
+					ApplicationLoader.getPreferences().setIncenHeritageTeam(true);
+				}
+			} catch (Exception e) {
+				Log.i(TAG, e.toString());
+			}
+			
 			try {
 				ApplicationLoader.getPreferences().setProductNumber(
 						String.valueOf(mJSONArray.length()));

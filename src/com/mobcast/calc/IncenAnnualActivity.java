@@ -1,9 +1,14 @@
 package com.mobcast.calc;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 
 import org.json.JSONArray;
@@ -22,10 +27,12 @@ import android.content.res.AssetManager;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -44,6 +51,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
+import com.mobcast.calc.IncenDashBoardActivity.AsyncDownloadPdfDataFromApi;
+import com.mobcast.calc.IncenDashBoardActivity.AsyncDownloadPdfPathFromApi;
 import com.mobcast.util.BuildVars;
 import com.mobcast.util.Constants;
 import com.mobcast.util.RestClient;
@@ -85,10 +94,9 @@ public class IncenAnnualActivity extends FragmentActivity {
 
 	private ImageView mInceIcon;
 	private ImageView mIncenOverFlow;
-	
+
 	private TextView mPopUpMenuPdf;
 	private RelativeLayout mLayout;
-	
 
 	private String mQuarterIsCheck1;
 	private String mQuarterIsCheck2;
@@ -103,6 +111,15 @@ public class IncenAnnualActivity extends FragmentActivity {
 	private int mBusinessFourQuarter = 0;
 	private int mBusinessThreeQuarter = 0;
 	private int mBusinessTwoQuarter = 0;
+
+	/*
+	 * Additonal Variables for BIO - Surgery
+	 */
+	private AccordionView mAccordionBioSurgery;
+	private CheckBox mCheckBoxBioSurgery1;
+	private CheckBox mCheckBoxBioSurgery2;
+	private TextView mTotalBioSurgery;
+	private TextView mTotalBioSurgeryRs;
 
 	private static final String TAG = IncenAnnualActivity.class.getSimpleName();
 
@@ -159,9 +176,28 @@ public class IncenAnnualActivity extends FragmentActivity {
 		mQuarterTotal4 = (TextView) findViewById(R.id.incen_annual_quarter4);
 
 		mInceIcon = (ImageView) findViewById(R.id.titleBackIcon);
-		mIncenOverFlow = (ImageView)findViewById(R.id.incen_overflow);
+		mIncenOverFlow = (ImageView) findViewById(R.id.incen_overflow);
+
+		mLayout = (RelativeLayout) findViewById(R.id.mLayout);
+
+		if (ApplicationLoader.getPreferences().isIncenBioSurgeryTeam()) {
+			addInitUi();
+		}
+	}
+
+	private void addInitUi() {
+		mAccordionBioSurgery = (AccordionView) findViewById(R.id.incen_bio_surgery_acc_view);
+
+		mCheckBoxBioSurgery1 = (CheckBox) findViewById(R.id.incen_bio_surgery_switchView1);
+		mCheckBoxBioSurgery2 = (CheckBox) findViewById(R.id.incen_bio_surgery_switchView2);
+
+		mTotalBioSurgery = (TextView) findViewById(R.id.incen_bio_surgery_incen);
+
+		mTotalBioSurgeryRs = (TextView) findViewById(R.id.incen_bio_surgery_rs_sy);
 		
-		mLayout = (RelativeLayout)findViewById(R.id.mLayout);
+		mAccordionBioSurgery.setVisibility(View.VISIBLE);
+		mAccordionBioSurgery.toggleSection(0);
+		mAccordionBioSurgery.setSectionHeaders("ESI Incentive");
 	}
 
 	private void setUiListener() {
@@ -172,7 +208,7 @@ public class IncenAnnualActivity extends FragmentActivity {
 				finish();
 			}
 		});
-		
+
 		mIncenOverFlow.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -198,6 +234,16 @@ public class IncenAnnualActivity extends FragmentActivity {
 		mQuarterRsSy2.setText("`");
 		mQuarterRsSy3.setText("`");
 		mQuarterRsSy4.setText("`");
+
+		if (ApplicationLoader.getPreferences().isIncenBioSurgeryTeam()) {
+			addSetRupeeFont();
+		}
+	}
+
+	private void addSetRupeeFont() {
+		mTotalBioSurgeryRs.setTypeface(mTypeFace);
+
+		mTotalBioSurgeryRs.setText("`");
 	}
 
 	private void setCheckBoxGroup() {
@@ -390,6 +436,32 @@ public class IncenAnnualActivity extends FragmentActivity {
 						businessIncenLogic();
 					}
 				});
+		if (ApplicationLoader.getPreferences().isIncenBioSurgeryTeam()) {
+			addSetCheckBoxGroup();
+		}
+	}
+
+	private void addSetCheckBoxGroup() {
+		mCheckBoxBioSurgery1
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(CompoundButton arg0,
+							boolean isChecked) {
+						// TODO Auto-generated method stub
+						businessIncenLogic();
+					}
+				});
+
+		mCheckBoxBioSurgery2
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						// TODO Auto-generated method stub
+						businessIncenLogic();
+					}
+				});
 	}
 
 	private void setCheckedToGetValues() {
@@ -504,12 +576,34 @@ public class IncenAnnualActivity extends FragmentActivity {
 			if (!TextUtils.isEmpty(mQuarterTotal4.getText().toString())) {
 				mQ4 = Integer.parseInt(mQuarterTotal4.getText().toString());
 			}
+			
+			if(ApplicationLoader.getPreferences().isIncenBioSurgeryTeam()){
+				addBusinessIncenLogic();
+			}
 
 			mTotalTv.setText(String.valueOf(mQ1 + mQ2 + mQ3 + mQ4
 					+ mTotalAnnualArr));
 			saveAnnual();
 		} catch (Exception e) {
 			Log.i(TAG, e.toString());
+		}
+	}
+	
+	private void addBusinessIncenLogic(){
+		if(mCheckBoxBioSurgery1.isChecked()){
+			mTotalAnnualArr =  mTotalAnnualArr + 10000;
+			mTotalBioSurgery.setText("10000");
+		}
+		
+		if(mCheckBoxBioSurgery2.isChecked()){
+			mTotalAnnualArr =  mTotalAnnualArr + 10000;
+			mTotalBioSurgery.setText("10000");
+		}
+		
+		if(mCheckBoxBioSurgery1.isChecked()  && mCheckBoxBioSurgery2.isChecked()){
+			mTotalBioSurgery.setText("20000");
+		}else if(!mCheckBoxBioSurgery1.isChecked()  && !mCheckBoxBioSurgery2.isChecked()){
+			mTotalBioSurgery.setText("0");
 		}
 	}
 
@@ -563,7 +657,18 @@ public class IncenAnnualActivity extends FragmentActivity {
 				mBusinessTwoQuarter = Integer.parseInt(mInnerJSONObj
 						.getString("twoquarter"));
 			}
-
+			try {
+				ApplicationLoader.getPreferences().setIncenTeamName(mJSONObj.getString("team"));
+				if(ApplicationLoader.getPreferences().getIncenTeamName().compareToIgnoreCase("") == 0){
+					ApplicationLoader.getPreferences().setIncenBioSurgeryTeam(true);
+				}else if(ApplicationLoader.getPreferences().getIncenTeamName().compareToIgnoreCase("") == 0){
+					ApplicationLoader.getPreferences().setIncenRenealTeam(true);
+				}else if(ApplicationLoader.getPreferences().getIncenTeamName().compareToIgnoreCase("") == 0){
+					ApplicationLoader.getPreferences().setIncenHeritageTeam(true);
+				}
+			} catch (Exception e) {
+				Log.i(TAG, e.toString());
+			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -679,118 +784,86 @@ public class IncenAnnualActivity extends FragmentActivity {
 		}
 	}
 
-	private void getQuarter1Value(){
+	private void getQuarter1Value() {
 		String monthTotal = TextUtils.isEmpty(ApplicationLoader
-				.getPreferences().getQuarterTotal1()) ? "0"
-				: ApplicationLoader.getPreferences()
-						.getQuarterTotal1();
-		String kpiTotal = TextUtils.isEmpty(ApplicationLoader
-				.getPreferences().getKPITotalValue1()) ? "0"
-				: ApplicationLoader.getPreferences()
-						.getKPITotalValue1();
-		String productTotal = TextUtils
-				.isEmpty(ApplicationLoader.getPreferences()
-						.getProductTotalValue1()) ? "0"
-				: ApplicationLoader.getPreferences()
-						.getProductTotalValue1();
-		String quarterTotal = TextUtils
-				.isEmpty(ApplicationLoader.getPreferences()
-						.getQValue1()) ? "0"
-				: ApplicationLoader.getPreferences()
-						.getQValue1();
+				.getPreferences().getQuarterTotal1()) ? "0" : ApplicationLoader
+				.getPreferences().getQuarterTotal1();
+		String kpiTotal = TextUtils.isEmpty(ApplicationLoader.getPreferences()
+				.getKPITotalValue1()) ? "0" : ApplicationLoader
+				.getPreferences().getKPITotalValue1();
+		String productTotal = TextUtils.isEmpty(ApplicationLoader
+				.getPreferences().getProductTotalValue1()) ? "0"
+				: ApplicationLoader.getPreferences().getProductTotalValue1();
+		String quarterTotal = TextUtils.isEmpty(ApplicationLoader
+				.getPreferences().getQValue1()) ? "0" : ApplicationLoader
+				.getPreferences().getQValue1();
 
-		String quarter1Total = String.valueOf(Integer
-				.parseInt(monthTotal)
-				+ Integer.parseInt(kpiTotal)
-				+ Integer.parseInt(productTotal)
+		String quarter1Total = String.valueOf(Integer.parseInt(monthTotal)
+				+ Integer.parseInt(kpiTotal) + Integer.parseInt(productTotal)
 				+ Integer.parseInt(quarterTotal));
 		mQuarterTotal1.setText(quarter1Total);
 	}
-	
-	private void getQuarter2Value(){
-		String monthTotal = TextUtils.isEmpty(ApplicationLoader
-				.getPreferences().getQuarterTotal2()) ? "0"
-				: ApplicationLoader.getPreferences()
-						.getQuarterTotal2();
-		String kpiTotal = TextUtils.isEmpty(ApplicationLoader
-				.getPreferences().getKPITotalValue2()) ? "0"
-				: ApplicationLoader.getPreferences()
-						.getKPITotalValue2();
-		String productTotal = TextUtils
-				.isEmpty(ApplicationLoader.getPreferences()
-						.getProductTotalValue2()) ? "0"
-				: ApplicationLoader.getPreferences()
-						.getProductTotalValue2();
-		String quarterTotal = TextUtils
-				.isEmpty(ApplicationLoader.getPreferences()
-						.getQValue2()) ? "0"
-				: ApplicationLoader.getPreferences()
-						.getQValue2();
 
-		String quarter1Total = String.valueOf(Integer
-				.parseInt(monthTotal)
-				+ Integer.parseInt(kpiTotal)
-				+ Integer.parseInt(productTotal)
+	private void getQuarter2Value() {
+		String monthTotal = TextUtils.isEmpty(ApplicationLoader
+				.getPreferences().getQuarterTotal2()) ? "0" : ApplicationLoader
+				.getPreferences().getQuarterTotal2();
+		String kpiTotal = TextUtils.isEmpty(ApplicationLoader.getPreferences()
+				.getKPITotalValue2()) ? "0" : ApplicationLoader
+				.getPreferences().getKPITotalValue2();
+		String productTotal = TextUtils.isEmpty(ApplicationLoader
+				.getPreferences().getProductTotalValue2()) ? "0"
+				: ApplicationLoader.getPreferences().getProductTotalValue2();
+		String quarterTotal = TextUtils.isEmpty(ApplicationLoader
+				.getPreferences().getQValue2()) ? "0" : ApplicationLoader
+				.getPreferences().getQValue2();
+
+		String quarter1Total = String.valueOf(Integer.parseInt(monthTotal)
+				+ Integer.parseInt(kpiTotal) + Integer.parseInt(productTotal)
 				+ Integer.parseInt(quarterTotal));
 		mQuarterTotal2.setText(quarter1Total);
 	}
-	
-	private void getQuarter3Value(){
-		String monthTotal = TextUtils.isEmpty(ApplicationLoader
-				.getPreferences().getQuarterTotal3()) ? "0"
-				: ApplicationLoader.getPreferences()
-						.getQuarterTotal3();
-		String kpiTotal = TextUtils.isEmpty(ApplicationLoader
-				.getPreferences().getKPITotalValue3()) ? "0"
-				: ApplicationLoader.getPreferences()
-						.getKPITotalValue3();
-		String productTotal = TextUtils
-				.isEmpty(ApplicationLoader.getPreferences()
-						.getProductTotalValue3()) ? "0"
-				: ApplicationLoader.getPreferences()
-						.getProductTotalValue3();
-		String quarterTotal = TextUtils
-				.isEmpty(ApplicationLoader.getPreferences()
-						.getQValue3()) ? "0"
-				: ApplicationLoader.getPreferences()
-						.getQValue3();
 
-		String quarter1Total = String.valueOf(Integer
-				.parseInt(monthTotal)
-				+ Integer.parseInt(kpiTotal)
-				+ Integer.parseInt(productTotal)
+	private void getQuarter3Value() {
+		String monthTotal = TextUtils.isEmpty(ApplicationLoader
+				.getPreferences().getQuarterTotal3()) ? "0" : ApplicationLoader
+				.getPreferences().getQuarterTotal3();
+		String kpiTotal = TextUtils.isEmpty(ApplicationLoader.getPreferences()
+				.getKPITotalValue3()) ? "0" : ApplicationLoader
+				.getPreferences().getKPITotalValue3();
+		String productTotal = TextUtils.isEmpty(ApplicationLoader
+				.getPreferences().getProductTotalValue3()) ? "0"
+				: ApplicationLoader.getPreferences().getProductTotalValue3();
+		String quarterTotal = TextUtils.isEmpty(ApplicationLoader
+				.getPreferences().getQValue3()) ? "0" : ApplicationLoader
+				.getPreferences().getQValue3();
+
+		String quarter1Total = String.valueOf(Integer.parseInt(monthTotal)
+				+ Integer.parseInt(kpiTotal) + Integer.parseInt(productTotal)
 				+ Integer.parseInt(quarterTotal));
 		mQuarterTotal3.setText(quarter1Total);
 	}
-	
-	private void getQuarter4Value(){
-		String monthTotal = TextUtils.isEmpty(ApplicationLoader
-				.getPreferences().getQuarterTotal4()) ? "0"
-				: ApplicationLoader.getPreferences()
-						.getQuarterTotal4();
-		String kpiTotal = TextUtils.isEmpty(ApplicationLoader
-				.getPreferences().getKPITotalValue4()) ? "0"
-				: ApplicationLoader.getPreferences()
-						.getKPITotalValue4();
-		String productTotal = TextUtils
-				.isEmpty(ApplicationLoader.getPreferences()
-						.getProductTotalValue4()) ? "0"
-				: ApplicationLoader.getPreferences()
-						.getProductTotalValue4();
-		String quarterTotal = TextUtils
-				.isEmpty(ApplicationLoader.getPreferences()
-						.getQValue4()) ? "0"
-				: ApplicationLoader.getPreferences()
-						.getQValue4();
 
-		String quarter1Total = String.valueOf(Integer
-				.parseInt(monthTotal)
-				+ Integer.parseInt(kpiTotal)
-				+ Integer.parseInt(productTotal)
+	private void getQuarter4Value() {
+		String monthTotal = TextUtils.isEmpty(ApplicationLoader
+				.getPreferences().getQuarterTotal4()) ? "0" : ApplicationLoader
+				.getPreferences().getQuarterTotal4();
+		String kpiTotal = TextUtils.isEmpty(ApplicationLoader.getPreferences()
+				.getKPITotalValue4()) ? "0" : ApplicationLoader
+				.getPreferences().getKPITotalValue4();
+		String productTotal = TextUtils.isEmpty(ApplicationLoader
+				.getPreferences().getProductTotalValue4()) ? "0"
+				: ApplicationLoader.getPreferences().getProductTotalValue4();
+		String quarterTotal = TextUtils.isEmpty(ApplicationLoader
+				.getPreferences().getQValue4()) ? "0" : ApplicationLoader
+				.getPreferences().getQValue4();
+
+		String quarter1Total = String.valueOf(Integer.parseInt(monthTotal)
+				+ Integer.parseInt(kpiTotal) + Integer.parseInt(productTotal)
 				+ Integer.parseInt(quarterTotal));
 		mQuarterTotal4.setText(quarter1Total);
 	}
-	
+
 	@SuppressLint("NewApi")
 	public void showPopUpMenu() {
 		final Dialog dialog = new Dialog(IncenAnnualActivity.this);
@@ -812,7 +885,7 @@ public class IncenAnnualActivity extends FragmentActivity {
 		}
 		dialog.setCanceledOnTouchOutside(true);
 		dialog.setContentView(R.layout.incen_pop_up_menu_annual);
-		
+
 		mPopUpMenuPdf = (TextView) dialog
 				.findViewById(R.id.pop_up_menu_incen_pdf);
 
@@ -824,7 +897,7 @@ public class IncenAnnualActivity extends FragmentActivity {
 		} else {
 			mLayout.setAlpha(0.5f);
 		}
-		
+
 		mPopUpMenuPdf.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -833,7 +906,7 @@ public class IncenAnnualActivity extends FragmentActivity {
 				showPdf();
 			}
 		});
-		
+
 		dialog.setOnDismissListener(new OnDismissListener() {
 
 			@Override
@@ -852,16 +925,33 @@ public class IncenAnnualActivity extends FragmentActivity {
 		});
 		dialog.show();
 	}
-	
+
 	private void showPdf() {
-		File file1 = new File("/sdcard/incen.pdf");
-		if (!file1.exists()) {
-			copyPdfFromAssets();
+//		File file1 = new File("/sdcard/incen.pdf");
+//		if (!file1.exists()) {
+//			copyPdfFromAssets();
+//		}
+		
+		if (!TextUtils.isEmpty(ApplicationLoader.getPreferences()
+				.getIncenPdfPath())) {
+			File mFile = new File(Environment.getExternalStorageDirectory()
+					.getAbsolutePath()
+					+ Constants.APP_FOLDER
+					+ getString(R.string.pdf)
+					+ "/"
+					+ ApplicationLoader.getPreferences().getIncenPdfPath());
+			if (!mFile.exists()) {
+				showDownloadDialog();
+			} else {
+				showOpenPdfDialog();
+			}
+		} else {
+			showDownloadDialog();
 		}
 	}
 
 	private void copyPdfFromAssets() {
-		try{
+		try {
 			AssetManager assetManager = getAssets();
 
 			InputStream in = null;
@@ -869,7 +959,8 @@ public class IncenAnnualActivity extends FragmentActivity {
 			File file = new File(getFilesDir(), "incen.pdf");
 			try {
 				in = assetManager.open("incen.pdf");
-				out = openFileOutput(file.getName(), Context.MODE_WORLD_READABLE);
+				out = openFileOutput(file.getName(),
+						Context.MODE_WORLD_READABLE);
 
 				copyFile(in, out);
 				in.close();
@@ -889,8 +980,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 					"application/pdf");
 
 			startActivity(intent);
-		}catch(Exception e){
-			Toast.makeText(IncenAnnualActivity.this, "No Pdf Reader Application Found!", Toast.LENGTH_SHORT).show();
+		} catch (Exception e) {
+			Toast.makeText(IncenAnnualActivity.this,
+					"No Pdf Reader Application Found!", Toast.LENGTH_SHORT)
+					.show();
 		}
 	}
 
@@ -902,6 +995,315 @@ public class IncenAnnualActivity extends FragmentActivity {
 		}
 	}
 	
+	private void showOpenPdfDialog() {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				IncenAnnualActivity.this);
+		// set title
+		alertDialogBuilder
+				.setTitle(getResources().getString(R.string.app_name));
+
+		// set dialog message
+		alertDialogBuilder
+				.setMessage(
+						getResources().getString(
+								R.string.download_alert_message))
+				.setCancelable(true)
+				.setPositiveButton("Open",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								try {
+									openPDFReaderIntent(ApplicationLoader
+											.getPreferences().getIncenPdfPath());
+								} catch (Exception e) {
+									Toast.makeText(IncenAnnualActivity.this,
+											"No PdfReader Application Found!",
+											Toast.LENGTH_SHORT).show();
+								}
+							}
+						});
+		alertDialogBuilder.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						dialog.dismiss();
+					}
+				});
+
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		// show it
+		alertDialog.show();
+	}
+
+	private void showDownloadDialog() {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				IncenAnnualActivity.this);
+		// set title
+		alertDialogBuilder
+				.setTitle(getResources().getString(R.string.app_name));
+
+		// set dialog message
+		alertDialogBuilder
+				.setMessage(
+						getResources().getString(
+								R.string.download_alert_message))
+				.setCancelable(true)
+				.setPositiveButton("Download",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								downloadPdfFromUrl();
+							}
+						});
+		alertDialogBuilder.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						dialog.dismiss();
+					}
+				});
+
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		// show it
+		alertDialog.show();
+	}
+
+	public void downloadPdfFromUrl() {
+		if (Utilities.isInternetConnected()) {
+			new AsyncDownloadPdfPathFromApi(true).execute();
+		} else {
+			Toast.makeText(IncenAnnualActivity.this,
+					"Please check your internet connection!",
+					Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	public class AsyncDownloadPdfPathFromApi extends
+			AsyncTask<Void, Void, Void> {
+		private ProgressDialog mProgress;
+		private boolean isPdfAvailable = false;
+		private boolean forceUser = false;
+		private String pdfPath;
+
+		public AsyncDownloadPdfPathFromApi(boolean forceUser) {
+			this.forceUser = forceUser;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			if (forceUser) {
+				mProgress = new ProgressDialog(IncenAnnualActivity.this);
+				mProgress.setMessage("Please wait");
+				mProgress.setCanceledOnTouchOutside(false);
+				mProgress.setCancelable(false);
+				mProgress.show();
+			}
+		}
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			// TODO Auto-generated method stub
+			SharedPreferences pref;
+			pref = getSharedPreferences("MobCastPref", 0);
+			String temp1 = pref.getString("name", "tushar@mobcast.in");
+
+			HashMap<String, String> formValue = new HashMap<String, String>();
+			formValue.put("device", "android");
+			formValue.put(com.mobcast.util.Constants.user_id, temp1);
+
+			String str = RestClient.postData(Constants.INCEN_SCHEME_PDF,
+					formValue);
+			try {
+				JSONObject mJSONObj = new JSONObject(str);
+				pdfPath = mJSONObj.getString("pdfPath");
+				if (!TextUtils.isEmpty(pdfPath)) {
+					isPdfAvailable = true;
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			if (forceUser) {
+				if (mProgress != null)
+					mProgress.dismiss();
+			}
+
+			if (isPdfAvailable) {
+				new AsyncDownloadPdfDataFromApi(true, pdfPath).execute(pdfPath);
+			} else {
+				Toast.makeText(IncenAnnualActivity.this,
+						"Incentive Scheme Pdf not available!",
+						Toast.LENGTH_SHORT).show();
+			}
+		}
+	}
+
+	public class AsyncDownloadPdfDataFromApi extends
+			AsyncTask<String, String, String> {
+		private ProgressDialog mProgress;
+		private boolean forceUser = false;
+		private String pdfPath;
+		private String mFileName;
+
+		public AsyncDownloadPdfDataFromApi(boolean forceUser, String pdfPath) {
+			this.forceUser = forceUser;
+			this.pdfPath = pdfPath;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			if (forceUser) {
+				mProgress = new ProgressDialog(IncenAnnualActivity.this);
+				mProgress.setMessage("Downloading...");
+				mProgress.setCanceledOnTouchOutside(false);
+				mProgress.setCancelable(false);
+				mProgress.setMax(100);
+				mProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+				Drawable customDrawable = getResources().getDrawable(
+						R.drawable.custom_progressbar);
+				mProgress.setProgressDrawable(customDrawable);
+				mProgress.show();
+			}
+		}
+
+		@Override
+		protected void onProgressUpdate(String... progress) {
+			// TODO Auto-generated method stub
+			// super.onProgressUpdate(values);
+			mProgress.setProgress(Integer.parseInt(progress[0]));
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			try {
+				URL mURL = new URL(pdfPath);
+				String mRoot = Environment.getExternalStorageDirectory()
+						.toString();
+				String foldername = "";
+				foldername = getResources().getString(R.string.pdf);
+
+				File mDir = new File(mRoot + "/.mobcast/" + foldername);
+
+				mFileName = Utilities.getFileNameFromURL(pdfPath);
+
+				ApplicationLoader.getPreferences().setIncenPdfPath(mFileName);
+
+				mDir.mkdirs();
+
+				File mFile = new File(mDir, mFileName);
+				if (mFile.exists())
+					mFile.delete();
+
+				URLConnection mConnection = mURL.openConnection();
+				InputStream inputStream = mConnection.getInputStream();
+				BufferedInputStream bis = new BufferedInputStream(inputStream);
+				FileOutputStream mFileOutputStream = new FileOutputStream(mFile);
+				byte data[] = new byte[1024];
+				int current = 0;
+				long total = 0;
+				int lenghtOfFile = mConnection.getContentLength();
+				while ((current = bis.read()) != -1) {
+					total += current;
+					publishProgress("" + (int) ((total * 100) / lenghtOfFile));
+					mFileOutputStream.write(data, 0, current);
+				}
+				mFileOutputStream.flush();
+				mFileOutputStream.close();
+				inputStream.close();
+			} catch (Exception e) {
+			}
+			return "false";
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			if (forceUser) {
+				if (mProgress != null)
+					mProgress.dismiss();
+			}
+
+			if (!TextUtils.isEmpty(mFileName)) {
+				try {
+					openPDFReaderIntent(mFileName);
+				} catch (Exception e) {
+					Toast.makeText(IncenAnnualActivity.this,
+							"No PdfReader Application Found!",
+							Toast.LENGTH_SHORT).show();
+					Log.i(TAG, e.toString());
+				}
+			} else {
+				Toast.makeText(IncenAnnualActivity.this,
+						"Incentive Scheme Pdf not available!",
+						Toast.LENGTH_SHORT).show();
+			}
+		}
+	}
+
+	public void openPDFReaderIntent(String mName) {
+		File file = new File(Environment.getExternalStorageDirectory()
+				.getAbsolutePath()
+				+ Constants.APP_FOLDER
+				+ getString(R.string.pdf) + "/" + mName);
+		if (file.exists())
+			Log.d("file", "exists");
+		else
+			Log.e("file", "does not exists");
+		double bytes = file.length() / 500;
+		int time = (int) bytes;
+		Log.e("file length", time + "");
+		// file.renameTo(new File(file.getAbsoluteFile()+".pdf"));
+		File folder = new File(Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + Constants.APP_FOLDER_TEMP);
+		folder.mkdirs();
+		File file1 = new File(Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + Constants.APP_FOLDER_TEMP + mName);
+		if (file1.exists())
+			file1.delete();
+
+		try {
+
+			InputStream in = new FileInputStream(file);
+			OutputStream out = new FileOutputStream(file1);
+
+			// Transfer bytes from in to out
+			byte[] buf = new byte[1024];
+			int len;
+			while ((len = in.read(buf)) > 0) {
+				out.write(buf, 0, len);
+			}
+			in.close();
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		Intent show = new Intent(Intent.ACTION_VIEW);
+		show.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+		show.setAction(Intent.ACTION_VIEW);
+		show.setDataAndType(Uri.fromFile(file1), "application/pdf");
+		startActivity(show);
+	}
+
 	/*
 	 * Flurry Analytics
 	 */

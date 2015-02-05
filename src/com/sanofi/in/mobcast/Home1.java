@@ -568,9 +568,53 @@ public class Home1 extends Activity {
 			ApplicationLoader.getPreferences()
 					.setIncenModuleLayoutEnable(false);
 
+			clearTeamWisePreferences();	
+			
 			SharedPreferences pref = ApplicationLoader.getSharedPreferences();
 			pref.edit().clear().commit();
 		} catch (Exception e) {
+			Log.i(TAG, e.toString());
+		}
+	}
+	
+	private void clearTeamWisePreferences(){
+		try{
+			ApplicationLoader.getPreferences().setIncenTeamName(null);
+			
+			String nullString[] = new String[] { null, null, null };
+			ApplicationLoader.getPreferences().setIncenBioSurgeryTeam(false);
+			ApplicationLoader.getPreferences().setIncenRenealTeam(false);
+			ApplicationLoader.getPreferences().setIncenHeritageTeam(false);
+			
+			//Product
+			ApplicationLoader.getPreferences().setIncenBioSurgeryVialSlider1(null);
+			ApplicationLoader.getPreferences().setIncenBioSurgeryVialSlider2(null);
+			ApplicationLoader.getPreferences().setIncenBioSurgeryVialSlider3(null);
+			ApplicationLoader.getPreferences().setIncenBioSurgeryVialSlider4(null);
+			
+			//KPI
+			 ApplicationLoader.getPreferences().setKPIRightFreqQ1(null);
+			 ApplicationLoader.getPreferences().setKPIRightFreqQ2(null);
+			 ApplicationLoader.getPreferences().setKPIRightFreqQ3(null);
+			 ApplicationLoader.getPreferences().setKPIRightFreqQ4(null);
+			 
+			 ApplicationLoader.getPreferences().setKPIPOBAvgQ1(null);
+			 ApplicationLoader.getPreferences().setKPIPOBAvgQ2(null);
+			 ApplicationLoader.getPreferences().setKPIPOBAvgQ3(null);
+			 ApplicationLoader.getPreferences().setKPIPOBAvgQ4(null);
+			 
+			 ApplicationLoader.getPreferences().setKPIRightFreqQ1(nullString);
+			 ApplicationLoader.getPreferences().setKPIRightFreqQ2(nullString);
+			 ApplicationLoader.getPreferences().setKPIRightFreqQ3(nullString);
+			 ApplicationLoader.getPreferences().setKPIRightFreqQ4(nullString);
+			 
+			 ApplicationLoader.getPreferences().setKPIPOBQ1(nullString);
+			 ApplicationLoader.getPreferences().setKPIPOBQ2(nullString);
+			 ApplicationLoader.getPreferences().setKPIPOBQ3(nullString);
+			 ApplicationLoader.getPreferences().setKPIPOBQ4(nullString);
+				
+			//Annual
+		}catch(Exception e){
 			Log.i(TAG, e.toString());
 		}
 	}
@@ -987,12 +1031,9 @@ public class Home1 extends Activity {
 					 * method stub mTableRow3.setVisibility(View.VISIBLE);
 					 * mIncenModule.setVisibility(View.VISIBLE); } });
 					 */
-					
-					/*
-					 * mTableRow3.setVisibility(View.VISIBLE);
-					 * mIncenModule.setVisibility(View.VISIBLE);
-					 * mTableLayout.invalidate();
-					 */
+					mTableRow3.setVisibility(View.VISIBLE);
+					mIncenModule.setVisibility(View.VISIBLE);
+					mTableLayout.invalidate();
 				}
 			}
 		} catch (Exception e) {

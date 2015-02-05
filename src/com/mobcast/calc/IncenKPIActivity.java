@@ -25,14 +25,13 @@ import android.view.WindowManager.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
-import com.mobcast.calc.IncenProductActivity.AsyncDataFromApi;
 import com.mobcast.util.BuildVars;
 import com.mobcast.util.Constants;
 import com.mobcast.util.RestClient;
@@ -50,7 +49,7 @@ public class IncenKPIActivity extends FragmentActivity {
 	private TextView mTotalTv;
 
 	private ListProductAdapter mAdapter;
-	private ArrayList<Product> mProduct;
+	private ArrayList<PrincipalProduct> mPrincipalProduct;
 	private ListView mListView;
 
 	private String[] mArrMonthName;
@@ -58,16 +57,23 @@ public class IncenKPIActivity extends FragmentActivity {
 	private int whichQuarter;
 
 	private int[] mCheckBoxSelected;
-	
-	private String [] mCoverageArr;
-	private String [] mCPAArr;
+
+	private String[] mCoverageArr;
+	private String[] mCPAArr;
 	private String mCoverageAvgArr;
 	private String mCPAAvgArr;
-	
+
+	private String[] mRightFrequencyAdd;
+	private String[] mPOBAdd;
+	private String mRightFrequencyAvgArr;
+	private String mPOBAvgArr;
+
 	private String mKPITotalArr;
-	
+
 	public float mWeightAgeCoverageTotal = 0.4f;
 	public float mWeightAgeCPATotal = 0.6f;
+	public float mWeightAgeRightFreqTotal = 0.3f;
+	public float mWeightAgePOBTotal = 0.3f;
 	public float mWeightAgeCPA;
 
 	private static final String TAG = IncenKPIActivity.class.getSimpleName();
@@ -91,8 +97,8 @@ public class IncenKPIActivity extends FragmentActivity {
 
 		mAccordionTotal = (AccordionView) findViewById(R.id.incen_kpi_total_acc_view);
 
-		mTotalTv = (TextView)findViewById(R.id.incen_kpi_total_incen);
-		
+		mTotalTv = (TextView) findViewById(R.id.incen_kpi_total_incen);
+
 		mTotalRsSy = (TextView) findViewById(R.id.incen_kpi_total_rs_sy);
 	}
 
@@ -129,33 +135,56 @@ public class IncenKPIActivity extends FragmentActivity {
 	 * DYNAMIC PRODUCTS
 	 */
 	private void setListView() {
-		if (mProduct!=null && mProduct.size() > 0) {
-			mAdapter = new ListProductAdapter(IncenKPIActivity.this, mProduct);
+		if (mPrincipalProduct != null && mPrincipalProduct.size() > 0) {
+			mAdapter = new ListProductAdapter(IncenKPIActivity.this,
+					mPrincipalProduct);
 			mListView.setAdapter(mAdapter);
 			// Utilities.setListViewHeightBasedOnChildren(mListView);
 			// mListView.setExpanded(true);
+		}
+
+		try {
+			if (ApplicationLoader.getPreferences().isIncenHeritageTeam()) {
+				mAdapter = new ListProductAdapter(IncenKPIActivity.this,
+						mPrincipalProduct);
+				mListView.setAdapter(mAdapter);
+			}
+		} catch (Exception e) {
+			Log.i(TAG, e.toString());
 		}
 	}
 
 	public class ListProductAdapter extends BaseAdapter {
 
 		public Context mContext;
-		public ArrayList<Product> mListProduct;
+		public ArrayList<PrincipalProduct> mListProduct;
 
 		public ListProductAdapter(Context mContext,
-				ArrayList<Product> mListProduct) {
+				ArrayList<PrincipalProduct> mListProduct) {
 			this.mContext = mContext;
 			this.mListProduct = mListProduct;
 			mWeightAgeCPA = mWeightAgeCPATotal / mListProduct.size();
-			mCheckBoxSelected = new int[mListProduct.size() + 3];
-			for (int i = 0; i < mListProduct.size() + 3; i++) {
-				mCheckBoxSelected[i] = 0;
+
+			if (ApplicationLoader.getPreferences().isIncenHeritageTeam()) {
+				mCheckBoxSelected = new int[9];
+				for (int i = 0; i < 9; i++) {
+					mCheckBoxSelected[i] = 0;
+				}
+			} else {
+				mCheckBoxSelected = new int[mListProduct.size() + 3];
+				for (int i = 0; i < mListProduct.size() + 3; i++) {
+					mCheckBoxSelected[i] = 0;
+				}
 			}
 		}
 
 		@Override
 		public int getCount() {
-			return mListProduct.size() + 3;
+			if (ApplicationLoader.getPreferences().isIncenHeritageTeam()) {
+				return 9;
+			} else {
+				return mListProduct.size() + 3;
+			}
 		}
 
 		@Override
@@ -200,186 +229,286 @@ public class IncenKPIActivity extends FragmentActivity {
 				holder = (ViewHolder) v.getTag();
 			}
 
-			switch (position) {
-			case 0:
-				holder.mListLabelLayout.setVisibility(View.VISIBLE);
-				holder.mListLabel.setText("Coverage");
-				holder.mListAccordionView.toggleSection(0);
-				holder.mListAccordionView
-						.setSectionHeaders(mArrMonthName[Utilities
-								.getCurrentMonth(whichQuarter)]);
+			if (ApplicationLoader.getPreferences().isIncenHeritageTeam()) {
+				switch (position) {
+				case 0:
+					holder.mListLabelLayout.setVisibility(View.VISIBLE);
+					holder.mListLabel.setText("Coverage");
+					holder.mListAccordionView.toggleSection(0);
+					holder.mListAccordionView
+							.setSectionHeaders(mArrMonthName[Utilities
+									.getCurrentMonth(whichQuarter)]);
 
-				break;
-			case 1:
-				holder.mListLabelLayout.setVisibility(View.GONE);
-				holder.mListAccordionView
-						.setSectionHeaders(mArrMonthName[Utilities
-								.getCurrentMonth(whichQuarter) + 1]);
-				break;
-			case 2:
-				holder.mListLabelLayout.setVisibility(View.GONE);
-				holder.mListAccordionView
-						.setSectionHeaders(mArrMonthName[Utilities
-								.getCurrentMonth(whichQuarter) + 2]);
-				break;
-			case 3:
-				holder.mListLabelLayout.setVisibility(View.VISIBLE);
-				holder.mListLabel.setText("CPA "
-						+ Utilities.getCPATitle(mProduct.size()));
-				holder.mListAccordionView.setSectionHeaders(mProduct.get(0)
-						.getmName());
-				break;
-			default:
-				holder.mListLabelLayout.setVisibility(View.GONE);
-				holder.mListAccordionView.setSectionHeaders(mProduct.get(
-						position - 3).getmName());
-				break;
+					break;
+				case 1:
+					holder.mListLabelLayout.setVisibility(View.GONE);
+					holder.mListAccordionView
+							.setSectionHeaders(mArrMonthName[Utilities
+									.getCurrentMonth(whichQuarter) + 1]);
+					break;
+				case 2:
+					holder.mListLabelLayout.setVisibility(View.GONE);
+					holder.mListAccordionView
+							.setSectionHeaders(mArrMonthName[Utilities
+									.getCurrentMonth(whichQuarter) + 2]);
+					break;
+				case 3:
+					holder.mListLabelLayout.setVisibility(View.VISIBLE);
+					holder.mListLabel.setText("Right Frequency");
+					holder.mListAccordionView
+							.setSectionHeaders(mArrMonthName[Utilities
+									.getCurrentMonth(whichQuarter)]);
+					break;
+				case 4:
+					holder.mListLabelLayout.setVisibility(View.GONE);
+					holder.mListAccordionView
+							.setSectionHeaders(mArrMonthName[Utilities
+									.getCurrentMonth(whichQuarter) + 1]);
+					break;
+				case 5:
+					holder.mListLabelLayout.setVisibility(View.GONE);
+					holder.mListAccordionView
+							.setSectionHeaders(mArrMonthName[Utilities
+									.getCurrentMonth(whichQuarter) + 2]);
+					break;
+				case 6:
+					holder.mListLabelLayout.setVisibility(View.VISIBLE);
+					holder.mListLabel.setText("POB");
+					holder.mListAccordionView
+							.setSectionHeaders(mArrMonthName[Utilities
+									.getCurrentMonth(whichQuarter)]);
+					break;
+				case 7:
+					holder.mListLabelLayout.setVisibility(View.GONE);
+					holder.mListAccordionView
+							.setSectionHeaders(mArrMonthName[Utilities
+									.getCurrentMonth(whichQuarter) + 1]);
+					break;
+				case 8:
+					holder.mListLabelLayout.setVisibility(View.GONE);
+					holder.mListAccordionView
+							.setSectionHeaders(mArrMonthName[Utilities
+									.getCurrentMonth(whichQuarter) + 2]);
+					break;
+				}
+			} else {
+				switch (position) {
+				case 0:
+					holder.mListLabelLayout.setVisibility(View.VISIBLE);
+					holder.mListLabel.setText("Coverage");
+					holder.mListAccordionView.toggleSection(0);
+					holder.mListAccordionView
+							.setSectionHeaders(mArrMonthName[Utilities
+									.getCurrentMonth(whichQuarter)]);
+
+					break;
+				case 1:
+					holder.mListLabelLayout.setVisibility(View.GONE);
+					holder.mListAccordionView
+							.setSectionHeaders(mArrMonthName[Utilities
+									.getCurrentMonth(whichQuarter) + 1]);
+					break;
+				case 2:
+					holder.mListLabelLayout.setVisibility(View.GONE);
+					holder.mListAccordionView
+							.setSectionHeaders(mArrMonthName[Utilities
+									.getCurrentMonth(whichQuarter) + 2]);
+					break;
+				case 3:
+					holder.mListLabelLayout.setVisibility(View.VISIBLE);
+					holder.mListLabel.setText("CPA "
+							+ Utilities.getFixedCPATitle(2));
+					holder.mListAccordionView
+							.setSectionHeaders(mPrincipalProduct.get(0)
+									.getmName());
+					break;
+				default:
+					holder.mListLabelLayout.setVisibility(View.GONE);
+					holder.mListAccordionView
+							.setSectionHeaders(mPrincipalProduct.get(
+									position - 3).getmName());
+					break;
+				}
 			}
 
-			setListCheckBoxGroup(holder.mListCheckBox1, holder.mListCheckBox2,
-					holder.mListCheckBox3, holder.mListCheckBox4,
-					holder.mListCheckBox5, position);
+			if (ApplicationLoader.getPreferences().isIncenHeritageTeam()) {
+				addSetListCheckBoxGroup(holder.mListCheckBox1,
+						holder.mListCheckBox2, holder.mListCheckBox3,
+						holder.mListCheckBox4, holder.mListCheckBox5, position);
 
-//			isCheckedAndToggleAccordion(holder.mListAccordionView,
-//					holder.mListCheckBox1, holder.mListCheckBox2,
-//					holder.mListCheckBox3, holder.mListCheckBox4,
-//					holder.mListCheckBox5, position);
-			
-			restoreQuarterType(whichQuarter, position, holder.mListCheckBox1,
-					holder.mListCheckBox2, holder.mListCheckBox3,
-					holder.mListCheckBox4, holder.mListCheckBox5);
-			
+				addRestoreQuarterType(whichQuarter, position,
+						holder.mListCheckBox1, holder.mListCheckBox2,
+						holder.mListCheckBox3, holder.mListCheckBox4,
+						holder.mListCheckBox5);
+
+			} else {
+				setListCheckBoxGroup(holder.mListCheckBox1,
+						holder.mListCheckBox2, holder.mListCheckBox3,
+						holder.mListCheckBox4, holder.mListCheckBox5, position);
+
+				restoreQuarterType(whichQuarter, position,
+						holder.mListCheckBox1, holder.mListCheckBox2,
+						holder.mListCheckBox3, holder.mListCheckBox4,
+						holder.mListCheckBox5);
+			}
+
 			return v;
 		}
-		
-		public void businessIncenLogic(){
-			
+
+		public void businessIncenLogic() {
+
 			float floatCoverageAvg = 0;
-			for(int i = 0 ;i < 3;i++){
-				floatCoverageAvg+= Integer.parseInt(mCoverageArr[i]);
+			for (int i = 0; i < 3; i++) {
+				floatCoverageAvg += Integer.parseInt(mCoverageArr[i]);
 			}
-			floatCoverageAvg /=3;
-			mCoverageAvgArr = String.valueOf(floatCoverageAvg * mWeightAgeCoverageTotal);
-			
+			floatCoverageAvg /= 3;
+			mCoverageAvgArr = String.valueOf(floatCoverageAvg
+					* mWeightAgeCoverageTotal);
+
 			float floatCPAAvg = 0;
-			for(int i = 0 ;i < mListProduct.size();i++){
+			for (int i = 0; i < mListProduct.size(); i++) {
 				Log.i("CPA", mCPAArr[i]);
-				floatCPAAvg+= Integer.parseInt(mCPAArr[i]) * (mWeightAgeCPATotal / mListProduct.size());
+				floatCPAAvg += Integer.parseInt(mCPAArr[i])
+						* (mWeightAgeCPATotal / mListProduct.size());
 			}
 			mCPAAvgArr = String.valueOf(floatCPAAvg);
-			if(Float.parseFloat(mCPAAvgArr) + Float.parseFloat(mCoverageAvgArr) >= 4.5){
+			if (Float.parseFloat(mCPAAvgArr)
+					+ Float.parseFloat(mCoverageAvgArr) >= 4.5) {
 				mKPITotalArr = "5000";
-			}else if(Float.parseFloat(mCPAAvgArr) + Float.parseFloat(mCoverageAvgArr) >= 4 && Float.parseFloat(mCPAAvgArr) + Float.parseFloat(mCoverageAvgArr) < 4.5){
+			} else if (Float.parseFloat(mCPAAvgArr)
+					+ Float.parseFloat(mCoverageAvgArr) >= 4
+					&& Float.parseFloat(mCPAAvgArr)
+							+ Float.parseFloat(mCoverageAvgArr) < 4.5) {
 				mKPITotalArr = "3750";
-			}else{
+			} else {
 				mKPITotalArr = "0";
 			}
-			
+
 			mTotalTv.setText(mKPITotalArr);
 			saveProductQuarter(whichQuarter);
 		}
-		
+
 		public void saveProductQuarter(int quarterType) {
 			switch (quarterType) {
 			case 1:
 				ApplicationLoader.getPreferences().setKPI1(mCPAArr);
 				ApplicationLoader.getPreferences().setKPIValue1(mCPAAvgArr);
-				
+
 				ApplicationLoader.getPreferences().setKPIQ1(mCoverageArr);
-				ApplicationLoader.getPreferences().setKPIQValue1(mCoverageAvgArr);
-				
-				ApplicationLoader.getPreferences().setKPITotalValue1(mKPITotalArr);
+				ApplicationLoader.getPreferences().setKPIQValue1(
+						mCoverageAvgArr);
+
+				ApplicationLoader.getPreferences().setKPITotalValue1(
+						mKPITotalArr);
 				break;
 			case 2:
 				ApplicationLoader.getPreferences().setKPI2(mCPAArr);
 				ApplicationLoader.getPreferences().setKPIValue2(mCPAAvgArr);
-				
+
 				ApplicationLoader.getPreferences().setKPIQ2(mCoverageArr);
-				ApplicationLoader.getPreferences().setKPIQValue2(mCoverageAvgArr);
-				
-				ApplicationLoader.getPreferences().setKPITotalValue2(mKPITotalArr);
+				ApplicationLoader.getPreferences().setKPIQValue2(
+						mCoverageAvgArr);
+
+				ApplicationLoader.getPreferences().setKPITotalValue2(
+						mKPITotalArr);
 				break;
 			case 3:
 				ApplicationLoader.getPreferences().setKPI3(mCPAArr);
 				ApplicationLoader.getPreferences().setKPIValue3(mCPAAvgArr);
-				
+
 				ApplicationLoader.getPreferences().setKPIQ3(mCoverageArr);
-				ApplicationLoader.getPreferences().setKPIQValue3(mCoverageAvgArr);
-				
-				ApplicationLoader.getPreferences().setKPITotalValue3(mKPITotalArr);
+				ApplicationLoader.getPreferences().setKPIQValue3(
+						mCoverageAvgArr);
+
+				ApplicationLoader.getPreferences().setKPITotalValue3(
+						mKPITotalArr);
 				break;
 			case 4:
 				ApplicationLoader.getPreferences().setKPI4(mCPAArr);
 				ApplicationLoader.getPreferences().setKPIValue4(mCPAAvgArr);
-				
+
 				ApplicationLoader.getPreferences().setKPIQ4(mCoverageArr);
-				ApplicationLoader.getPreferences().setKPIQValue4(mCoverageAvgArr);
-				
-				ApplicationLoader.getPreferences().setKPITotalValue4(mKPITotalArr);
+				ApplicationLoader.getPreferences().setKPIQValue4(
+						mCoverageAvgArr);
+
+				ApplicationLoader.getPreferences().setKPITotalValue4(
+						mKPITotalArr);
 				break;
 			}
 
 		}
-		
+
 		public void restoreQuarterType(int quarterType, int position,
 				CheckBox mCheck1, CheckBox mCheck2, CheckBox mCheck3,
 				CheckBox mCheck4, CheckBox mCheck5) {
 			mCoverageArr = new String[3];
-			mCPAArr = new String[mProduct.size()];
-			
+			mCPAArr = new String[mPrincipalProduct.size()];
+
 			switch (quarterType) {
 			case 1:
 				mCoverageArr = ApplicationLoader.getPreferences().getKPIQ1();
-				mCoverageAvgArr = ApplicationLoader.getPreferences().getKPIQValue1();
-				
-				mCPAArr = ApplicationLoader.getPreferences().getKPI1(mProduct.size());
+				mCoverageAvgArr = ApplicationLoader.getPreferences()
+						.getKPIQValue1();
+
+				mCPAArr = ApplicationLoader.getPreferences().getKPI1(
+						mPrincipalProduct.size());
 				mCPAAvgArr = ApplicationLoader.getPreferences().getKPIValue1();
-				
-				mKPITotalArr = ApplicationLoader.getPreferences().getKPITotalValue1();
-				
+
+				mKPITotalArr = ApplicationLoader.getPreferences()
+						.getKPITotalValue1();
+
 				break;
 			case 2:
 				mCoverageArr = ApplicationLoader.getPreferences().getKPIQ2();
-				mCoverageAvgArr = ApplicationLoader.getPreferences().getKPIQValue2();
-				
-				mCPAArr = ApplicationLoader.getPreferences().getKPI2(mProduct.size());
+				mCoverageAvgArr = ApplicationLoader.getPreferences()
+						.getKPIQValue2();
+
+				mCPAArr = ApplicationLoader.getPreferences().getKPI2(
+						mPrincipalProduct.size());
 				mCPAAvgArr = ApplicationLoader.getPreferences().getKPIValue2();
-				
-				mKPITotalArr = ApplicationLoader.getPreferences().getKPITotalValue2();
-				
+
+				mKPITotalArr = ApplicationLoader.getPreferences()
+						.getKPITotalValue2();
+
 				break;
 			case 3:
 				mCoverageArr = ApplicationLoader.getPreferences().getKPIQ3();
-				mCoverageAvgArr = ApplicationLoader.getPreferences().getKPIQValue3();
-				
-				mCPAArr = ApplicationLoader.getPreferences().getKPI3(mProduct.size());
+				mCoverageAvgArr = ApplicationLoader.getPreferences()
+						.getKPIQValue3();
+
+				mCPAArr = ApplicationLoader.getPreferences().getKPI3(
+						mPrincipalProduct.size());
 				mCPAAvgArr = ApplicationLoader.getPreferences().getKPIValue3();
-				
-				mKPITotalArr = ApplicationLoader.getPreferences().getKPITotalValue3();
-				
+
+				mKPITotalArr = ApplicationLoader.getPreferences()
+						.getKPITotalValue3();
+
 				break;
 			case 4:
 				mCoverageArr = ApplicationLoader.getPreferences().getKPIQ4();
-				mCoverageAvgArr = ApplicationLoader.getPreferences().getKPIQValue4();
-				
-				mCPAArr = ApplicationLoader.getPreferences().getKPI4(mProduct.size());
+				mCoverageAvgArr = ApplicationLoader.getPreferences()
+						.getKPIQValue4();
+
+				mCPAArr = ApplicationLoader.getPreferences().getKPI4(
+						mPrincipalProduct.size());
 				mCPAAvgArr = ApplicationLoader.getPreferences().getKPIValue4();
-				
-				mKPITotalArr = ApplicationLoader.getPreferences().getKPITotalValue4();
-				
+
+				mKPITotalArr = ApplicationLoader.getPreferences()
+						.getKPITotalValue4();
+
 				break;
 			}
 			checkValuesFromPreferencesNullOrNot();
 			setValuesFromPreferences(position, mCheck1, mCheck2, mCheck3,
 					mCheck4, mCheck5);
 		}
-		
+
 		public void setValuesFromPreferences(int mPosition, CheckBox mCheck1,
 				CheckBox mCheck2, CheckBox mCheck3, CheckBox mCheck4,
 				CheckBox mCheck5) {
 			switch (mPosition) {
 			case 0:
-				switch(Integer.parseInt(mCoverageArr[0])){
+				switch (Integer.parseInt(mCoverageArr[0])) {
 				case 5:
 					mCheck1.setChecked(true);
 					break;
@@ -398,7 +527,7 @@ public class IncenKPIActivity extends FragmentActivity {
 				}
 				break;
 			case 1:
-				switch(Integer.parseInt(mCoverageArr[1])){
+				switch (Integer.parseInt(mCoverageArr[1])) {
 				case 5:
 					mCheck1.setChecked(true);
 					break;
@@ -417,7 +546,7 @@ public class IncenKPIActivity extends FragmentActivity {
 				}
 				break;
 			case 2:
-				switch(Integer.parseInt(mCoverageArr[2])){
+				switch (Integer.parseInt(mCoverageArr[2])) {
 				case 5:
 					mCheck1.setChecked(true);
 					break;
@@ -436,7 +565,7 @@ public class IncenKPIActivity extends FragmentActivity {
 				}
 				break;
 			default:
-				switch(Integer.parseInt(mCPAArr[mPosition - 3])){
+				switch (Integer.parseInt(mCPAArr[mPosition - 3])) {
 				case 5:
 					mCheck1.setChecked(true);
 					break;
@@ -458,20 +587,20 @@ public class IncenKPIActivity extends FragmentActivity {
 			mTotalTv.setText(mKPITotalArr);
 		}
 
-		public void checkValuesFromPreferencesNullOrNot(){
-			for(int i = 0; i < mProduct.size() ;i++){
-				if(mCPAArr[i]==null){
+		public void checkValuesFromPreferencesNullOrNot() {
+			for (int i = 0; i < mPrincipalProduct.size(); i++) {
+				if (mCPAArr[i] == null) {
 					mCPAArr[i] = "1";
 				}
 			}
-			
-			for(int i = 0; i < 3 ;i++){
-				if(mCoverageArr[i]==null){
+
+			for (int i = 0; i < 3; i++) {
+				if (mCoverageArr[i] == null) {
 					mCoverageArr[i] = "1";
 				}
 			}
-			
-			if(mKPITotalArr == null){
+
+			if (mKPITotalArr == null) {
 				mKPITotalArr = "0";
 			}
 		}
@@ -533,11 +662,11 @@ public class IncenKPIActivity extends FragmentActivity {
 									mCoverageArr[2] = "5";
 									break;
 								default:
-									mCPAArr[position -3] = "5";
+									mCPAArr[position - 3] = "5";
 									break;
 								}
 								businessIncenLogic();
-							}else{
+							} else {
 								mCheckBoxSelected[position] = 1;
 								switch (position) {
 								case 0:
@@ -550,12 +679,12 @@ public class IncenKPIActivity extends FragmentActivity {
 									mCoverageArr[2] = "1";
 									break;
 								default:
-									mCPAArr[position -3] = "1";
+									mCPAArr[position - 3] = "1";
 									break;
 								}
 								businessIncenLogic();
 							}
-							
+
 						}
 					});
 
@@ -587,7 +716,7 @@ public class IncenKPIActivity extends FragmentActivity {
 									break;
 								}
 								businessIncenLogic();
-							}else{
+							} else {
 								mCheckBoxSelected[position] = 2;
 								switch (position) {
 								case 0:
@@ -632,11 +761,11 @@ public class IncenKPIActivity extends FragmentActivity {
 									mCoverageArr[2] = "3";
 									break;
 								default:
-									mCPAArr[position -3] = "3";
+									mCPAArr[position - 3] = "3";
 									break;
 								}
 								businessIncenLogic();
-							}else{
+							} else {
 								mCheckBoxSelected[position] = 3;
 								switch (position) {
 								case 0:
@@ -649,7 +778,7 @@ public class IncenKPIActivity extends FragmentActivity {
 									mCoverageArr[2] = "1";
 									break;
 								default:
-									mCPAArr[position -3] = "1";
+									mCPAArr[position - 3] = "1";
 									break;
 								}
 								businessIncenLogic();
@@ -685,7 +814,7 @@ public class IncenKPIActivity extends FragmentActivity {
 									break;
 								}
 								businessIncenLogic();
-							}else{
+							} else {
 								mCheckBoxSelected[position] = 4;
 								switch (position) {
 								case 0:
@@ -734,7 +863,7 @@ public class IncenKPIActivity extends FragmentActivity {
 									break;
 								}
 								businessIncenLogic();
-							}else{
+							} else {
 								mCheckBoxSelected[position] = 5;
 								switch (position) {
 								case 0:
@@ -755,6 +884,818 @@ public class IncenKPIActivity extends FragmentActivity {
 						}
 					});
 		}
+
+		/*
+		 * HERTIAGE TEAM
+		 */
+
+		public void addBusinessIncenLogic() {
+
+			float floatCoverageAvg = 0;
+			for (int i = 0; i < 3; i++) {
+				floatCoverageAvg += Integer.parseInt(mCoverageArr[i]);
+			}
+			floatCoverageAvg /= 3;
+			mCoverageAvgArr = String.valueOf(floatCoverageAvg
+					* mWeightAgeCoverageTotal);
+
+			float floatRightFreqAvg = 0;
+			for (int i = 0; i < 3; i++) {
+				floatRightFreqAvg += Integer.parseInt(mRightFrequencyAdd[i]);
+			}
+			floatRightFreqAvg /= 3;
+
+			mRightFrequencyAvgArr = String.valueOf(floatRightFreqAvg
+					* mWeightAgeRightFreqTotal);
+
+			float floatPOBAvg = 0;
+			for (int i = 0; i < 3; i++) {
+				floatPOBAvg += Integer.parseInt(mPOBAdd[i]);
+			}
+			floatPOBAvg /= 3;
+
+			mPOBAvgArr = String.valueOf(floatPOBAvg * mWeightAgeRightFreqTotal);
+
+			if (Float.parseFloat(mCoverageAvgArr)
+					+ Float.parseFloat(mRightFrequencyAvgArr)
+					+ Float.parseFloat(mPOBAvgArr) >= 4.5) {
+				mKPITotalArr = "5000";
+			} else if (Float.parseFloat(mCoverageAvgArr)
+					+ Float.parseFloat(mRightFrequencyAvgArr)
+					+ Float.parseFloat(mPOBAvgArr) >= 4
+					&& Float.parseFloat(mCoverageAvgArr)
+							+ Float.parseFloat(mRightFrequencyAvgArr)
+							+ Float.parseFloat(mPOBAvgArr) < 4.5) {
+				mKPITotalArr = "3750";
+			} else {
+				mKPITotalArr = "0";
+			}
+
+			mTotalTv.setText(mKPITotalArr);
+			addSaveProductQuarter(whichQuarter);
+		}
+
+		public void addSaveProductQuarter(int quarterType) {
+			switch (quarterType) {
+			case 1:
+				ApplicationLoader.getPreferences().setKPIQ1(mCoverageArr);
+				ApplicationLoader.getPreferences().setKPIQValue1(
+						mCoverageAvgArr);
+
+				ApplicationLoader.getPreferences().setKPIRightFreqQ1(
+						mRightFrequencyAdd);
+				ApplicationLoader.getPreferences().setKPIRightFreqAvgQ1(
+						mRightFrequencyAvgArr);
+
+				ApplicationLoader.getPreferences().setKPIPOBQ1(mPOBAdd);
+				ApplicationLoader.getPreferences().setKPIPOBAvgQ1(mPOBAvgArr);
+
+				ApplicationLoader.getPreferences().setKPITotalValue1(
+						mKPITotalArr);
+				break;
+			case 2:
+				ApplicationLoader.getPreferences().setKPIQ2(mCoverageArr);
+				ApplicationLoader.getPreferences().setKPIQValue2(
+						mCoverageAvgArr);
+
+				ApplicationLoader.getPreferences().setKPIRightFreqQ2(
+						mRightFrequencyAdd);
+				ApplicationLoader.getPreferences().setKPIRightFreqAvgQ2(
+						mRightFrequencyAvgArr);
+
+				ApplicationLoader.getPreferences().setKPIPOBQ2(mPOBAdd);
+				ApplicationLoader.getPreferences().setKPIPOBAvgQ2(mPOBAvgArr);
+
+				ApplicationLoader.getPreferences().setKPITotalValue2(
+						mKPITotalArr);
+				break;
+			case 3:
+				ApplicationLoader.getPreferences().setKPIQ3(mCoverageArr);
+				ApplicationLoader.getPreferences().setKPIQValue3(
+						mCoverageAvgArr);
+
+				ApplicationLoader.getPreferences().setKPIRightFreqQ3(
+						mRightFrequencyAdd);
+				ApplicationLoader.getPreferences().setKPIRightFreqAvgQ3(
+						mRightFrequencyAvgArr);
+
+				ApplicationLoader.getPreferences().setKPIPOBQ3(mPOBAdd);
+				ApplicationLoader.getPreferences().setKPIPOBAvgQ3(mPOBAvgArr);
+
+				ApplicationLoader.getPreferences().setKPITotalValue3(
+						mKPITotalArr);
+				break;
+			case 4:
+				ApplicationLoader.getPreferences().setKPIQ4(mCoverageArr);
+				ApplicationLoader.getPreferences().setKPIQValue4(
+						mCoverageAvgArr);
+
+				ApplicationLoader.getPreferences().setKPIRightFreqQ4(
+						mRightFrequencyAdd);
+				ApplicationLoader.getPreferences().setKPIRightFreqAvgQ4(
+						mRightFrequencyAvgArr);
+
+				ApplicationLoader.getPreferences().setKPIPOBQ4(mPOBAdd);
+				ApplicationLoader.getPreferences().setKPIPOBAvgQ4(mPOBAvgArr);
+
+				ApplicationLoader.getPreferences().setKPITotalValue4(
+						mKPITotalArr);
+				break;
+			}
+
+		}
+
+		public void addRestoreQuarterType(int quarterType, int position,
+				CheckBox mCheck1, CheckBox mCheck2, CheckBox mCheck3,
+				CheckBox mCheck4, CheckBox mCheck5) {
+			mCoverageArr = new String[3];
+			mRightFrequencyAdd = new String[3];
+			mPOBAdd = new String[3];
+
+			switch (quarterType) {
+			case 1:
+				mCoverageArr = ApplicationLoader.getPreferences().getKPIQ1();
+				mCoverageAvgArr = ApplicationLoader.getPreferences()
+						.getKPIQValue1();
+
+				mRightFrequencyAdd = ApplicationLoader.getPreferences()
+						.getKPIRightFreqQ1();
+				mPOBAdd = ApplicationLoader.getPreferences().getKPIPOBQ1();
+
+				mRightFrequencyAvgArr = ApplicationLoader.getPreferences()
+						.getKPIRightFreqAvgQ1();
+				mPOBAvgArr = ApplicationLoader.getPreferences()
+						.getKPIPOBAvgQ1();
+
+				mKPITotalArr = ApplicationLoader.getPreferences()
+						.getKPITotalValue1();
+
+				break;
+			case 2:
+				mCoverageArr = ApplicationLoader.getPreferences().getKPIQ2();
+				mCoverageAvgArr = ApplicationLoader.getPreferences()
+						.getKPIQValue2();
+
+				mRightFrequencyAdd = ApplicationLoader.getPreferences()
+						.getKPIRightFreqQ2();
+				mPOBAdd = ApplicationLoader.getPreferences().getKPIPOBQ2();
+
+				mRightFrequencyAvgArr = ApplicationLoader.getPreferences()
+						.getKPIRightFreqAvgQ2();
+				mPOBAvgArr = ApplicationLoader.getPreferences()
+						.getKPIPOBAvgQ2();
+
+				mKPITotalArr = ApplicationLoader.getPreferences()
+						.getKPITotalValue2();
+
+				break;
+			case 3:
+				mCoverageArr = ApplicationLoader.getPreferences().getKPIQ3();
+				mCoverageAvgArr = ApplicationLoader.getPreferences()
+						.getKPIQValue3();
+
+				mRightFrequencyAdd = ApplicationLoader.getPreferences()
+						.getKPIRightFreqQ3();
+				mPOBAdd = ApplicationLoader.getPreferences().getKPIPOBQ3();
+
+				mRightFrequencyAvgArr = ApplicationLoader.getPreferences()
+						.getKPIRightFreqAvgQ3();
+				mPOBAvgArr = ApplicationLoader.getPreferences()
+						.getKPIPOBAvgQ3();
+
+				mKPITotalArr = ApplicationLoader.getPreferences()
+						.getKPITotalValue3();
+
+				break;
+			case 4:
+				mCoverageArr = ApplicationLoader.getPreferences().getKPIQ4();
+				mCoverageAvgArr = ApplicationLoader.getPreferences()
+						.getKPIQValue4();
+
+				mRightFrequencyAdd = ApplicationLoader.getPreferences()
+						.getKPIRightFreqQ4();
+				mPOBAdd = ApplicationLoader.getPreferences().getKPIPOBQ4();
+
+				mRightFrequencyAvgArr = ApplicationLoader.getPreferences()
+						.getKPIRightFreqAvgQ4();
+				mPOBAvgArr = ApplicationLoader.getPreferences()
+						.getKPIPOBAvgQ4();
+
+				mKPITotalArr = ApplicationLoader.getPreferences()
+						.getKPITotalValue4();
+
+				break;
+			}
+			addCheckValuesFromPreferencesNullOrNot();
+			addSetValuesFromPreferences(position, mCheck1, mCheck2, mCheck3,
+					mCheck4, mCheck5);
+		}
+
+		public void addCheckValuesFromPreferencesNullOrNot() {
+
+			for (int i = 0; i < 3; i++) {
+				if (mCoverageArr[i] == null) {
+					mCoverageArr[i] = "1";
+				}
+			}
+
+			for (int i = 0; i < 3; i++) {
+				if (mRightFrequencyAdd[i] == null) {
+					mRightFrequencyAdd[i] = "1";
+				}
+			}
+
+			for (int i = 0; i < 3; i++) {
+				if (mPOBAdd[i] == null) {
+					mPOBAdd[i] = "1";
+				}
+			}
+
+			if (mKPITotalArr == null) {
+				mKPITotalArr = "0";
+			}
+		}
+
+		public void addSetValuesFromPreferences(int mPosition,
+				CheckBox mCheck1, CheckBox mCheck2, CheckBox mCheck3,
+				CheckBox mCheck4, CheckBox mCheck5) {
+			switch (mPosition) {
+			case 0:
+				switch (Integer.parseInt(mCoverageArr[0])) {
+				case 5:
+					mCheck1.setChecked(true);
+					break;
+				case 4:
+					mCheck2.setChecked(true);
+					break;
+				case 3:
+					mCheck3.setChecked(true);
+					break;
+				case 2:
+					mCheck4.setChecked(true);
+					break;
+				case 1:
+					mCheck5.setChecked(true);
+					break;
+				}
+				break;
+			case 1:
+				switch (Integer.parseInt(mCoverageArr[1])) {
+				case 5:
+					mCheck1.setChecked(true);
+					break;
+				case 4:
+					mCheck2.setChecked(true);
+					break;
+				case 3:
+					mCheck3.setChecked(true);
+					break;
+				case 2:
+					mCheck4.setChecked(true);
+					break;
+				case 1:
+					mCheck5.setChecked(true);
+					break;
+				}
+				break;
+			case 2:
+				switch (Integer.parseInt(mCoverageArr[2])) {
+				case 5:
+					mCheck1.setChecked(true);
+					break;
+				case 4:
+					mCheck2.setChecked(true);
+					break;
+				case 3:
+					mCheck3.setChecked(true);
+					break;
+				case 2:
+					mCheck4.setChecked(true);
+					break;
+				case 1:
+					mCheck5.setChecked(true);
+					break;
+				}
+				break;
+			case 3:
+				switch (Integer.parseInt(mRightFrequencyAdd[0])) {
+				case 5:
+					mCheck1.setChecked(true);
+					break;
+				case 4:
+					mCheck2.setChecked(true);
+					break;
+				case 3:
+					mCheck3.setChecked(true);
+					break;
+				case 2:
+					mCheck4.setChecked(true);
+					break;
+				case 1:
+					mCheck5.setChecked(true);
+					break;
+				}
+				break;
+			case 4:
+				switch (Integer.parseInt(mRightFrequencyAdd[1])) {
+				case 5:
+					mCheck1.setChecked(true);
+					break;
+				case 4:
+					mCheck2.setChecked(true);
+					break;
+				case 3:
+					mCheck3.setChecked(true);
+					break;
+				case 2:
+					mCheck4.setChecked(true);
+					break;
+				case 1:
+					mCheck5.setChecked(true);
+					break;
+				}
+				break;
+			case 5:
+				switch (Integer.parseInt(mRightFrequencyAdd[2])) {
+				case 5:
+					mCheck1.setChecked(true);
+					break;
+				case 4:
+					mCheck2.setChecked(true);
+					break;
+				case 3:
+					mCheck3.setChecked(true);
+					break;
+				case 2:
+					mCheck4.setChecked(true);
+					break;
+				case 1:
+					mCheck5.setChecked(true);
+					break;
+				}
+				break;
+			case 6:
+				switch (Integer.parseInt(mPOBAdd[0])) {
+				case 5:
+					mCheck1.setChecked(true);
+					break;
+				case 4:
+					mCheck2.setChecked(true);
+					break;
+				case 3:
+					mCheck3.setChecked(true);
+					break;
+				case 2:
+					mCheck4.setChecked(true);
+					break;
+				case 1:
+					mCheck5.setChecked(true);
+					break;
+				}
+				break;
+			case 7:
+				switch (Integer.parseInt(mPOBAdd[1])) {
+				case 5:
+					mCheck1.setChecked(true);
+					break;
+				case 4:
+					mCheck2.setChecked(true);
+					break;
+				case 3:
+					mCheck3.setChecked(true);
+					break;
+				case 2:
+					mCheck4.setChecked(true);
+					break;
+				case 1:
+					mCheck5.setChecked(true);
+					break;
+				}
+				break;
+			case 8:
+				switch (Integer.parseInt(mPOBAdd[2])) {
+				case 5:
+					mCheck1.setChecked(true);
+					break;
+				case 4:
+					mCheck2.setChecked(true);
+					break;
+				case 3:
+					mCheck3.setChecked(true);
+					break;
+				case 2:
+					mCheck4.setChecked(true);
+					break;
+				case 1:
+					mCheck5.setChecked(true);
+					break;
+				}
+				break;
+			}
+			mTotalTv.setText(mKPITotalArr);
+		}
+
+		public void addSetListCheckBoxGroup(final CheckBox mCheckBox1,
+				final CheckBox mCheckBox2, final CheckBox mCheckBox3,
+				final CheckBox mCheckBox4, final CheckBox mCheckBox5,
+				final int position) {
+
+			mCheckBox1
+					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+						@Override
+						public void onCheckedChanged(CompoundButton arg0,
+								boolean isChecked) {
+							// TODO Auto-generated method stub
+							if (isChecked) {
+								mCheckBox2.setChecked(false);
+								mCheckBox3.setChecked(false);
+								mCheckBox4.setChecked(false);
+								mCheckBox5.setChecked(false);
+								mCheckBoxSelected[position] = 1;
+								switch (position) {
+								case 0:
+									mCoverageArr[0] = "5";
+									break;
+								case 1:
+									mCoverageArr[1] = "5";
+									break;
+								case 2:
+									mCoverageArr[2] = "5";
+									break;
+								case 3:
+									mRightFrequencyAdd[0] = "5";
+									break;
+								case 4:
+									mRightFrequencyAdd[1] = "5";
+									break;
+								case 5:
+									mRightFrequencyAdd[2] = "5";
+									break;
+								case 6:
+									mPOBAdd[0] = "5";
+									break;
+								case 7:
+									mPOBAdd[1] = "5";
+									break;
+								case 8:
+									mPOBAdd[2] = "5";
+									break;
+								}
+								addBusinessIncenLogic();
+							} else {
+								mCheckBoxSelected[position] = 1;
+								switch (position) {
+								case 0:
+									mCoverageArr[0] = "1";
+									break;
+								case 1:
+									mCoverageArr[1] = "1";
+									break;
+								case 2:
+									mCoverageArr[2] = "1";
+									break;
+								case 3:
+									mRightFrequencyAdd[0] = "1";
+									break;
+								case 4:
+									mRightFrequencyAdd[1] = "1";
+									break;
+								case 5:
+									mRightFrequencyAdd[2] = "1";
+									break;
+								case 6:
+									mPOBAdd[0] = "1";
+									break;
+								case 7:
+									mPOBAdd[1] = "1";
+									break;
+								case 8:
+									mPOBAdd[2] = "1";
+									break;
+								}
+								addBusinessIncenLogic();
+							}
+
+						}
+					});
+
+			mCheckBox2
+					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+						@Override
+						public void onCheckedChanged(CompoundButton buttonView,
+								boolean isChecked) {
+							// TODO Auto-generated method stub
+							if (isChecked) {
+								mCheckBox1.setChecked(false);
+								mCheckBox3.setChecked(false);
+								mCheckBox4.setChecked(false);
+								mCheckBox5.setChecked(false);
+								mCheckBoxSelected[position] = 2;
+								switch (position) {
+								case 0:
+									mCoverageArr[0] = "4";
+									break;
+								case 1:
+									mCoverageArr[1] = "4";
+									break;
+								case 2:
+									mCoverageArr[2] = "4";
+									break;
+								case 3:
+									mRightFrequencyAdd[0] = "4";
+									break;
+								case 4:
+									mRightFrequencyAdd[1] = "4";
+									break;
+								case 5:
+									mRightFrequencyAdd[2] = "4";
+									break;
+								case 6:
+									mPOBAdd[0] = "4";
+									break;
+								case 7:
+									mPOBAdd[1] = "4";
+									break;
+								case 8:
+									mPOBAdd[2] = "4";
+									break;
+								}
+								addBusinessIncenLogic();
+							} else {
+								mCheckBoxSelected[position] = 2;
+								switch (position) {
+								case 0:
+									mCoverageArr[0] = "1";
+									break;
+								case 1:
+									mCoverageArr[1] = "1";
+									break;
+								case 2:
+									mCoverageArr[2] = "1";
+									break;
+								case 3:
+									mRightFrequencyAdd[0] = "1";
+									break;
+								case 4:
+									mRightFrequencyAdd[1] = "1";
+									break;
+								case 5:
+									mRightFrequencyAdd[2] = "1";
+									break;
+								case 6:
+									mPOBAdd[0] = "1";
+									break;
+								case 7:
+									mPOBAdd[1] = "1";
+									break;
+								case 8:
+									mPOBAdd[2] = "1";
+									break;
+								}
+								addBusinessIncenLogic();
+							}
+						}
+					});
+
+			mCheckBox3
+					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+						@Override
+						public void onCheckedChanged(CompoundButton buttonView,
+								boolean isChecked) {
+							// TODO Auto-generated method stub
+							if (isChecked) {
+								mCheckBox1.setChecked(false);
+								mCheckBox2.setChecked(false);
+								mCheckBox4.setChecked(false);
+								mCheckBox5.setChecked(false);
+								mCheckBoxSelected[position] = 3;
+								switch (position) {
+								case 0:
+									mCoverageArr[0] = "3";
+									break;
+								case 1:
+									mCoverageArr[1] = "3";
+									break;
+								case 2:
+									mCoverageArr[2] = "3";
+									break;
+								case 3:
+									mRightFrequencyAdd[0] = "3";
+									break;
+								case 4:
+									mRightFrequencyAdd[1] = "3";
+									break;
+								case 5:
+									mRightFrequencyAdd[2] = "3";
+									break;
+								case 6:
+									mPOBAdd[0] = "3";
+									break;
+								case 7:
+									mPOBAdd[1] = "3";
+									break;
+								case 8:
+									mPOBAdd[2] = "3";
+									break;
+								}
+								addBusinessIncenLogic();
+							} else {
+								mCheckBoxSelected[position] = 3;
+								switch (position) {
+								case 0:
+									mCoverageArr[0] = "1";
+									break;
+								case 1:
+									mCoverageArr[1] = "1";
+									break;
+								case 2:
+									mCoverageArr[2] = "1";
+									break;
+								case 3:
+									mRightFrequencyAdd[0] = "1";
+									break;
+								case 4:
+									mRightFrequencyAdd[1] = "1";
+									break;
+								case 5:
+									mRightFrequencyAdd[2] = "1";
+									break;
+								case 6:
+									mPOBAdd[0] = "1";
+									break;
+								case 7:
+									mPOBAdd[1] = "1";
+									break;
+								case 8:
+									mPOBAdd[2] = "1";
+									break;
+								}
+								addBusinessIncenLogic();
+							}
+						}
+					});
+
+			mCheckBox4
+					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+						@Override
+						public void onCheckedChanged(CompoundButton buttonView,
+								boolean isChecked) {
+							// TODO Auto-generated method stub
+							if (isChecked) {
+								mCheckBox1.setChecked(false);
+								mCheckBox2.setChecked(false);
+								mCheckBox3.setChecked(false);
+								mCheckBox5.setChecked(false);
+								mCheckBoxSelected[position] = 4;
+								switch (position) {
+								case 0:
+									mCoverageArr[0] = "2";
+									break;
+								case 1:
+									mCoverageArr[1] = "2";
+									break;
+								case 2:
+									mCoverageArr[2] = "2";
+									break;
+								case 3:
+									mRightFrequencyAdd[0] = "2";
+									break;
+								case 4:
+									mRightFrequencyAdd[1] = "2";
+									break;
+								case 5:
+									mRightFrequencyAdd[2] = "2";
+									break;
+								case 6:
+									mPOBAdd[0] = "2";
+									break;
+								case 7:
+									mPOBAdd[1] = "2";
+									break;
+								case 8:
+									mPOBAdd[2] = "2";
+									break;
+								}
+								addBusinessIncenLogic();
+							} else {
+								mCheckBoxSelected[position] = 4;
+								switch (position) {
+								case 0:
+									mCoverageArr[0] = "1";
+									break;
+								case 1:
+									mCoverageArr[1] = "1";
+									break;
+								case 2:
+									mCoverageArr[2] = "1";
+									break;
+								case 3:
+									mRightFrequencyAdd[0] = "1";
+									break;
+								case 4:
+									mRightFrequencyAdd[1] = "1";
+									break;
+								case 5:
+									mRightFrequencyAdd[2] = "1";
+									break;
+								case 6:
+									mPOBAdd[0] = "1";
+									break;
+								case 7:
+									mPOBAdd[1] = "1";
+									break;
+								case 8:
+									mPOBAdd[2] = "1";
+									break;
+								}
+								addBusinessIncenLogic();
+							}
+						}
+					});
+
+			mCheckBox5
+					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+						@Override
+						public void onCheckedChanged(CompoundButton buttonView,
+								boolean isChecked) {
+							// TODO Auto-generated method stub
+							if (isChecked) {
+								mCheckBox1.setChecked(false);
+								mCheckBox2.setChecked(false);
+								mCheckBox3.setChecked(false);
+								mCheckBox4.setChecked(false);
+								mCheckBoxSelected[position] = 5;
+								switch (position) {
+								case 0:
+									mCoverageArr[0] = "1";
+									break;
+								case 1:
+									mCoverageArr[1] = "1";
+									break;
+								case 2:
+									mCoverageArr[2] = "1";
+									break;
+								case 3:
+									mRightFrequencyAdd[0] = "1";
+									break;
+								case 4:
+									mRightFrequencyAdd[1] = "1";
+									break;
+								case 5:
+									mRightFrequencyAdd[2] = "1";
+									break;
+								case 6:
+									mPOBAdd[0] = "1";
+									break;
+								case 7:
+									mPOBAdd[1] = "1";
+									break;
+								case 8:
+									mPOBAdd[2] = "1";
+									break;
+								}
+								addBusinessIncenLogic();
+							} else {
+								mCheckBoxSelected[position] = 5;
+								switch (position) {
+								case 0:
+									mCoverageArr[0] = "1";
+									break;
+								case 1:
+									mCoverageArr[1] = "1";
+									break;
+								case 2:
+									mCoverageArr[2] = "1";
+									break;
+								case 3:
+									mRightFrequencyAdd[0] = "1";
+									break;
+								case 4:
+									mRightFrequencyAdd[1] = "1";
+									break;
+								case 5:
+									mRightFrequencyAdd[2] = "1";
+									break;
+								case 6:
+									mPOBAdd[0] = "1";
+									break;
+								case 7:
+									mPOBAdd[1] = "1";
+									break;
+								case 8:
+									mPOBAdd[2] = "1";
+									break;
+								}
+								addBusinessIncenLogic();
+							}
+						}
+					});
+		}
 	}
 
 	static class ViewHolder {
@@ -770,14 +1711,14 @@ public class IncenKPIActivity extends FragmentActivity {
 	}
 
 	public void getProductJSON() {
-		if(!BuildVars.debug){
+		if (!BuildVars.debug) {
 			if (!TextUtils.isEmpty(ApplicationLoader.getPreferences()
 					.getProductJSON())) {
 				parseJSON(ApplicationLoader.getPreferences().getProductJSON());
 			} else {
 				showAlertDialog();
 			}
-		}else{
+		} else {
 			String str = Utilities.readFile("data.json");
 			parseJSON(str);
 		}
@@ -788,28 +1729,40 @@ public class IncenKPIActivity extends FragmentActivity {
 	}
 
 	public void getProductList(String str) {
-		mProduct = new ArrayList<Product>();
+		mPrincipalProduct = new ArrayList<PrincipalProduct>();
 
 		try {
 			JSONObject mJSONObj = new JSONObject(str);
-			JSONArray mJSONArray = mJSONObj.getJSONArray("products");
+			JSONArray mJSONArray = mJSONObj.getJSONArray("principleProduct");
+
+			try {
+				ApplicationLoader.getPreferences().setIncenTeamName(
+						mJSONObj.getString("team"));
+				if (ApplicationLoader.getPreferences().getIncenTeamName()
+						.compareToIgnoreCase("Bio Surgery") == 0) {
+					ApplicationLoader.getPreferences().setIncenBioSurgeryTeam(
+							true);
+				} else if (ApplicationLoader.getPreferences()
+						.getIncenTeamName().compareToIgnoreCase("Renal Team") == 0) {
+					ApplicationLoader.getPreferences().setIncenRenealTeam(true);
+				} else if (ApplicationLoader.getPreferences()
+						.getIncenTeamName().compareToIgnoreCase("Heritage-OTC") == 0) {
+					ApplicationLoader.getPreferences().setIncenHeritageTeam(
+							true);
+				}
+				
+				ApplicationLoader.getPreferences().setPrincipalProductNumber(
+						String.valueOf(mJSONArray.length()));
+			} catch (Exception e) {
+				Log.i(TAG, e.toString());
+			}
 
 			for (int i = 0; i < mJSONArray.length(); i++) {
-				Product mObj = new Product();
+				PrincipalProduct mObj = new PrincipalProduct();
 				JSONObject mInnerJSONObj = mJSONArray.getJSONObject(i);
 
-				mObj.setmMax(mInnerJSONObj.getString("max"));
-				mObj.setmMin(mInnerJSONObj.getString("min"));
 				mObj.setmName(mInnerJSONObj.getString("name"));
-
-				String[] mSlab = new String[(Integer.parseInt(mObj.getmMax()) - Integer
-						.parseInt(mObj.getmMin())) + 1];
-				for (int j = 0; j < (Integer.parseInt(mObj.getmMax())
-						- Integer.parseInt(mObj.getmMin()) + 1); j++) {
-					mSlab[j] = mInnerJSONObj.getString("slab" + (j + 1));
-				}
-				mObj.setmSlab(mSlab);
-				mProduct.add(mObj);
+				mPrincipalProduct.add(mObj);
 			}
 
 		} catch (JSONException e) {
@@ -817,7 +1770,7 @@ public class IncenKPIActivity extends FragmentActivity {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void showAlertDialog() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				IncenKPIActivity.this);
@@ -827,15 +1780,16 @@ public class IncenKPIActivity extends FragmentActivity {
 
 		// set dialog message
 		alertDialogBuilder
-				.setMessage("Will try again to get your respective product list")
+				.setMessage(
+						"Will try again to get your respective product list")
 				.setCancelable(false)
 				.setPositiveButton("Try Again",
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 								// if this button is clicked, close
 								// current activity
-//								ApplicationLoader.getPreferences().setIncenFirstTime(true);
-//								finish();
+								// ApplicationLoader.getPreferences().setIncenFirstTime(true);
+								// finish();
 								if (Utilities.isInternetConnected()) {
 									new AsyncDataFromApi(true).execute();
 								} else {
@@ -854,21 +1808,22 @@ public class IncenKPIActivity extends FragmentActivity {
 		// show it
 		alertDialog.show();
 	}
-	
-	public class AsyncDataFromApi extends AsyncTask<Void, Void, Void>{
+
+	public class AsyncDataFromApi extends AsyncTask<Void, Void, Void> {
 		private ProgressDialog mProgress;
 		private boolean isProductData = false;
 		private boolean forceUser = false;
 		private String strJSONData;
-		
-		public AsyncDataFromApi(boolean forceUser){
+
+		public AsyncDataFromApi(boolean forceUser) {
 			this.forceUser = forceUser;
 		}
+
 		@Override
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
-			if(forceUser){
+			if (forceUser) {
 				mProgress = new ProgressDialog(IncenKPIActivity.this);
 				mProgress.setMessage("Please wait");
 				mProgress.setCanceledOnTouchOutside(false);
@@ -876,28 +1831,29 @@ public class IncenKPIActivity extends FragmentActivity {
 				mProgress.show();
 			}
 		}
-		
+
 		@Override
 		protected Void doInBackground(Void... params) {
 			// TODO Auto-generated method stub
 			SharedPreferences pref;
 			pref = getSharedPreferences("MobCastPref", 0);
 			String temp1 = pref.getString("name", "tushar@mobcast.in");
-			
+
 			HashMap<String, String> formValue = new HashMap<String, String>();
 			formValue.put("device", "android");
-			if(!BuildVars.debug){
+			if (!BuildVars.debug) {
 				formValue.put(com.mobcast.util.Constants.user_id, temp1);
-			}else{
-				formValue.put(com.mobcast.util.Constants.user_id, "tushar@mobcast.in");
+			} else {
+				formValue.put(com.mobcast.util.Constants.user_id,
+						"tushar@mobcast.in");
 			}
 
 			String str = RestClient
 					.postData(Constants.INCEN_PRODUCT, formValue);
 			try {
 				JSONObject mJSONObj = new JSONObject(str);
-				JSONArray  mJSONArray = mJSONObj.getJSONArray("products");
-				if(mJSONArray.length() > 0){
+				JSONArray mJSONArray = mJSONObj.getJSONArray("products");
+				if (mJSONArray.length() > 0) {
 					isProductData = true;
 					strJSONData = str;
 				}
@@ -912,28 +1868,28 @@ public class IncenKPIActivity extends FragmentActivity {
 		protected void onPostExecute(Void result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
-			if(forceUser){
-				if(mProgress!=null)
+			if (forceUser) {
+				if (mProgress != null)
 					mProgress.dismiss();
 			}
-			
-			if(isProductData){
+
+			if (isProductData) {
 				ApplicationLoader.getPreferences().setProductJSON(strJSONData);
 				ApplicationLoader.getPreferences().setIncenFirstTime(true);
 			}
 			getProductJSON();
 		}
 	}
-	
-	private void setSecurity(){
+
+	private void setSecurity() {
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			if(!BuildVars.debug){
+			if (!BuildVars.debug) {
 				getWindow().setFlags(LayoutParams.FLAG_SECURE,
 						LayoutParams.FLAG_SECURE);
 			}
 		}
 	}
-	
+
 	/*
 	 * Flurry Analytics
 	 */

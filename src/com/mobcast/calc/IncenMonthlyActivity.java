@@ -1,3 +1,16 @@
+/* HISTORY
+ * CATEGORY 		:- ACTIVITY
+ * DEVELOPER		:- VIKALP PATEL
+ * AIM			    :- INCENTIVE MONTHLY ACTIVITY
+ * DESCRIPTION 		:- SHOWS INCENTIVE MONTH SCREEN
+ * 
+ * S - START E- END  C- COMMENTED  U -EDITED A -ADDED
+ * --------------------------------------------------------------------------------------------------------------------
+ * INDEX       DEVELOPER		DATE			FUNCTION		DESCRIPTION
+ * --------------------------------------------------------------------------------------------------------------------
+ * 10001       VIKALP PATEL    01/01/2015       				CREATED
+ * --------------------------------------------------------------------------------------------------------------------
+ */
 package com.mobcast.calc;
 
 import java.util.HashMap;
@@ -37,6 +50,10 @@ import com.mobcast.view.Slider.OnValueChangedListener;
 import com.sanofi.in.mobcast.ApplicationLoader;
 import com.sanofi.in.mobcast.R;
 
+/**
+ * @author Vikalp Patel(VikalpPatelCE)
+ * 
+ */
 public class IncenMonthlyActivity extends FragmentActivity {
 
 	private AccordionView mAccordionMon1;
@@ -93,6 +110,11 @@ public class IncenMonthlyActivity extends FragmentActivity {
 	private static final String TAG = IncenMonthlyActivity.class
 			.getSimpleName();
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -109,6 +131,11 @@ public class IncenMonthlyActivity extends FragmentActivity {
 		setListener();
 	}
 
+	/**
+	 * Initialize Ui elements
+	 * 
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void initUi() {
 		mAccordionMon1 = (AccordionView) findViewById(R.id.incen_month_acc_view_1);
 		mAccordionMon2 = (AccordionView) findViewById(R.id.incen_month_acc_view_2);
@@ -144,6 +171,11 @@ public class IncenMonthlyActivity extends FragmentActivity {
 		mTotalMonth = (TextView) findViewById(R.id.incen_month_total_incen);
 	}
 
+	/**
+	 * Intent : Get Intent Data : Which Quarter
+	 * 
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void getIntentData() {
 		whichQuarter = Integer.parseInt(getIntent().getStringExtra(
 				IncenDashBoardActivity.INTENT_QUARTER));
@@ -155,6 +187,11 @@ public class IncenMonthlyActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Ui : Sets Accordion Header
+	 * 
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setAccordionHeader() {
 		mAccordionMon1.toggleSection(0);
 		mAccordionMonTotal.toggleSection(0);
@@ -169,6 +206,11 @@ public class IncenMonthlyActivity extends FragmentActivity {
 		mAccordionMonTotal.setSectionHeaders("Total");
 	}
 
+	/**
+	 * Ui : Sets Accordion Total Header
+	 * 
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setTextAccordingToQuarter() {
 		mTotalMonthName1.setText("Total "
 				+ mArrMonthName[Utilities.getCurrentMonth(whichQuarter)]
@@ -181,6 +223,11 @@ public class IncenMonthlyActivity extends FragmentActivity {
 				+ " : ");
 	}
 
+	/**
+	 * Ui : Sets Ui Listener
+	 * 
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setListener() {
 
 		mMonthSlider1.setOnValueChangedListener(new OnValueChangedListener() {
@@ -342,6 +389,13 @@ public class IncenMonthlyActivity extends FragmentActivity {
 				});
 	}
 
+	/**
+	 * Validation : Validate Incentive Percentage
+	 * 
+	 * @param mString
+	 * @param whichSlider
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void validateEditBox(String mString, int whichSlider) {
 		try {
 			if (!TextUtils.isEmpty(mString.toString())) {
@@ -493,6 +547,13 @@ public class IncenMonthlyActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * BusinessLogic : Apply Incentive Business Logic
+	 * 
+	 * @param isPointToZero
+	 * @param month
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void businessIncenLogic(boolean isPointToZero, int month) {
 		try {
 			if (mMidMonthCheckBox1.isChecked()
@@ -578,6 +639,12 @@ public class IncenMonthlyActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Preferences : Save values in Preferences
+	 * 
+	 * @param whichQuarter
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void saveMonthlyValues(int whichQuarter) {
 		switch (whichQuarter) {
 		case 1:
@@ -620,6 +687,11 @@ public class IncenMonthlyActivity extends FragmentActivity {
 
 	}
 
+	/**
+	 * Restore : Values from Preferences
+	 * 
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void restoreValueFromPreferences() {
 		mMonthCheckValueArr = new String[] { "false", "false", "false" };
 		mMonthTotalValueArr = new String[] { "0", "0", "0" };
@@ -665,6 +737,11 @@ public class IncenMonthlyActivity extends FragmentActivity {
 		setValuesFromPreferences();
 	}
 
+	/**
+	 * Restore : Check values retrieve from Preferences whether its null or not
+	 * 
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void checkValuesFromPreferencesNullOrNot() {
 		for (int i = 0; i < 3; i++) {
 			if (mMonthCheckValueArr[i] == null) {
@@ -706,6 +783,11 @@ public class IncenMonthlyActivity extends FragmentActivity {
 
 	}
 
+	/**
+	 * Ui & Preferences : Sets values to Ui Elements
+	 * 
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setValuesFromPreferences() {
 		mMonthPer1.setText(mPerValueArr[0]);
 		mMonthPer2.setText(mPerValueArr[1]);
@@ -726,6 +808,10 @@ public class IncenMonthlyActivity extends FragmentActivity {
 		mTotalMonth.setText(mTotalArr);
 	}
 
+	/**
+	 * Ui : Sets Rupee Font
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setRupeeFont() {
 		mTypeFace = Utilities.getFontStyleRupee();
 
@@ -740,6 +826,10 @@ public class IncenMonthlyActivity extends FragmentActivity {
 		mTotalRsSy.setText("`");
 	}
 
+	/**
+	 * Security : Couldn't capture ScreenShot
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setSecurity() {
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			if (!BuildVars.debug) {
@@ -753,6 +843,10 @@ public class IncenMonthlyActivity extends FragmentActivity {
 	 * Get Data From JSON
 	 */
 
+	/**
+	 * API : Get Base JSON
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void getBaseJSON() {
 		if (!BuildVars.debug) {
 			if (!TextUtils.isEmpty(ApplicationLoader.getPreferences()
@@ -768,10 +862,20 @@ public class IncenMonthlyActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Parse : Parse JSON
+	 * @param str
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void parseJSON(String str) {
 		getMonthBase(str);
 	}
 
+	/**
+	 * Parse : Parse JSON from Preferences
+	 * @param str
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void getMonthBase(String str) {
 		try {
 			JSONObject mJSONObj = new JSONObject(str);
@@ -801,6 +905,10 @@ public class IncenMonthlyActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Dialog : Show Dialog if no data found in Preferences
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void showAlertDialog() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				IncenMonthlyActivity.this);
@@ -838,6 +946,11 @@ public class IncenMonthlyActivity extends FragmentActivity {
 		alertDialog.show();
 	}
 
+	/**
+	 * Async Task : Get Incentive Base value from Preferences
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 *
+	 */
 	public class AsyncBaseDataFromApi extends AsyncTask<Void, Void, Void> {
 		private ProgressDialog mProgress;
 		private boolean isMonthQuarterData = false;

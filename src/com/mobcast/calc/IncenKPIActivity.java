@@ -1,3 +1,16 @@
+/* HISTORY
+ * CATEGORY 		:- ACTIVITY
+ * DEVELOPER		:- VIKALP PATEL
+ * AIM			    :- INCENTIVE KPI ACTIVITY
+ * DESCRIPTION 		:- SHOWS INCENTIVE KPI SCREEN
+ * 
+ * S - START E- END  C- COMMENTED  U -EDITED A -ADDED
+ * --------------------------------------------------------------------------------------------------------------------
+ * INDEX       DEVELOPER		DATE			FUNCTION		DESCRIPTION
+ * --------------------------------------------------------------------------------------------------------------------
+ * 10001       VIKALP PATEL    01/01/2015       				CREATED
+ * --------------------------------------------------------------------------------------------------------------------
+ */
 package com.mobcast.calc;
 
 import java.util.ArrayList;
@@ -40,6 +53,10 @@ import com.mobcast.view.AccordionView;
 import com.sanofi.in.mobcast.ApplicationLoader;
 import com.sanofi.in.mobcast.R;
 
+/**
+ * @author Vikalp Patel(VikalpPatelCE)
+ * 
+ */
 public class IncenKPIActivity extends FragmentActivity {
 
 	private AccordionView mAccordionTotal;
@@ -68,16 +85,22 @@ public class IncenKPIActivity extends FragmentActivity {
 	private String mRightFrequencyAvgArr;
 	private String mPOBAvgArr;
 
+	private String[] mKPIBusinessLogicValueArr = { "0", "0", "0", "0", "0" };
+	private static final int[] mKPICheckBoxValueArr = { 0, 0, 0, 0, 0 };
+
 	private String mKPITotalArr;
 
 	public float mWeightAgeCoverageTotal = 0.4f;
 	public float mWeightAgeCPATotal = 0.6f;
-	public float mWeightAgeRightFreqTotal = 0.3f;
-	public float mWeightAgePOBTotal = 0.3f;
+	public float mWeightAgeRightFreqTotal = 0.45f;
+	public float mWeightAgePOBTotal = 0.2f;
 	public float mWeightAgeCPA;
 
 	private static final String TAG = IncenKPIActivity.class.getSimpleName();
 
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -92,6 +115,10 @@ public class IncenKPIActivity extends FragmentActivity {
 		setListView();
 	}
 
+	/**
+	 * Ui : Initialize Ui Elements
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void initUi() {
 		mListView = (ListView) findViewById(R.id.incen_kpi_listView);
 
@@ -102,12 +129,20 @@ public class IncenKPIActivity extends FragmentActivity {
 		mTotalRsSy = (TextView) findViewById(R.id.incen_kpi_total_rs_sy);
 	}
 
+	/**
+	 * Ui : Sets header to AccordionView
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setAccordionHeader() {
 		mAccordionTotal.toggleSection(0);
 		mAccordionTotal.setSectionHeaders("Total KPI Incentive");
 
 	}
 
+	/**
+	 * Intent : Get intent Data
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void getIntentData() {
 		whichQuarter = (Integer.parseInt(getIntent().getStringExtra(
 				IncenDashBoardActivity.INTENT_QUARTER)));
@@ -119,6 +154,10 @@ public class IncenKPIActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Ui : Sets Rupee Fonts
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setRupeeFont() {
 		mTypeFace = Utilities.getFontStyleRupee();
 
@@ -133,6 +172,10 @@ public class IncenKPIActivity extends FragmentActivity {
 
 	/*
 	 * DYNAMIC PRODUCTS
+	 */
+	/**
+	 * Ui : Sets ListView from Beans
+	 * @author Vikalp Patel(VikalpPatelCE)
 	 */
 	private void setListView() {
 		if (mPrincipalProduct != null && mPrincipalProduct.size() > 0) {
@@ -154,6 +197,10 @@ public class IncenKPIActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Ui : Adapter : List Adapter
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public class ListProductAdapter extends BaseAdapter {
 
 		public Context mContext;
@@ -223,6 +270,17 @@ public class IncenKPIActivity extends FragmentActivity {
 						.findViewById(R.id.incen_kpi_cpa_switchView4);
 				holder.mListCheckBox5 = (CheckBox) v
 						.findViewById(R.id.incen_kpi_cpa_switchView5);
+
+				holder.mListTextView1 = (TextView) v
+						.findViewById(R.id.incen_kpi_cpa_textView1);
+				holder.mListTextView2 = (TextView) v
+						.findViewById(R.id.incen_kpi_cpa_textView2);
+				holder.mListTextView3 = (TextView) v
+						.findViewById(R.id.incen_kpi_cpa_textView3);
+				holder.mListTextView4 = (TextView) v
+						.findViewById(R.id.incen_kpi_cpa_textView4);
+				holder.mListTextView5 = (TextView) v
+						.findViewById(R.id.incen_kpi_cpa_textView5);
 				v.setTag(holder);
 			} else {
 				v = convertView;
@@ -238,6 +296,9 @@ public class IncenKPIActivity extends FragmentActivity {
 					holder.mListAccordionView
 							.setSectionHeaders(mArrMonthName[Utilities
 									.getCurrentMonth(whichQuarter)]);
+					setListKPILabel(holder.mListTextView1,
+							holder.mListTextView2, holder.mListTextView3,
+							holder.mListTextView4, holder.mListTextView5, false);
 
 					break;
 				case 1:
@@ -245,12 +306,18 @@ public class IncenKPIActivity extends FragmentActivity {
 					holder.mListAccordionView
 							.setSectionHeaders(mArrMonthName[Utilities
 									.getCurrentMonth(whichQuarter) + 1]);
+					setListKPILabel(holder.mListTextView1,
+							holder.mListTextView2, holder.mListTextView3,
+							holder.mListTextView4, holder.mListTextView5, false);
 					break;
 				case 2:
 					holder.mListLabelLayout.setVisibility(View.GONE);
 					holder.mListAccordionView
 							.setSectionHeaders(mArrMonthName[Utilities
 									.getCurrentMonth(whichQuarter) + 2]);
+					setListKPILabel(holder.mListTextView1,
+							holder.mListTextView2, holder.mListTextView3,
+							holder.mListTextView4, holder.mListTextView5, false);
 					break;
 				case 3:
 					holder.mListLabelLayout.setVisibility(View.VISIBLE);
@@ -258,18 +325,27 @@ public class IncenKPIActivity extends FragmentActivity {
 					holder.mListAccordionView
 							.setSectionHeaders(mArrMonthName[Utilities
 									.getCurrentMonth(whichQuarter)]);
+					setListKPILabel(holder.mListTextView1,
+							holder.mListTextView2, holder.mListTextView3,
+							holder.mListTextView4, holder.mListTextView5, false);
 					break;
 				case 4:
 					holder.mListLabelLayout.setVisibility(View.GONE);
 					holder.mListAccordionView
 							.setSectionHeaders(mArrMonthName[Utilities
 									.getCurrentMonth(whichQuarter) + 1]);
+					setListKPILabel(holder.mListTextView1,
+							holder.mListTextView2, holder.mListTextView3,
+							holder.mListTextView4, holder.mListTextView5, false);
 					break;
 				case 5:
 					holder.mListLabelLayout.setVisibility(View.GONE);
 					holder.mListAccordionView
 							.setSectionHeaders(mArrMonthName[Utilities
 									.getCurrentMonth(whichQuarter) + 2]);
+					setListKPILabel(holder.mListTextView1,
+							holder.mListTextView2, holder.mListTextView3,
+							holder.mListTextView4, holder.mListTextView5, false);
 					break;
 				case 6:
 					holder.mListLabelLayout.setVisibility(View.VISIBLE);
@@ -277,18 +353,27 @@ public class IncenKPIActivity extends FragmentActivity {
 					holder.mListAccordionView
 							.setSectionHeaders(mArrMonthName[Utilities
 									.getCurrentMonth(whichQuarter)]);
+					setListKPILabel(holder.mListTextView1,
+							holder.mListTextView2, holder.mListTextView3,
+							holder.mListTextView4, holder.mListTextView5, true);
 					break;
 				case 7:
 					holder.mListLabelLayout.setVisibility(View.GONE);
 					holder.mListAccordionView
 							.setSectionHeaders(mArrMonthName[Utilities
 									.getCurrentMonth(whichQuarter) + 1]);
+					setListKPILabel(holder.mListTextView1,
+							holder.mListTextView2, holder.mListTextView3,
+							holder.mListTextView4, holder.mListTextView5, true);
 					break;
 				case 8:
 					holder.mListLabelLayout.setVisibility(View.GONE);
 					holder.mListAccordionView
 							.setSectionHeaders(mArrMonthName[Utilities
 									.getCurrentMonth(whichQuarter) + 2]);
+					setListKPILabel(holder.mListTextView1,
+							holder.mListTextView2, holder.mListTextView3,
+							holder.mListTextView4, holder.mListTextView5, true);
 					break;
 				}
 			} else {
@@ -353,6 +438,24 @@ public class IncenKPIActivity extends FragmentActivity {
 			}
 
 			return v;
+		}
+
+		public void setListKPILabel(TextView mListTextView1,
+				TextView mListTextView2, TextView mListTextView3,
+				TextView mListTextView4, TextView mListTextView5, boolean isPOB) {
+			if (!isPOB) {
+				mListTextView1.setText("90% and Above");
+				mListTextView2.setText("85% to < 90%");
+				mListTextView3.setText("80% to < 85%");
+				mListTextView4.setText("70% to < 80%");
+				mListTextView5.setText("Below 70%");
+			} else {
+				mListTextView1.setText("50% and Above");
+				mListTextView2.setText("35% to < 50%");
+				mListTextView3.setText("30% to < 35%");
+				mListTextView4.setText("< 30%");
+				mListTextView5.setText("Below 20%");
+			}
 		}
 
 		public void businessIncenLogic() {
@@ -508,79 +611,102 @@ public class IncenKPIActivity extends FragmentActivity {
 				CheckBox mCheck5) {
 			switch (mPosition) {
 			case 0:
-				switch (Integer.parseInt(mCoverageArr[0])) {
-				case 5:
+				/*
+				 * COMMENTED AS KPI WILL BE DYNAMIC
+				 */
+				/*
+				 * switch (Integer.parseInt(mCoverageArr[0])) { case 5:
+				 * mCheck1.setChecked(true); break; case 4:
+				 * mCheck2.setChecked(true); break; case 3:
+				 * mCheck3.setChecked(true); break; case 2:
+				 * mCheck4.setChecked(true); break; case 1:
+				 * mCheck5.setChecked(true); break; }
+				 */
+
+				if (Integer.parseInt(mCoverageArr[0]) == mKPICheckBoxValueArr[0]) {
 					mCheck1.setChecked(true);
-					break;
-				case 4:
+				} else if (Integer.parseInt(mCoverageArr[0]) == mKPICheckBoxValueArr[1]) {
 					mCheck2.setChecked(true);
-					break;
-				case 3:
+				} else if (Integer.parseInt(mCoverageArr[0]) == mKPICheckBoxValueArr[2]) {
 					mCheck3.setChecked(true);
-					break;
-				case 2:
+				} else if (Integer.parseInt(mCoverageArr[0]) == mKPICheckBoxValueArr[3]) {
 					mCheck4.setChecked(true);
-					break;
-				case 1:
+				} else if (Integer.parseInt(mCoverageArr[0]) == mKPICheckBoxValueArr[4]) {
 					mCheck5.setChecked(true);
-					break;
 				}
+
 				break;
 			case 1:
-				switch (Integer.parseInt(mCoverageArr[1])) {
-				case 5:
+				/*
+				 * COMMENTED AS KPI WILL BE DYNAMIC
+				 */
+				/*
+				 * switch (Integer.parseInt(mCoverageArr[1])) { case 5:
+				 * mCheck1.setChecked(true); break; case 4:
+				 * mCheck2.setChecked(true); break; case 3:
+				 * mCheck3.setChecked(true); break; case 2:
+				 * mCheck4.setChecked(true); break; case 1:
+				 * mCheck5.setChecked(true); break; }
+				 */
+
+				if (Integer.parseInt(mCoverageArr[1]) == mKPICheckBoxValueArr[0]) {
 					mCheck1.setChecked(true);
-					break;
-				case 4:
+				} else if (Integer.parseInt(mCoverageArr[1]) == mKPICheckBoxValueArr[1]) {
 					mCheck2.setChecked(true);
-					break;
-				case 3:
+				} else if (Integer.parseInt(mCoverageArr[1]) == mKPICheckBoxValueArr[2]) {
 					mCheck3.setChecked(true);
-					break;
-				case 2:
+				} else if (Integer.parseInt(mCoverageArr[1]) == mKPICheckBoxValueArr[3]) {
 					mCheck4.setChecked(true);
-					break;
-				case 1:
+				} else if (Integer.parseInt(mCoverageArr[1]) == mKPICheckBoxValueArr[4]) {
 					mCheck5.setChecked(true);
-					break;
 				}
 				break;
 			case 2:
-				switch (Integer.parseInt(mCoverageArr[2])) {
-				case 5:
+				/*
+				 * COMMENTED AS KPI IS DYNAMIC
+				 */
+				/*
+				 * switch (Integer.parseInt(mCoverageArr[2])) { case 5:
+				 * mCheck1.setChecked(true); break; case 4:
+				 * mCheck2.setChecked(true); break; case 3:
+				 * mCheck3.setChecked(true); break; case 2:
+				 * mCheck4.setChecked(true); break; case 1:
+				 * mCheck5.setChecked(true); break; }
+				 */
+
+				if (Integer.parseInt(mCoverageArr[1]) == mKPICheckBoxValueArr[0]) {
 					mCheck1.setChecked(true);
-					break;
-				case 4:
+				} else if (Integer.parseInt(mCoverageArr[1]) == mKPICheckBoxValueArr[1]) {
 					mCheck2.setChecked(true);
-					break;
-				case 3:
+				} else if (Integer.parseInt(mCoverageArr[1]) == mKPICheckBoxValueArr[2]) {
 					mCheck3.setChecked(true);
-					break;
-				case 2:
+				} else if (Integer.parseInt(mCoverageArr[1]) == mKPICheckBoxValueArr[3]) {
 					mCheck4.setChecked(true);
-					break;
-				case 1:
+				} else if (Integer.parseInt(mCoverageArr[1]) == mKPICheckBoxValueArr[4]) {
 					mCheck5.setChecked(true);
-					break;
 				}
+
 				break;
 			default:
-				switch (Integer.parseInt(mCPAArr[mPosition - 3])) {
-				case 5:
+				/*
+				 * switch (Integer.parseInt(mCPAArr[mPosition - 3])) { case 5:
+				 * mCheck1.setChecked(true); break; case 4:
+				 * mCheck2.setChecked(true); break; case 3:
+				 * mCheck3.setChecked(true); break; case 2:
+				 * mCheck4.setChecked(true); break; case 1:
+				 * mCheck5.setChecked(true); break; }
+				 */
+
+				if (Integer.parseInt(mCPAArr[mPosition - 3]) == mKPICheckBoxValueArr[0]) {
 					mCheck1.setChecked(true);
-					break;
-				case 4:
+				} else if (Integer.parseInt(mCPAArr[mPosition - 3]) == mKPICheckBoxValueArr[1]) {
 					mCheck2.setChecked(true);
-					break;
-				case 3:
+				} else if (Integer.parseInt(mCPAArr[mPosition - 3]) == mKPICheckBoxValueArr[2]) {
 					mCheck3.setChecked(true);
-					break;
-				case 2:
+				} else if (Integer.parseInt(mCPAArr[mPosition - 3]) == mKPICheckBoxValueArr[3]) {
 					mCheck4.setChecked(true);
-					break;
-				case 1:
+				} else if (Integer.parseInt(mCPAArr[mPosition - 3]) == mKPICheckBoxValueArr[4]) {
 					mCheck5.setChecked(true);
-					break;
 				}
 				break;
 			}
@@ -590,13 +716,13 @@ public class IncenKPIActivity extends FragmentActivity {
 		public void checkValuesFromPreferencesNullOrNot() {
 			for (int i = 0; i < mPrincipalProduct.size(); i++) {
 				if (mCPAArr[i] == null) {
-					mCPAArr[i] = "1";
+					mCPAArr[i] = mKPIBusinessLogicValueArr[4];
 				}
 			}
 
 			for (int i = 0; i < 3; i++) {
 				if (mCoverageArr[i] == null) {
-					mCoverageArr[i] = "1";
+					mCoverageArr[i] = mKPIBusinessLogicValueArr[4];
 				}
 			}
 
@@ -653,16 +779,16 @@ public class IncenKPIActivity extends FragmentActivity {
 								mCheckBoxSelected[position] = 1;
 								switch (position) {
 								case 0:
-									mCoverageArr[0] = "5";
+									mCoverageArr[0] = mKPIBusinessLogicValueArr[0];
 									break;
 								case 1:
-									mCoverageArr[1] = "5";
+									mCoverageArr[1] = mKPIBusinessLogicValueArr[0];
 									break;
 								case 2:
-									mCoverageArr[2] = "5";
+									mCoverageArr[2] = mKPIBusinessLogicValueArr[0];
 									break;
 								default:
-									mCPAArr[position - 3] = "5";
+									mCPAArr[position - 3] = mKPIBusinessLogicValueArr[0];
 									break;
 								}
 								businessIncenLogic();
@@ -670,16 +796,16 @@ public class IncenKPIActivity extends FragmentActivity {
 								mCheckBoxSelected[position] = 1;
 								switch (position) {
 								case 0:
-									mCoverageArr[0] = "1";
+									mCoverageArr[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 1:
-									mCoverageArr[1] = "1";
+									mCoverageArr[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 2:
-									mCoverageArr[2] = "1";
+									mCoverageArr[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								default:
-									mCPAArr[position - 3] = "1";
+									mCPAArr[position - 3] = mKPIBusinessLogicValueArr[4];
 									break;
 								}
 								businessIncenLogic();
@@ -703,16 +829,16 @@ public class IncenKPIActivity extends FragmentActivity {
 								mCheckBoxSelected[position] = 2;
 								switch (position) {
 								case 0:
-									mCoverageArr[0] = "4";
+									mCoverageArr[0] = mKPIBusinessLogicValueArr[1];
 									break;
 								case 1:
-									mCoverageArr[1] = "4";
+									mCoverageArr[1] = mKPIBusinessLogicValueArr[1];
 									break;
 								case 2:
-									mCoverageArr[2] = "4";
+									mCoverageArr[2] = mKPIBusinessLogicValueArr[1];
 									break;
 								default:
-									mCPAArr[position - 3] = "4";
+									mCPAArr[position - 3] = mKPIBusinessLogicValueArr[1];
 									break;
 								}
 								businessIncenLogic();
@@ -720,16 +846,16 @@ public class IncenKPIActivity extends FragmentActivity {
 								mCheckBoxSelected[position] = 2;
 								switch (position) {
 								case 0:
-									mCoverageArr[0] = "1";
+									mCoverageArr[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 1:
-									mCoverageArr[1] = "1";
+									mCoverageArr[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 2:
-									mCoverageArr[2] = "1";
+									mCoverageArr[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								default:
-									mCPAArr[position - 3] = "1";
+									mCPAArr[position - 3] = mKPIBusinessLogicValueArr[4];
 									break;
 								}
 								businessIncenLogic();
@@ -752,16 +878,16 @@ public class IncenKPIActivity extends FragmentActivity {
 								mCheckBoxSelected[position] = 3;
 								switch (position) {
 								case 0:
-									mCoverageArr[0] = "3";
+									mCoverageArr[0] = mKPIBusinessLogicValueArr[2];
 									break;
 								case 1:
-									mCoverageArr[1] = "3";
+									mCoverageArr[1] = mKPIBusinessLogicValueArr[2];
 									break;
 								case 2:
-									mCoverageArr[2] = "3";
+									mCoverageArr[2] = mKPIBusinessLogicValueArr[2];
 									break;
 								default:
-									mCPAArr[position - 3] = "3";
+									mCPAArr[position - 3] = mKPIBusinessLogicValueArr[2];
 									break;
 								}
 								businessIncenLogic();
@@ -769,16 +895,16 @@ public class IncenKPIActivity extends FragmentActivity {
 								mCheckBoxSelected[position] = 3;
 								switch (position) {
 								case 0:
-									mCoverageArr[0] = "1";
+									mCoverageArr[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 1:
-									mCoverageArr[1] = "1";
+									mCoverageArr[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 2:
-									mCoverageArr[2] = "1";
+									mCoverageArr[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								default:
-									mCPAArr[position - 3] = "1";
+									mCPAArr[position - 3] = mKPIBusinessLogicValueArr[4];
 									break;
 								}
 								businessIncenLogic();
@@ -801,16 +927,16 @@ public class IncenKPIActivity extends FragmentActivity {
 								mCheckBoxSelected[position] = 4;
 								switch (position) {
 								case 0:
-									mCoverageArr[0] = "2";
+									mCoverageArr[0] = mKPIBusinessLogicValueArr[3];
 									break;
 								case 1:
-									mCoverageArr[1] = "2";
+									mCoverageArr[1] = mKPIBusinessLogicValueArr[3];
 									break;
 								case 2:
-									mCoverageArr[2] = "2";
+									mCoverageArr[2] = mKPIBusinessLogicValueArr[3];
 									break;
 								default:
-									mCPAArr[position - 3] = "2";
+									mCPAArr[position - 3] = mKPIBusinessLogicValueArr[3];
 									break;
 								}
 								businessIncenLogic();
@@ -818,16 +944,16 @@ public class IncenKPIActivity extends FragmentActivity {
 								mCheckBoxSelected[position] = 4;
 								switch (position) {
 								case 0:
-									mCoverageArr[0] = "1";
+									mCoverageArr[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 1:
-									mCoverageArr[1] = "1";
+									mCoverageArr[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 2:
-									mCoverageArr[2] = "1";
+									mCoverageArr[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								default:
-									mCPAArr[position - 3] = "1";
+									mCPAArr[position - 3] = mKPIBusinessLogicValueArr[4];
 									break;
 								}
 								businessIncenLogic();
@@ -850,16 +976,16 @@ public class IncenKPIActivity extends FragmentActivity {
 								mCheckBoxSelected[position] = 5;
 								switch (position) {
 								case 0:
-									mCoverageArr[0] = "1";
+									mCoverageArr[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 1:
-									mCoverageArr[1] = "1";
+									mCoverageArr[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 2:
-									mCoverageArr[2] = "1";
+									mCoverageArr[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								default:
-									mCPAArr[position - 3] = "1";
+									mCPAArr[position - 3] = mKPIBusinessLogicValueArr[4];
 									break;
 								}
 								businessIncenLogic();
@@ -867,16 +993,16 @@ public class IncenKPIActivity extends FragmentActivity {
 								mCheckBoxSelected[position] = 5;
 								switch (position) {
 								case 0:
-									mCoverageArr[0] = "1";
+									mCoverageArr[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 1:
-									mCoverageArr[1] = "1";
+									mCoverageArr[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 2:
-									mCoverageArr[2] = "1";
+									mCoverageArr[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								default:
-									mCPAArr[position - 3] = "1";
+									mCPAArr[position - 3] = mKPIBusinessLogicValueArr[4];
 									break;
 								}
 								businessIncenLogic();
@@ -890,6 +1016,8 @@ public class IncenKPIActivity extends FragmentActivity {
 		 */
 
 		public void addBusinessIncenLogic() {
+
+			mWeightAgeCoverageTotal = 0.35f;
 
 			float floatCoverageAvg = 0;
 			for (int i = 0; i < 3; i++) {
@@ -914,7 +1042,7 @@ public class IncenKPIActivity extends FragmentActivity {
 			}
 			floatPOBAvg /= 3;
 
-			mPOBAvgArr = String.valueOf(floatPOBAvg * mWeightAgeRightFreqTotal);
+			mPOBAvgArr = String.valueOf(floatPOBAvg * mWeightAgePOBTotal);
 
 			if (Float.parseFloat(mCoverageAvgArr)
 					+ Float.parseFloat(mRightFrequencyAvgArr)
@@ -1095,19 +1223,19 @@ public class IncenKPIActivity extends FragmentActivity {
 
 			for (int i = 0; i < 3; i++) {
 				if (mCoverageArr[i] == null) {
-					mCoverageArr[i] = "1";
+					mCoverageArr[i] = mKPIBusinessLogicValueArr[4];
 				}
 			}
 
 			for (int i = 0; i < 3; i++) {
 				if (mRightFrequencyAdd[i] == null) {
-					mRightFrequencyAdd[i] = "1";
+					mRightFrequencyAdd[i] = mKPIBusinessLogicValueArr[4];
 				}
 			}
 
 			for (int i = 0; i < 3; i++) {
 				if (mPOBAdd[i] == null) {
-					mPOBAdd[i] = "1";
+					mPOBAdd[i] = mKPIBusinessLogicValueArr[4];
 				}
 			}
 
@@ -1121,175 +1249,219 @@ public class IncenKPIActivity extends FragmentActivity {
 				CheckBox mCheck4, CheckBox mCheck5) {
 			switch (mPosition) {
 			case 0:
-				switch (Integer.parseInt(mCoverageArr[0])) {
-				case 5:
+				/*
+				 * COMMENTED AS KPI BUSINESS VALUE IS DYNAMIC
+				 */
+				/*
+				 * switch (Integer.parseInt(mCoverageArr[0])) { case 5:
+				 * mCheck1.setChecked(true); break; case 4:
+				 * mCheck2.setChecked(true); break; case 3:
+				 * mCheck3.setChecked(true); break; case 2:
+				 * mCheck4.setChecked(true); break; case 1:
+				 * mCheck5.setChecked(true); break; }
+				 */
+
+				if (Integer.parseInt(mCoverageArr[0]) == mKPICheckBoxValueArr[0]) {
 					mCheck1.setChecked(true);
-					break;
-				case 4:
+				} else if (Integer.parseInt(mCoverageArr[0]) == mKPICheckBoxValueArr[1]) {
 					mCheck2.setChecked(true);
-					break;
-				case 3:
+				} else if (Integer.parseInt(mCoverageArr[0]) == mKPICheckBoxValueArr[2]) {
 					mCheck3.setChecked(true);
-					break;
-				case 2:
+				} else if (Integer.parseInt(mCoverageArr[0]) == mKPICheckBoxValueArr[3]) {
 					mCheck4.setChecked(true);
-					break;
-				case 1:
+				} else if (Integer.parseInt(mCoverageArr[0]) == mKPICheckBoxValueArr[4]) {
 					mCheck5.setChecked(true);
-					break;
 				}
+
 				break;
 			case 1:
-				switch (Integer.parseInt(mCoverageArr[1])) {
-				case 5:
+				/*
+				 * COMMENTED AS KPI BUSINESS LOGIC
+				 */
+				/*
+				 * switch (Integer.parseInt(mCoverageArr[1])) { case 5:
+				 * mCheck1.setChecked(true); break; case 4:
+				 * mCheck2.setChecked(true); break; case 3:
+				 * mCheck3.setChecked(true); break; case 2:
+				 * mCheck4.setChecked(true); break; case 1:
+				 * mCheck5.setChecked(true); break; }
+				 */
+
+				if (Integer.parseInt(mCoverageArr[1]) == mKPICheckBoxValueArr[0]) {
 					mCheck1.setChecked(true);
-					break;
-				case 4:
+				} else if (Integer.parseInt(mCoverageArr[1]) == mKPICheckBoxValueArr[1]) {
 					mCheck2.setChecked(true);
-					break;
-				case 3:
+				} else if (Integer.parseInt(mCoverageArr[1]) == mKPICheckBoxValueArr[2]) {
 					mCheck3.setChecked(true);
-					break;
-				case 2:
+				} else if (Integer.parseInt(mCoverageArr[1]) == mKPICheckBoxValueArr[3]) {
 					mCheck4.setChecked(true);
-					break;
-				case 1:
+				} else if (Integer.parseInt(mCoverageArr[1]) == mKPICheckBoxValueArr[4]) {
 					mCheck5.setChecked(true);
-					break;
 				}
+
 				break;
 			case 2:
-				switch (Integer.parseInt(mCoverageArr[2])) {
-				case 5:
+				/*
+				 * COMMENTED AS KPI BUSINESS LOGIC VALUE
+				 */
+				/*
+				 * switch (Integer.parseInt(mCoverageArr[2])) { case 5:
+				 * mCheck1.setChecked(true); break; case 4:
+				 * mCheck2.setChecked(true); break; case 3:
+				 * mCheck3.setChecked(true); break; case 2:
+				 * mCheck4.setChecked(true); break; case 1:
+				 * mCheck5.setChecked(true); break; }
+				 */
+
+				if (Integer.parseInt(mCoverageArr[2]) == mKPICheckBoxValueArr[0]) {
 					mCheck1.setChecked(true);
-					break;
-				case 4:
+				} else if (Integer.parseInt(mCoverageArr[2]) == mKPICheckBoxValueArr[1]) {
 					mCheck2.setChecked(true);
-					break;
-				case 3:
+				} else if (Integer.parseInt(mCoverageArr[2]) == mKPICheckBoxValueArr[2]) {
 					mCheck3.setChecked(true);
-					break;
-				case 2:
+				} else if (Integer.parseInt(mCoverageArr[2]) == mKPICheckBoxValueArr[3]) {
 					mCheck4.setChecked(true);
-					break;
-				case 1:
+				} else if (Integer.parseInt(mCoverageArr[2]) == mKPICheckBoxValueArr[4]) {
 					mCheck5.setChecked(true);
-					break;
 				}
+
 				break;
 			case 3:
-				switch (Integer.parseInt(mRightFrequencyAdd[0])) {
-				case 5:
+				/*
+				 * switch (Integer.parseInt(mRightFrequencyAdd[0])) { case 5:
+				 * mCheck1.setChecked(true); break; case 4:
+				 * mCheck2.setChecked(true); break; case 3:
+				 * mCheck3.setChecked(true); break; case 2:
+				 * mCheck4.setChecked(true); break; case 1:
+				 * mCheck5.setChecked(true); break; }
+				 */
+				if (Integer.parseInt(mRightFrequencyAdd[0]) == mKPICheckBoxValueArr[0]) {
 					mCheck1.setChecked(true);
-					break;
-				case 4:
+				} else if (Integer.parseInt(mRightFrequencyAdd[0]) == mKPICheckBoxValueArr[1]) {
 					mCheck2.setChecked(true);
-					break;
-				case 3:
+				} else if (Integer.parseInt(mRightFrequencyAdd[0]) == mKPICheckBoxValueArr[2]) {
 					mCheck3.setChecked(true);
-					break;
-				case 2:
+				} else if (Integer.parseInt(mRightFrequencyAdd[0]) == mKPICheckBoxValueArr[3]) {
 					mCheck4.setChecked(true);
-					break;
-				case 1:
+				} else if (Integer.parseInt(mRightFrequencyAdd[0]) == mKPICheckBoxValueArr[4]) {
 					mCheck5.setChecked(true);
-					break;
 				}
+
 				break;
 			case 4:
-				switch (Integer.parseInt(mRightFrequencyAdd[1])) {
-				case 5:
+				/*
+				 * switch (Integer.parseInt(mRightFrequencyAdd[1])) { case 5:
+				 * mCheck1.setChecked(true); break; case 4:
+				 * mCheck2.setChecked(true); break; case 3:
+				 * mCheck3.setChecked(true); break; case 2:
+				 * mCheck4.setChecked(true); break; case 1:
+				 * mCheck5.setChecked(true); break; }
+				 */
+
+				if (Integer.parseInt(mRightFrequencyAdd[1]) == mKPICheckBoxValueArr[0]) {
 					mCheck1.setChecked(true);
-					break;
-				case 4:
+				} else if (Integer.parseInt(mRightFrequencyAdd[1]) == mKPICheckBoxValueArr[1]) {
 					mCheck2.setChecked(true);
-					break;
-				case 3:
+				} else if (Integer.parseInt(mRightFrequencyAdd[1]) == mKPICheckBoxValueArr[2]) {
 					mCheck3.setChecked(true);
-					break;
-				case 2:
+				} else if (Integer.parseInt(mRightFrequencyAdd[1]) == mKPICheckBoxValueArr[3]) {
 					mCheck4.setChecked(true);
-					break;
-				case 1:
+				} else if (Integer.parseInt(mRightFrequencyAdd[1]) == mKPICheckBoxValueArr[4]) {
 					mCheck5.setChecked(true);
-					break;
 				}
+
 				break;
 			case 5:
-				switch (Integer.parseInt(mRightFrequencyAdd[2])) {
-				case 5:
+				/*
+				 * switch (Integer.parseInt(mRightFrequencyAdd[2])) { case 5:
+				 * mCheck1.setChecked(true); break; case 4:
+				 * mCheck2.setChecked(true); break; case 3:
+				 * mCheck3.setChecked(true); break; case 2:
+				 * mCheck4.setChecked(true); break; case 1:
+				 * mCheck5.setChecked(true); break; }
+				 */
+
+				if (Integer.parseInt(mRightFrequencyAdd[2]) == mKPICheckBoxValueArr[0]) {
 					mCheck1.setChecked(true);
-					break;
-				case 4:
+				} else if (Integer.parseInt(mRightFrequencyAdd[2]) == mKPICheckBoxValueArr[1]) {
 					mCheck2.setChecked(true);
-					break;
-				case 3:
+				} else if (Integer.parseInt(mRightFrequencyAdd[2]) == mKPICheckBoxValueArr[2]) {
 					mCheck3.setChecked(true);
-					break;
-				case 2:
+				} else if (Integer.parseInt(mRightFrequencyAdd[2]) == mKPICheckBoxValueArr[3]) {
 					mCheck4.setChecked(true);
-					break;
-				case 1:
+				} else if (Integer.parseInt(mRightFrequencyAdd[2]) == mKPICheckBoxValueArr[4]) {
 					mCheck5.setChecked(true);
-					break;
 				}
+
 				break;
 			case 6:
-				switch (Integer.parseInt(mPOBAdd[0])) {
-				case 5:
+				/*
+				 * switch (Integer.parseInt(mPOBAdd[0])) { case 5:
+				 * mCheck1.setChecked(true); break; case 4:
+				 * mCheck2.setChecked(true); break; case 3:
+				 * mCheck3.setChecked(true); break; case 2:
+				 * mCheck4.setChecked(true); break; case 1:
+				 * mCheck5.setChecked(true); break; }
+				 */
+
+				if (Integer.parseInt(mPOBAdd[0]) == mKPICheckBoxValueArr[0]) {
 					mCheck1.setChecked(true);
-					break;
-				case 4:
+				} else if (Integer.parseInt(mPOBAdd[0]) == mKPICheckBoxValueArr[1]) {
 					mCheck2.setChecked(true);
-					break;
-				case 3:
+				} else if (Integer.parseInt(mPOBAdd[0]) == mKPICheckBoxValueArr[2]) {
 					mCheck3.setChecked(true);
-					break;
-				case 2:
+				} else if (Integer.parseInt(mPOBAdd[0]) == mKPICheckBoxValueArr[3]) {
 					mCheck4.setChecked(true);
-					break;
-				case 1:
+				} else if (Integer.parseInt(mPOBAdd[0]) == mKPICheckBoxValueArr[4]) {
 					mCheck5.setChecked(true);
-					break;
 				}
+
 				break;
 			case 7:
-				switch (Integer.parseInt(mPOBAdd[1])) {
-				case 5:
+				/*
+				 * switch (Integer.parseInt(mPOBAdd[1])) { case 5:
+				 * mCheck1.setChecked(true); break; case 4:
+				 * mCheck2.setChecked(true); break; case 3:
+				 * mCheck3.setChecked(true); break; case 2:
+				 * mCheck4.setChecked(true); break; case 1:
+				 * mCheck5.setChecked(true); break; }
+				 */
+
+				if (Integer.parseInt(mPOBAdd[1]) == mKPICheckBoxValueArr[0]) {
 					mCheck1.setChecked(true);
-					break;
-				case 4:
+				} else if (Integer.parseInt(mPOBAdd[1]) == mKPICheckBoxValueArr[1]) {
 					mCheck2.setChecked(true);
-					break;
-				case 3:
+				} else if (Integer.parseInt(mPOBAdd[1]) == mKPICheckBoxValueArr[2]) {
 					mCheck3.setChecked(true);
-					break;
-				case 2:
+				} else if (Integer.parseInt(mPOBAdd[1]) == mKPICheckBoxValueArr[3]) {
 					mCheck4.setChecked(true);
-					break;
-				case 1:
+				} else if (Integer.parseInt(mPOBAdd[1]) == mKPICheckBoxValueArr[4]) {
 					mCheck5.setChecked(true);
-					break;
 				}
+
 				break;
 			case 8:
-				switch (Integer.parseInt(mPOBAdd[2])) {
-				case 5:
+				/*
+				 * switch (Integer.parseInt(mPOBAdd[2])) { case 5:
+				 * mCheck1.setChecked(true); break; case 4:
+				 * mCheck2.setChecked(true); break; case 3:
+				 * mCheck3.setChecked(true); break; case 2:
+				 * mCheck4.setChecked(true); break; case 1:
+				 * mCheck5.setChecked(true); break; }
+				 */
+
+				if (Integer.parseInt(mPOBAdd[2]) == mKPICheckBoxValueArr[0]) {
 					mCheck1.setChecked(true);
-					break;
-				case 4:
+				} else if (Integer.parseInt(mPOBAdd[2]) == mKPICheckBoxValueArr[1]) {
 					mCheck2.setChecked(true);
-					break;
-				case 3:
+				} else if (Integer.parseInt(mPOBAdd[2]) == mKPICheckBoxValueArr[2]) {
 					mCheck3.setChecked(true);
-					break;
-				case 2:
+				} else if (Integer.parseInt(mPOBAdd[2]) == mKPICheckBoxValueArr[3]) {
 					mCheck4.setChecked(true);
-					break;
-				case 1:
+				} else if (Integer.parseInt(mPOBAdd[2]) == mKPICheckBoxValueArr[4]) {
 					mCheck5.setChecked(true);
-					break;
 				}
+
 				break;
 			}
 			mTotalTv.setText(mKPITotalArr);
@@ -1315,31 +1487,31 @@ public class IncenKPIActivity extends FragmentActivity {
 								mCheckBoxSelected[position] = 1;
 								switch (position) {
 								case 0:
-									mCoverageArr[0] = "5";
+									mCoverageArr[0] = mKPIBusinessLogicValueArr[0];
 									break;
 								case 1:
-									mCoverageArr[1] = "5";
+									mCoverageArr[1] = mKPIBusinessLogicValueArr[0];
 									break;
 								case 2:
-									mCoverageArr[2] = "5";
+									mCoverageArr[2] = mKPIBusinessLogicValueArr[0];
 									break;
 								case 3:
-									mRightFrequencyAdd[0] = "5";
+									mRightFrequencyAdd[0] = mKPIBusinessLogicValueArr[0];
 									break;
 								case 4:
-									mRightFrequencyAdd[1] = "5";
+									mRightFrequencyAdd[1] = mKPIBusinessLogicValueArr[0];
 									break;
 								case 5:
-									mRightFrequencyAdd[2] = "5";
+									mRightFrequencyAdd[2] = mKPIBusinessLogicValueArr[0];
 									break;
 								case 6:
-									mPOBAdd[0] = "5";
+									mPOBAdd[0] = mKPIBusinessLogicValueArr[0];
 									break;
 								case 7:
-									mPOBAdd[1] = "5";
+									mPOBAdd[1] = mKPIBusinessLogicValueArr[0];
 									break;
 								case 8:
-									mPOBAdd[2] = "5";
+									mPOBAdd[2] = mKPIBusinessLogicValueArr[0];
 									break;
 								}
 								addBusinessIncenLogic();
@@ -1347,31 +1519,31 @@ public class IncenKPIActivity extends FragmentActivity {
 								mCheckBoxSelected[position] = 1;
 								switch (position) {
 								case 0:
-									mCoverageArr[0] = "1";
+									mCoverageArr[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 1:
-									mCoverageArr[1] = "1";
+									mCoverageArr[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 2:
-									mCoverageArr[2] = "1";
+									mCoverageArr[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 3:
-									mRightFrequencyAdd[0] = "1";
+									mRightFrequencyAdd[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 4:
-									mRightFrequencyAdd[1] = "1";
+									mRightFrequencyAdd[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 5:
-									mRightFrequencyAdd[2] = "1";
+									mRightFrequencyAdd[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 6:
-									mPOBAdd[0] = "1";
+									mPOBAdd[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 7:
-									mPOBAdd[1] = "1";
+									mPOBAdd[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 8:
-									mPOBAdd[2] = "1";
+									mPOBAdd[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								}
 								addBusinessIncenLogic();
@@ -1395,31 +1567,31 @@ public class IncenKPIActivity extends FragmentActivity {
 								mCheckBoxSelected[position] = 2;
 								switch (position) {
 								case 0:
-									mCoverageArr[0] = "4";
+									mCoverageArr[0] = mKPIBusinessLogicValueArr[1];
 									break;
 								case 1:
-									mCoverageArr[1] = "4";
+									mCoverageArr[1] = mKPIBusinessLogicValueArr[1];
 									break;
 								case 2:
-									mCoverageArr[2] = "4";
+									mCoverageArr[2] = mKPIBusinessLogicValueArr[1];
 									break;
 								case 3:
-									mRightFrequencyAdd[0] = "4";
+									mRightFrequencyAdd[0] = mKPIBusinessLogicValueArr[1];
 									break;
 								case 4:
-									mRightFrequencyAdd[1] = "4";
+									mRightFrequencyAdd[1] = mKPIBusinessLogicValueArr[1];
 									break;
 								case 5:
-									mRightFrequencyAdd[2] = "4";
+									mRightFrequencyAdd[2] = mKPIBusinessLogicValueArr[1];
 									break;
 								case 6:
-									mPOBAdd[0] = "4";
+									mPOBAdd[0] = mKPIBusinessLogicValueArr[1];
 									break;
 								case 7:
-									mPOBAdd[1] = "4";
+									mPOBAdd[1] = mKPIBusinessLogicValueArr[1];
 									break;
 								case 8:
-									mPOBAdd[2] = "4";
+									mPOBAdd[2] = mKPIBusinessLogicValueArr[1];
 									break;
 								}
 								addBusinessIncenLogic();
@@ -1427,31 +1599,31 @@ public class IncenKPIActivity extends FragmentActivity {
 								mCheckBoxSelected[position] = 2;
 								switch (position) {
 								case 0:
-									mCoverageArr[0] = "1";
+									mCoverageArr[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 1:
-									mCoverageArr[1] = "1";
+									mCoverageArr[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 2:
-									mCoverageArr[2] = "1";
+									mCoverageArr[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 3:
-									mRightFrequencyAdd[0] = "1";
+									mRightFrequencyAdd[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 4:
-									mRightFrequencyAdd[1] = "1";
+									mRightFrequencyAdd[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 5:
-									mRightFrequencyAdd[2] = "1";
+									mRightFrequencyAdd[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 6:
-									mPOBAdd[0] = "1";
+									mPOBAdd[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 7:
-									mPOBAdd[1] = "1";
+									mPOBAdd[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 8:
-									mPOBAdd[2] = "1";
+									mPOBAdd[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								}
 								addBusinessIncenLogic();
@@ -1474,31 +1646,31 @@ public class IncenKPIActivity extends FragmentActivity {
 								mCheckBoxSelected[position] = 3;
 								switch (position) {
 								case 0:
-									mCoverageArr[0] = "3";
+									mCoverageArr[0] = mKPIBusinessLogicValueArr[2];
 									break;
 								case 1:
-									mCoverageArr[1] = "3";
+									mCoverageArr[1] = mKPIBusinessLogicValueArr[2];
 									break;
 								case 2:
-									mCoverageArr[2] = "3";
+									mCoverageArr[2] = mKPIBusinessLogicValueArr[2];
 									break;
 								case 3:
-									mRightFrequencyAdd[0] = "3";
+									mRightFrequencyAdd[0] = mKPIBusinessLogicValueArr[2];
 									break;
 								case 4:
-									mRightFrequencyAdd[1] = "3";
+									mRightFrequencyAdd[1] = mKPIBusinessLogicValueArr[2];
 									break;
 								case 5:
-									mRightFrequencyAdd[2] = "3";
+									mRightFrequencyAdd[2] = mKPIBusinessLogicValueArr[2];
 									break;
 								case 6:
-									mPOBAdd[0] = "3";
+									mPOBAdd[0] = mKPIBusinessLogicValueArr[2];
 									break;
 								case 7:
-									mPOBAdd[1] = "3";
+									mPOBAdd[1] = mKPIBusinessLogicValueArr[2];
 									break;
 								case 8:
-									mPOBAdd[2] = "3";
+									mPOBAdd[2] = mKPIBusinessLogicValueArr[2];
 									break;
 								}
 								addBusinessIncenLogic();
@@ -1506,31 +1678,31 @@ public class IncenKPIActivity extends FragmentActivity {
 								mCheckBoxSelected[position] = 3;
 								switch (position) {
 								case 0:
-									mCoverageArr[0] = "1";
+									mCoverageArr[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 1:
-									mCoverageArr[1] = "1";
+									mCoverageArr[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 2:
-									mCoverageArr[2] = "1";
+									mCoverageArr[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 3:
-									mRightFrequencyAdd[0] = "1";
+									mRightFrequencyAdd[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 4:
-									mRightFrequencyAdd[1] = "1";
+									mRightFrequencyAdd[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 5:
-									mRightFrequencyAdd[2] = "1";
+									mRightFrequencyAdd[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 6:
-									mPOBAdd[0] = "1";
+									mPOBAdd[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 7:
-									mPOBAdd[1] = "1";
+									mPOBAdd[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 8:
-									mPOBAdd[2] = "1";
+									mPOBAdd[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								}
 								addBusinessIncenLogic();
@@ -1553,31 +1725,31 @@ public class IncenKPIActivity extends FragmentActivity {
 								mCheckBoxSelected[position] = 4;
 								switch (position) {
 								case 0:
-									mCoverageArr[0] = "2";
+									mCoverageArr[0] = mKPIBusinessLogicValueArr[3];
 									break;
 								case 1:
-									mCoverageArr[1] = "2";
+									mCoverageArr[1] = mKPIBusinessLogicValueArr[3];
 									break;
 								case 2:
-									mCoverageArr[2] = "2";
+									mCoverageArr[2] = mKPIBusinessLogicValueArr[3];
 									break;
 								case 3:
-									mRightFrequencyAdd[0] = "2";
+									mRightFrequencyAdd[0] = mKPIBusinessLogicValueArr[3];
 									break;
 								case 4:
-									mRightFrequencyAdd[1] = "2";
+									mRightFrequencyAdd[1] = mKPIBusinessLogicValueArr[3];
 									break;
 								case 5:
-									mRightFrequencyAdd[2] = "2";
+									mRightFrequencyAdd[2] = mKPIBusinessLogicValueArr[3];
 									break;
 								case 6:
-									mPOBAdd[0] = "2";
+									mPOBAdd[0] = mKPIBusinessLogicValueArr[3];
 									break;
 								case 7:
-									mPOBAdd[1] = "2";
+									mPOBAdd[1] = mKPIBusinessLogicValueArr[3];
 									break;
 								case 8:
-									mPOBAdd[2] = "2";
+									mPOBAdd[2] = mKPIBusinessLogicValueArr[3];
 									break;
 								}
 								addBusinessIncenLogic();
@@ -1585,31 +1757,31 @@ public class IncenKPIActivity extends FragmentActivity {
 								mCheckBoxSelected[position] = 4;
 								switch (position) {
 								case 0:
-									mCoverageArr[0] = "1";
+									mCoverageArr[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 1:
-									mCoverageArr[1] = "1";
+									mCoverageArr[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 2:
-									mCoverageArr[2] = "1";
+									mCoverageArr[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 3:
-									mRightFrequencyAdd[0] = "1";
+									mRightFrequencyAdd[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 4:
-									mRightFrequencyAdd[1] = "1";
+									mRightFrequencyAdd[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 5:
-									mRightFrequencyAdd[2] = "1";
+									mRightFrequencyAdd[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 6:
-									mPOBAdd[0] = "1";
+									mPOBAdd[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 7:
-									mPOBAdd[1] = "1";
+									mPOBAdd[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 8:
-									mPOBAdd[2] = "1";
+									mPOBAdd[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								}
 								addBusinessIncenLogic();
@@ -1632,31 +1804,31 @@ public class IncenKPIActivity extends FragmentActivity {
 								mCheckBoxSelected[position] = 5;
 								switch (position) {
 								case 0:
-									mCoverageArr[0] = "1";
+									mCoverageArr[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 1:
-									mCoverageArr[1] = "1";
+									mCoverageArr[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 2:
-									mCoverageArr[2] = "1";
+									mCoverageArr[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 3:
-									mRightFrequencyAdd[0] = "1";
+									mRightFrequencyAdd[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 4:
-									mRightFrequencyAdd[1] = "1";
+									mRightFrequencyAdd[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 5:
-									mRightFrequencyAdd[2] = "1";
+									mRightFrequencyAdd[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 6:
-									mPOBAdd[0] = "1";
+									mPOBAdd[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 7:
-									mPOBAdd[1] = "1";
+									mPOBAdd[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 8:
-									mPOBAdd[2] = "1";
+									mPOBAdd[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								}
 								addBusinessIncenLogic();
@@ -1664,31 +1836,31 @@ public class IncenKPIActivity extends FragmentActivity {
 								mCheckBoxSelected[position] = 5;
 								switch (position) {
 								case 0:
-									mCoverageArr[0] = "1";
+									mCoverageArr[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 1:
-									mCoverageArr[1] = "1";
+									mCoverageArr[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 2:
-									mCoverageArr[2] = "1";
+									mCoverageArr[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 3:
-									mRightFrequencyAdd[0] = "1";
+									mRightFrequencyAdd[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 4:
-									mRightFrequencyAdd[1] = "1";
+									mRightFrequencyAdd[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 5:
-									mRightFrequencyAdd[2] = "1";
+									mRightFrequencyAdd[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 6:
-									mPOBAdd[0] = "1";
+									mPOBAdd[0] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 7:
-									mPOBAdd[1] = "1";
+									mPOBAdd[1] = mKPIBusinessLogicValueArr[4];
 									break;
 								case 8:
-									mPOBAdd[2] = "1";
+									mPOBAdd[2] = mKPIBusinessLogicValueArr[4];
 									break;
 								}
 								addBusinessIncenLogic();
@@ -1698,6 +1870,10 @@ public class IncenKPIActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Ui : ViewHolder : Holds View of ListView Item
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	static class ViewHolder {
 		AccordionView mListAccordionView;
 		TextView mListName;
@@ -1708,8 +1884,18 @@ public class IncenKPIActivity extends FragmentActivity {
 		CheckBox mListCheckBox3;
 		CheckBox mListCheckBox4;
 		CheckBox mListCheckBox5;
+
+		TextView mListTextView1;
+		TextView mListTextView2;
+		TextView mListTextView3;
+		TextView mListTextView4;
+		TextView mListTextView5;
 	}
 
+	/**
+	 * Api : Get json from Preferences
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void getProductJSON() {
 		if (!BuildVars.debug) {
 			if (!TextUtils.isEmpty(ApplicationLoader.getPreferences()
@@ -1724,10 +1910,20 @@ public class IncenKPIActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Parse : Parse JSON
+	 * @param str
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void parseJSON(String str) {
 		getProductList(str);
 	}
 
+	/**
+	 * Parse : Parse JSON data fill it in Beans
+	 * @param str
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void getProductList(String str) {
 		mPrincipalProduct = new ArrayList<PrincipalProduct>();
 
@@ -1750,7 +1946,7 @@ public class IncenKPIActivity extends FragmentActivity {
 					ApplicationLoader.getPreferences().setIncenHeritageTeam(
 							true);
 				}
-				
+
 				ApplicationLoader.getPreferences().setPrincipalProductNumber(
 						String.valueOf(mJSONArray.length()));
 			} catch (Exception e) {
@@ -1765,12 +1961,24 @@ public class IncenKPIActivity extends FragmentActivity {
 				mPrincipalProduct.add(mObj);
 			}
 
+			String mKPICommaSeparatedString = mJSONObj.getString("KPI");
+			mKPIBusinessLogicValueArr = mKPICommaSeparatedString.split(",");
+
+			for (int i = 0; i < 5; i++) {
+				mKPICheckBoxValueArr[i] = Integer
+						.parseInt(mKPIBusinessLogicValueArr[i]);
+			}
+
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Ui : Dialog : Shows Dialog if no data found in Preferences
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void showAlertDialog() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				IncenKPIActivity.this);
@@ -1809,6 +2017,11 @@ public class IncenKPIActivity extends FragmentActivity {
 		alertDialog.show();
 	}
 
+	/**
+	 * Async Task  & Api : Pulls JSON data from Api
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 *
+	 */
 	public class AsyncDataFromApi extends AsyncTask<Void, Void, Void> {
 		private ProgressDialog mProgress;
 		private boolean isProductData = false;
@@ -1881,6 +2094,10 @@ public class IncenKPIActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Security : Stop capture screenshot
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setSecurity() {
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			if (!BuildVars.debug) {

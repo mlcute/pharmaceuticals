@@ -1,3 +1,16 @@
+/* HISTORY
+ * CATEGORY 		:- ACTIVITY
+ * DEVELOPER		:- VIKALP PATEL
+ * AIM			    :- INCENTIVE ANNUAL ACTIVITY
+ * DESCRIPTION 		:- SHOWS INCENTIVE ANNUAL SCREEN
+ * 
+ * S - START E- END  C- COMMENTED  U -EDITED A -ADDED
+ * --------------------------------------------------------------------------------------------------------------------
+ * INDEX       DEVELOPER		DATE			FUNCTION		DESCRIPTION
+ * --------------------------------------------------------------------------------------------------------------------
+ * 10001       VIKALP PATEL    01/01/2015       				CREATED
+ * --------------------------------------------------------------------------------------------------------------------
+ */
 package com.mobcast.calc;
 
 import java.io.BufferedInputStream;
@@ -11,6 +24,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 
+import org.apache.http.util.ByteArrayBuffer;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,6 +75,10 @@ import com.mobcast.view.AccordionView;
 import com.sanofi.in.mobcast.ApplicationLoader;
 import com.sanofi.in.mobcast.R;
 
+/**
+ * @author Vikalp Patel(VikalpPatelCE)
+ *
+ */
 public class IncenAnnualActivity extends FragmentActivity {
 
 	private AccordionView mAccordionTotal;
@@ -123,6 +141,9 @@ public class IncenAnnualActivity extends FragmentActivity {
 
 	private static final String TAG = IncenAnnualActivity.class.getSimpleName();
 
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -138,6 +159,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 		setUiListener();
 	}
 
+	/**
+	 * Initialize UI Elements
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void initUi() {
 		mAccordionTotal = (AccordionView) findViewById(R.id.incen_annual_total_acc_view);
 		mAccordionTotal.toggleSection(0);
@@ -185,6 +210,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Initialize Ui Elements for Bio Surgery Team
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void addInitUi() {
 		mAccordionBioSurgery = (AccordionView) findViewById(R.id.incen_bio_surgery_acc_view);
 
@@ -200,6 +229,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 		mAccordionBioSurgery.setSectionHeaders("ESI Incentive");
 	}
 
+	/**
+	 * Sets Ui Listener
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setUiListener() {
 		mInceIcon.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -218,6 +251,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 		});
 	}
 
+	/**
+	 * Set Ruppee Font
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setRupeeFont() {
 		mTypeFace = Utilities.getFontStyleRupee();
 
@@ -240,12 +277,20 @@ public class IncenAnnualActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Sets Ruppee Font for Bio Surgery UI Elements
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void addSetRupeeFont() {
 		mTotalBioSurgeryRs.setTypeface(mTypeFace);
 
 		mTotalBioSurgeryRs.setText("`");
 	}
 
+	/**
+	 * Sets CheckBox Listener
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setCheckBoxGroup() {
 		mCheckBoxQuarter1
 				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -441,6 +486,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Sets CheckBox Listener For Bio Surgery : ESI Incentive
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void addSetCheckBoxGroup() {
 		mCheckBoxBioSurgery1
 				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -464,6 +513,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 				});
 	}
 
+	/**
+	 * Get Values from Preferences
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setCheckedToGetValues() {
 		getQuarter1Value();
 		getQuarter2Value();
@@ -471,6 +524,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 		getQuarter4Value();
 	}
 
+	/**
+	 * Restore : Values from Preferences
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void restoreValuesFromPreferences() {
 		mQuarterIsCheck1 = ApplicationLoader.getPreferences()
 				.getAnnualQCheck1();
@@ -486,6 +543,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 		setValuesFromPreferences();
 	}
 
+	/**
+	 * Check Whether Values restore from Preferences are null or not
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void checkValuesFromPreferencesNullOrNot() {
 		if (mQuarterIsCheck1 == null) {
 			mQuarterIsCheck1 = "0";
@@ -508,6 +569,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Set values retrieve from Preferences to Ui Elements
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setValuesFromPreferences() {
 		if (mQuarterIsCheck1.equalsIgnoreCase("0")) {
 			mCheckBoxQuarter1.setChecked(false);
@@ -541,6 +606,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 
 	}
 
+	/**
+	 * Business Logic : Incentive Annual
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void businessIncenLogic() {
 		try {
 			if (mCheckBoxAnnual.isChecked()) {
@@ -589,6 +658,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 		}
 	}
 	
+	/**
+	 * Business Logic : Bio Surgery Team
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void addBusinessIncenLogic(){
 		if(mCheckBoxBioSurgery1.isChecked()){
 			mTotalAnnualArr =  mTotalAnnualArr + 10000;
@@ -607,6 +680,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Save value to Preferences
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void saveAnnual() {
 		ApplicationLoader.getPreferences().setAnnualQCheck1(
 				mCheckBoxQuarter1.isChecked() ? "1" : "0");
@@ -624,6 +701,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 	 * Get Data From JSON
 	 */
 
+	/**
+	 * Get Base JSON from Preferences
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void getBaseJSON() {
 		if (!BuildVars.debug) {
 			if (!TextUtils.isEmpty(ApplicationLoader.getPreferences()
@@ -639,10 +720,20 @@ public class IncenAnnualActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Parse JSON retrieve from Preferences
+	 * @param str
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void parseJSON(String str) {
 		getMonthBase(str);
 	}
 
+	/**
+	 * Parse JSON retrieve from Preferences : Sets in to Variables
+	 * @param str
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void getMonthBase(String str) {
 		try {
 			JSONObject mJSONObj = new JSONObject(str);
@@ -675,6 +766,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Show Dialog : If no Incentive data found in Preferences
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void showAlertDialog() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				IncenAnnualActivity.this);
@@ -712,6 +807,11 @@ public class IncenAnnualActivity extends FragmentActivity {
 		alertDialog.show();
 	}
 
+	/**
+	 * Async Task : Fetch Incentive Base value from webServices
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 *
+	 */
 	public class AsyncBaseDataFromApi extends AsyncTask<Void, Void, Void> {
 		private ProgressDialog mProgress;
 		private boolean isMonthQuarterData = false;
@@ -784,6 +884,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Restore : Value from Prefernces
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void getQuarter1Value() {
 		String monthTotal = TextUtils.isEmpty(ApplicationLoader
 				.getPreferences().getQuarterTotal1()) ? "0" : ApplicationLoader
@@ -804,6 +908,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 		mQuarterTotal1.setText(quarter1Total);
 	}
 
+	/**
+	 * Restore : Values from Preferences
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void getQuarter2Value() {
 		String monthTotal = TextUtils.isEmpty(ApplicationLoader
 				.getPreferences().getQuarterTotal2()) ? "0" : ApplicationLoader
@@ -824,6 +932,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 		mQuarterTotal2.setText(quarter1Total);
 	}
 
+	/**
+	 * Restore : Values from Preferences
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void getQuarter3Value() {
 		String monthTotal = TextUtils.isEmpty(ApplicationLoader
 				.getPreferences().getQuarterTotal3()) ? "0" : ApplicationLoader
@@ -844,6 +956,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 		mQuarterTotal3.setText(quarter1Total);
 	}
 
+	/**
+	 * Restore : Values from Preferences
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void getQuarter4Value() {
 		String monthTotal = TextUtils.isEmpty(ApplicationLoader
 				.getPreferences().getQuarterTotal4()) ? "0" : ApplicationLoader
@@ -864,6 +980,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 		mQuarterTotal4.setText(quarter1Total);
 	}
 
+	/**
+	 * Show Dialog : OverFlow Menu : Incentive Scheme PDF
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	@SuppressLint("NewApi")
 	public void showPopUpMenu() {
 		final Dialog dialog = new Dialog(IncenAnnualActivity.this);
@@ -926,6 +1046,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 		dialog.show();
 	}
 
+	/**
+	 * Show PDF
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void showPdf() {
 //		File file1 = new File("/sdcard/incen.pdf");
 //		if (!file1.exists()) {
@@ -950,6 +1074,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * File : Copy Incentive PDF from Assets Folder
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void copyPdfFromAssets() {
 		try {
 			AssetManager assetManager = getAssets();
@@ -987,6 +1115,11 @@ public class IncenAnnualActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * @param in
+	 * @param out
+	 * @throws IOException
+	 */
 	private void copyFile(InputStream in, OutputStream out) throws IOException {
 		byte[] buffer = new byte[1024];
 		int read;
@@ -995,6 +1128,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 		}
 	}
 	
+	/**
+	 * Show Dialog : Open Incentive PDF Dialog
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void showOpenPdfDialog() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				IncenAnnualActivity.this);
@@ -1038,6 +1175,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 		alertDialog.show();
 	}
 
+	/**
+	 * Show Dialog : Download Incentive PDF
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void showDownloadDialog() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				IncenAnnualActivity.this);
@@ -1074,6 +1215,10 @@ public class IncenAnnualActivity extends FragmentActivity {
 		alertDialog.show();
 	}
 
+	/**
+	 * Download PDF from WebServices
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void downloadPdfFromUrl() {
 		if (Utilities.isInternetConnected()) {
 			new AsyncDownloadPdfPathFromApi(true).execute();
@@ -1084,6 +1229,11 @@ public class IncenAnnualActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Async Task : Download Incentive PDF Path from WebServices
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 *
+	 */
 	public class AsyncDownloadPdfPathFromApi extends
 			AsyncTask<Void, Void, Void> {
 		private ProgressDialog mProgress;
@@ -1153,6 +1303,11 @@ public class IncenAnnualActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Async Task : Download Incentive PDF from Webservices
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 *
+	 */
 	public class AsyncDownloadPdfDataFromApi extends
 			AsyncTask<String, String, String> {
 		private ProgressDialog mProgress;
@@ -1174,11 +1329,11 @@ public class IncenAnnualActivity extends FragmentActivity {
 				mProgress.setMessage("Downloading...");
 				mProgress.setCanceledOnTouchOutside(false);
 				mProgress.setCancelable(false);
-				mProgress.setMax(100);
+				/*mProgress.setMax(100);
 				mProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 				Drawable customDrawable = getResources().getDrawable(
 						R.drawable.custom_progressbar);
-				mProgress.setProgressDrawable(customDrawable);
+				mProgress.setProgressDrawable(customDrawable);*/
 				mProgress.show();
 			}
 		}
@@ -1194,7 +1349,7 @@ public class IncenAnnualActivity extends FragmentActivity {
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			try {
-				URL mURL = new URL(pdfPath);
+				URL mURL = new URL(pdfPath.replace(" ", "%20"));
 				String mRoot = Environment.getExternalStorageDirectory()
 						.toString();
 				String foldername = "";
@@ -1215,16 +1370,13 @@ public class IncenAnnualActivity extends FragmentActivity {
 				URLConnection mConnection = mURL.openConnection();
 				InputStream inputStream = mConnection.getInputStream();
 				BufferedInputStream bis = new BufferedInputStream(inputStream);
+				ByteArrayBuffer baf = new ByteArrayBuffer(50);
 				FileOutputStream mFileOutputStream = new FileOutputStream(mFile);
-				byte data[] = new byte[1024];
 				int current = 0;
-				long total = 0;
-				int lenghtOfFile = mConnection.getContentLength();
 				while ((current = bis.read()) != -1) {
-					total += current;
-					publishProgress("" + (int) ((total * 100) / lenghtOfFile));
-					mFileOutputStream.write(data, 0, current);
+					baf.append((byte) current);
 				}
+				mFileOutputStream.write(baf.toByteArray());
 				mFileOutputStream.flush();
 				mFileOutputStream.close();
 				inputStream.close();
@@ -1259,6 +1411,11 @@ public class IncenAnnualActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Trigger Intent : Capable of PDF Reader Application
+	 * @param mName
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void openPDFReaderIntent(String mName) {
 		File file = new File(Environment.getExternalStorageDirectory()
 				.getAbsolutePath()

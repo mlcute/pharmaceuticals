@@ -1,3 +1,16 @@
+/* HISTORY
+ * CATEGORY 		:- ACTIVITY
+ * DEVELOPER		:- VIKALP PATEL
+ * AIM			    :- INCENTIVE DASHBOARD ACTIVITY
+ * DESCRIPTION 		:- SHOWS INCENTIVE DASHBOARD SCREEN
+ * 
+ * S - START E- END  C- COMMENTED  U -EDITED A -ADDED
+ * --------------------------------------------------------------------------------------------------------------------
+ * INDEX       DEVELOPER		DATE			FUNCTION		DESCRIPTION
+ * --------------------------------------------------------------------------------------------------------------------
+ * 10001       VIKALP PATEL    01/01/2015       				CREATED
+ * --------------------------------------------------------------------------------------------------------------------
+ */
 package com.mobcast.calc;
 
 import java.io.BufferedInputStream;
@@ -11,6 +24,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 
+import org.apache.http.util.ByteArrayBuffer;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,6 +71,10 @@ import com.mobcast.view.ButtonFlat;
 import com.sanofi.in.mobcast.ApplicationLoader;
 import com.sanofi.in.mobcast.R;
 
+/**
+ * @author Vikalp Patel
+ * 
+ */
 public class IncenDashBoardActivity extends FragmentActivity {
 
 	private ButtonFlat mQuarter1;
@@ -79,6 +97,11 @@ public class IncenDashBoardActivity extends FragmentActivity {
 
 	public static final String INTENT_QUARTER = "whichQuarter";
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -92,6 +115,11 @@ public class IncenDashBoardActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Initialize UI Elements
+	 * 
+	 * @author Vikalp Patel
+	 */
 	private void initUi() {
 		mQuarter1 = (ButtonFlat) findViewById(R.id.quarterBtn1);
 		mQuarter2 = (ButtonFlat) findViewById(R.id.quarterBtn2);
@@ -108,6 +136,11 @@ public class IncenDashBoardActivity extends FragmentActivity {
 		mLayout = (RelativeLayout) findViewById(R.id.mLayout);
 	}
 
+	/**
+	 * Set Listener to UI Elements
+	 * 
+	 * @author Vikalp Patel
+	 */
 	private void setUiListener() {
 		mQuarter1.setOnClickListener(new View.OnClickListener() {
 
@@ -225,6 +258,9 @@ public class IncenDashBoardActivity extends FragmentActivity {
 		});
 	}
 
+	/**
+	 * Pulls Data from WebService
+	 */
 	private void fetchDataFromApi() {
 		if (!ApplicationLoader.getPreferences().isIncenFirstTime()) { // FIRST
 																		// TIME
@@ -243,6 +279,10 @@ public class IncenDashBoardActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * @author Vikalp Patel Async Task to fetch data from WebServices :
+	 *         Incentive Product
+	 */
 	public class AsyncDataFromApi extends AsyncTask<Void, Void, Void> {
 		private ProgressDialog mProgress;
 		private boolean isProductData = false;
@@ -329,6 +369,10 @@ public class IncenDashBoardActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * @author Vikalp Patel Async Task : Fetch data from WebServices : Incentive
+	 *         Base
+	 */
 	public class AsyncBaseDataFromApi extends AsyncTask<Void, Void, Void> {
 		private ProgressDialog mProgress;
 		private boolean isMonthQuarterData = false;
@@ -400,6 +444,9 @@ public class IncenDashBoardActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Show alert dialog if no incentive data found in Preferences
+	 */
 	private void showAlertDialog() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				IncenDashBoardActivity.this);
@@ -437,6 +484,9 @@ public class IncenDashBoardActivity extends FragmentActivity {
 		alertDialog.show();
 	}
 
+	/**
+	 * Security : Couldn't let you capture ScreenShot
+	 */
 	private void setSecurity() {
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			if (!BuildVars.debug) {
@@ -446,6 +496,9 @@ public class IncenDashBoardActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Show OverFlow Menu : Incentive Scheme
+	 */
 	@SuppressLint("NewApi")
 	public void showPopUpMenu() {
 		final Dialog dialog = new Dialog(IncenDashBoardActivity.this);
@@ -508,6 +561,9 @@ public class IncenDashBoardActivity extends FragmentActivity {
 		dialog.show();
 	}
 
+	/**
+	 * Show Pdf of Incentive From OverFlow Menu
+	 */
 	private void showPdf() {
 		// File file1 = new File("/sdcard/incen.pdf");
 		// if (!file1.exists()) {
@@ -531,6 +587,9 @@ public class IncenDashBoardActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Copy Pdf from Assests Folder
+	 */
 	private void copyPdfFromAssets() {
 		try {
 			AssetManager assetManager = getAssets();
@@ -568,6 +627,14 @@ public class IncenDashBoardActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * @param in
+	 *            : InputStream
+	 * @param out
+	 *            : OutPutStream
+	 * @throws IOException
+	 *             Copy File
+	 */
 	private void copyFile(InputStream in, OutputStream out) throws IOException {
 		byte[] buffer = new byte[1024];
 		int read;
@@ -576,6 +643,9 @@ public class IncenDashBoardActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Show Open Pdf Dialog, If PDF is already downloaded.
+	 */
 	private void showOpenPdfDialog() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				IncenDashBoardActivity.this);
@@ -619,6 +689,9 @@ public class IncenDashBoardActivity extends FragmentActivity {
 		alertDialog.show();
 	}
 
+	/**
+	 * Show PDF Download Dialog
+	 */
 	private void showDownloadDialog() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				IncenDashBoardActivity.this);
@@ -655,6 +728,9 @@ public class IncenDashBoardActivity extends FragmentActivity {
 		alertDialog.show();
 	}
 
+	/**
+	 * Fetch PDF Path from WebServices
+	 */
 	public void downloadPdfFromUrl() {
 		if (Utilities.isInternetConnected()) {
 			new AsyncDownloadPdfPathFromApi(true).execute();
@@ -665,6 +741,9 @@ public class IncenDashBoardActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * @author Vikalp Patel Async Task : Fetch PDF Path from WebServices
+	 */
 	public class AsyncDownloadPdfPathFromApi extends
 			AsyncTask<Void, Void, Void> {
 		private ProgressDialog mProgress;
@@ -734,6 +813,11 @@ public class IncenDashBoardActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * <i>Async Task : Downloads Pdf from Path</i>
+	 * 
+	 * @author Vikalp Patel
+	 */
 	public class AsyncDownloadPdfDataFromApi extends
 			AsyncTask<String, String, String> {
 		private ProgressDialog mProgress;
@@ -755,11 +839,13 @@ public class IncenDashBoardActivity extends FragmentActivity {
 				mProgress.setMessage("Downloading...");
 				mProgress.setCanceledOnTouchOutside(false);
 				mProgress.setCancelable(false);
-				mProgress.setMax(100);
-				mProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-				Drawable customDrawable = getResources().getDrawable(
-						R.drawable.custom_progressbar);
-				mProgress.setProgressDrawable(customDrawable);
+				/*
+				 * mProgress.setMax(100);
+				 * mProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+				 * Drawable customDrawable = getResources().getDrawable(
+				 * R.drawable.custom_progressbar);
+				 * mProgress.setProgressDrawable(customDrawable);
+				 */
 				mProgress.show();
 			}
 		}
@@ -775,7 +861,7 @@ public class IncenDashBoardActivity extends FragmentActivity {
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			try {
-				URL mURL = new URL(pdfPath);
+				URL mURL = new URL(pdfPath.replace(" ", "%20"));
 				String mRoot = Environment.getExternalStorageDirectory()
 						.toString();
 				String foldername = "";
@@ -796,16 +882,13 @@ public class IncenDashBoardActivity extends FragmentActivity {
 				URLConnection mConnection = mURL.openConnection();
 				InputStream inputStream = mConnection.getInputStream();
 				BufferedInputStream bis = new BufferedInputStream(inputStream);
+				ByteArrayBuffer baf = new ByteArrayBuffer(50);
 				FileOutputStream mFileOutputStream = new FileOutputStream(mFile);
-				byte data[] = new byte[1024];
 				int current = 0;
-				long total = 0;
-				int lenghtOfFile = mConnection.getContentLength();
 				while ((current = bis.read()) != -1) {
-					total += current;
-					publishProgress("" + (int) ((total * 100) / lenghtOfFile));
-					mFileOutputStream.write(data, 0, current);
+					baf.append((byte) current);
 				}
+				mFileOutputStream.write(baf.toByteArray());
 				mFileOutputStream.flush();
 				mFileOutputStream.close();
 				inputStream.close();
@@ -840,6 +923,12 @@ public class IncenDashBoardActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * <i>Intent Pdf capable application</i>
+	 * 
+	 * @param mName
+	 *            : File Name
+	 */
 	public void openPDFReaderIntent(String mName) {
 		File file = new File(Environment.getExternalStorageDirectory()
 				.getAbsolutePath()
@@ -886,7 +975,9 @@ public class IncenDashBoardActivity extends FragmentActivity {
 	}
 
 	/*
-	 * Flurry Analytics
+	 * Flurry Analytics (non-Javadoc)
+	 * 
+	 * @see android.support.v4.app.FragmentActivity#onStart()
 	 */
 	@Override
 	protected void onStart() {
@@ -894,6 +985,11 @@ public class IncenDashBoardActivity extends FragmentActivity {
 		FlurryAgent.onStartSession(this, Constants.FLURRY_ID);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.support.v4.app.FragmentActivity#onStop()
+	 */
 	@Override
 	protected void onStop() {
 		super.onStop();

@@ -1,3 +1,16 @@
+/* HISTORY
+ * CATEGORY 		:- ACTIVITY
+ * DEVELOPER		:- VIKALP PATEL
+ * AIM			    :- INCENTIVE QUARTERLY ACTIVITY
+ * DESCRIPTION 		:- SHOWS INCENTIVE QUARTER SCREEN
+ * 
+ * S - START E- END  C- COMMENTED  U -EDITED A -ADDED
+ * --------------------------------------------------------------------------------------------------------------------
+ * INDEX       DEVELOPER		DATE			FUNCTION		DESCRIPTION
+ * --------------------------------------------------------------------------------------------------------------------
+ * 10001       VIKALP PATEL    01/01/2015       				CREATED
+ * --------------------------------------------------------------------------------------------------------------------
+ */
 package com.mobcast.calc;
 
 import java.util.HashMap;
@@ -35,6 +48,10 @@ import com.mobcast.view.Slider.OnValueChangedListener;
 import com.sanofi.in.mobcast.ApplicationLoader;
 import com.sanofi.in.mobcast.R;
 
+/**
+ * @author Vikalp Patel(VikalpPatelCE)
+ *
+ */
 public class IncenQuarterlyActivity extends FragmentActivity {
 
 	private AccordionView mAccordionMon1;
@@ -61,6 +78,9 @@ public class IncenQuarterlyActivity extends FragmentActivity {
 	private static final String TAG = IncenQuarterlyActivity.class
 			.getSimpleName();
 
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -76,6 +96,10 @@ public class IncenQuarterlyActivity extends FragmentActivity {
 		setListener();
 	}
 
+	/**
+	 * Ui : Initiliaze Ui Elements
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void initUi() {
 		mAccordionMon1 = (AccordionView) findViewById(R.id.incen_quarter_acc_view);
 		mAccordionMon1.toggleSection(0);
@@ -90,11 +114,19 @@ public class IncenQuarterlyActivity extends FragmentActivity {
 		mQuarterTotal = (TextView) findViewById(R.id.incen_quarter_total_incen);
 	}
 
+	/**
+	 * Intent : Get Intent Data
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void getIntentData() {
 		whichQuarter = Integer.parseInt(getIntent().getStringExtra(
 				IncenDashBoardActivity.INTENT_QUARTER));
 	}
 
+	/**
+	 * Ui : Sets UI Listener
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setListener() {
 
 		mQuarterSlider.setOnValueChangedListener(new OnValueChangedListener() {
@@ -141,6 +173,12 @@ public class IncenQuarterlyActivity extends FragmentActivity {
 
 	}
 
+	/**
+	 * Ui : Validate Incentive Percentage
+	 * @param mString
+	 * @param whichSlider
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void validateEditBox(String mString, int whichSlider) {
 		try {
 			if (!TextUtils.isEmpty(mString.toString())) {
@@ -200,6 +238,10 @@ public class IncenQuarterlyActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Ui : Sets Accordion Header
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setTextAccordingToQuarter() {
 		mAccordionMon1.setSectionHeaders("Quarter " + whichQuarter);
 		mTotalQuartelLabel.setText("Total Quarter " + whichQuarter + " : ");
@@ -225,6 +267,11 @@ public class IncenQuarterlyActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Business : Sets Quarter Incentive Business Logic
+	 * @param isPointToZero
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void businessIncenLogic(boolean isPointToZero) {
 		try {
 			if (!isPointToZero) {
@@ -240,6 +287,10 @@ public class IncenQuarterlyActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Restore : Restore values from Preferences
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void restoreValueFromPreferences() {
 		switch (whichQuarter) {
 		case 1:
@@ -263,6 +314,10 @@ public class IncenQuarterlyActivity extends FragmentActivity {
 		setValuesFromPreferences();
 	}
 
+	/**
+	 * Restore : Check whether values are null or not retreived from Preferences
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void checkValuesFromPreferencesNullOrNot() {
 		if (mQuarterSliderArr == null) {
 			mQuarterSliderArr = "89";
@@ -284,12 +339,21 @@ public class IncenQuarterlyActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Ui & Preferences : Sets Value to Ui Elements from Preferences
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setValuesFromPreferences() {
 		mQuarterSlider.setValue(Integer.parseInt(mQuarterSliderArr));
 		mQuarterPer.setText(mQuarterPerArr);
 		mQuarterTotal.setText(mQuarterTotalArr);
 	}
 
+	/**
+	 * Save : Save value in Preferences
+	 * @param whichQuarter
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void saveMonthlyValues(int whichQuarter) {
 		switch (whichQuarter) {
 		case 1:
@@ -320,6 +384,10 @@ public class IncenQuarterlyActivity extends FragmentActivity {
 
 	}
 
+	/**
+	 * Ui : Sets Rupee Fonts
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setRupeeFont() {
 		mTypeFace = Utilities.getFontStyleRupee();
 
@@ -328,6 +396,10 @@ public class IncenQuarterlyActivity extends FragmentActivity {
 		mTotalRsSy.setText("`");
 	}
 
+	/**
+	 * Security : Couldn't capture ScreenShot
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setSecurity() {
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			if (!BuildVars.debug) {
@@ -341,6 +413,10 @@ public class IncenQuarterlyActivity extends FragmentActivity {
 	 * Get Data From JSON
 	 */
 
+	/**
+	 * Api : Get Base JSON
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void getBaseJSON() {
 		if (!BuildVars.debug) {
 			if (!TextUtils.isEmpty(ApplicationLoader.getPreferences()
@@ -356,10 +432,20 @@ public class IncenQuarterlyActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Parse : Parse JSON
+	 * @param str
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void parseJSON(String str) {
 		getMonthBase(str);
 	}
 
+	/**
+	 * Parse : Parse JSON from Preferences
+	 * @param str
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void getMonthBase(String str) {
 		try {
 			JSONObject mJSONObj = new JSONObject(str);
@@ -386,6 +472,10 @@ public class IncenQuarterlyActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Ui : Show Dialog if no data found from Preferences
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void showAlertDialog() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				IncenQuarterlyActivity.this);
@@ -423,6 +513,11 @@ public class IncenQuarterlyActivity extends FragmentActivity {
 		alertDialog.show();
 	}
 
+	/**
+	 * Async Task & Api : Get Incentive Base value from WebServices
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 *
+	 */
 	public class AsyncBaseDataFromApi extends AsyncTask<Void, Void, Void> {
 		private ProgressDialog mProgress;
 		private boolean isMonthQuarterData = false;

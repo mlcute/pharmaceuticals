@@ -1,3 +1,16 @@
+/* HISTORY
+ * CATEGORY 		:- ACTIVITY
+ * DEVELOPER		:- VIKALP PATEL
+ * AIM			    :- INCENTIVE SUMMARY ACTIVITY
+ * DESCRIPTION 		:- SHOWS INCENTIVE SUMMARY SCREEN
+ * 
+ * S - START E- END  C- COMMENTED  U -EDITED A -ADDED
+ * --------------------------------------------------------------------------------------------------------------------
+ * INDEX       DEVELOPER		DATE			FUNCTION		DESCRIPTION
+ * --------------------------------------------------------------------------------------------------------------------
+ * 10001       VIKALP PATEL    01/01/2015       				CREATED
+ * --------------------------------------------------------------------------------------------------------------------
+ */
 package com.mobcast.calc;
 
 import android.graphics.Typeface;
@@ -16,6 +29,10 @@ import com.mobcast.view.AccordionView;
 import com.sanofi.in.mobcast.ApplicationLoader;
 import com.sanofi.in.mobcast.R;
 
+/**
+ * @author Vikalp Patel(VikalpPatelCE)
+ * 
+ */
 public class IncenSummaryActivity extends FragmentActivity {
 
 	private AccordionView mAccordionView;
@@ -71,6 +88,11 @@ public class IncenSummaryActivity extends FragmentActivity {
 	private static final String TAG = IncenSummaryActivity.class
 			.getSimpleName();
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -86,6 +108,11 @@ public class IncenSummaryActivity extends FragmentActivity {
 		setUiListener();
 	}
 
+	/**
+	 * Ui : Initialize Ui Elements
+	 * 
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void initUi() {
 		mAccordionView = (AccordionView) findViewById(R.id.incen_summary_acc_view);
 
@@ -120,6 +147,11 @@ public class IncenSummaryActivity extends FragmentActivity {
 		mImageViewBack = (ImageView) findViewById(R.id.titleBackIcon);
 	}
 
+	/**
+	 * Intent : Get Intent Data
+	 * 
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void getIntentData() {
 		whichQuarter = Integer.parseInt(getIntent().getStringExtra(
 				IncenDashBoardActivity.INTENT_QUARTER));
@@ -131,6 +163,11 @@ public class IncenSummaryActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Ui : Sets Ui Listener
+	 * 
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setUiListener() {
 		mImageViewBack.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -141,6 +178,11 @@ public class IncenSummaryActivity extends FragmentActivity {
 		});
 	}
 
+	/**
+	 * Ui : Sets Header of AccordionView
+	 * 
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setTextAccordingToQuarter() {
 		mMonthLabel1.setText(mArrMonthName[Utilities
 				.getCurrentMonth(whichQuarter)]);
@@ -150,11 +192,21 @@ public class IncenSummaryActivity extends FragmentActivity {
 				.getCurrentMonth(whichQuarter) + 2]);
 	}
 
+	/**
+	 * Ui: Sets Header of AccordionView
+	 * 
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setAccordionHeader() {
 		mAccordionView.setSectionHeaders("Summary Quarter " + whichQuarter);
 		mAccordionView.toggleSection(0);
 	}
 
+	/**
+	 * Ui : Sets Rupee Font
+	 * 
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setRupeeFont() {
 		mTypeFace = Utilities.getFontStyleRupee();
 
@@ -175,6 +227,11 @@ public class IncenSummaryActivity extends FragmentActivity {
 		mTotalRsSy.setText("`");
 	}
 
+	/**
+	 * Restore : Restore Value from Preferences
+	 * 
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void restoreValueFromPreferences() {
 		switch (whichQuarter) {
 		case 1:
@@ -243,6 +300,12 @@ public class IncenSummaryActivity extends FragmentActivity {
 		setValuesFromPreferences();
 	}
 
+	/**
+	 * Restore : Check whether values retrieved from Preferences are null or
+	 * not.
+	 * 
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void checkValuesFromPreferencesNullOrNot() {
 		if (mMonthValueArr1 == null)
 			mMonthValueArr1 = "0";
@@ -270,6 +333,11 @@ public class IncenSummaryActivity extends FragmentActivity {
 				+ Integer.parseInt(mQuarterValueArr));
 	}
 
+	/**
+	 * Preferences & Ui : Set Value to Ui Elements from Preferences
+	 * 
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setValuesFromPreferences() {
 		mMonthTotal1.setText(mMonthValueArr1);
 		mMonthTotal2.setText(mMonthValueArr2);
@@ -296,6 +364,11 @@ public class IncenSummaryActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Security : Stop capture screenshots
+	 * 
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setSecurity() {
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			if (!BuildVars.debug) {

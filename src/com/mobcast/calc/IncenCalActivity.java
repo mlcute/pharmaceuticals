@@ -1,3 +1,16 @@
+/* HISTORY
+ * CATEGORY 		:- ACTIVITY
+ * DEVELOPER		:- VIKALP PATEL
+ * AIM			    :- INCENTIVE TAB ACTIVITY
+ * DESCRIPTION 		:- CONTAINS INCENTIVE FOUR TABS
+ * 
+ * S - START E- END  C- COMMENTED  U -EDITED A -ADDED
+ * --------------------------------------------------------------------------------------------------------------------
+ * INDEX       DEVELOPER		DATE			FUNCTION		DESCRIPTION
+ * --------------------------------------------------------------------------------------------------------------------
+ * 10001       VIKALP PATEL    01/01/2015       				CREATED
+ * --------------------------------------------------------------------------------------------------------------------
+ */
 package com.mobcast.calc;
 
 import java.io.BufferedInputStream;
@@ -11,6 +24,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 
+import org.apache.http.util.ByteArrayBuffer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -65,6 +79,10 @@ import com.mobcast.util.Utilities;
 import com.sanofi.in.mobcast.ApplicationLoader;
 import com.sanofi.in.mobcast.R;
 
+/**
+ * @author Vikalp Patel(VikalpPatelCE)
+ * 
+ */
 public class IncenCalActivity extends TabActivity implements
 		OnTabChangeListener {
 
@@ -92,9 +110,14 @@ public class IncenCalActivity extends TabActivity implements
 	private int mCoachMarksCounter = 0;
 
 	private Animation mAnimAlpha;
-	
+
 	private static final String TAG = IncenCalActivity.class.getSimpleName();
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.ActivityGroup#onCreate(android.os.Bundle)
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -106,12 +129,22 @@ public class IncenCalActivity extends TabActivity implements
 		setUiListener();
 	}
 
+	/**
+	 * Get Intent Data : From Which Quarter it's been called
+	 * 
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void getIntentData() {
 		mIntent = getIntent();
 		whichQuarter = mIntent
 				.getStringExtra(IncenDashBoardActivity.INTENT_QUARTER);
 	}
 
+	/**
+	 * Initalize UI Elements
+	 * 
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void initUi() {
 		mTabHost = getTabHost();
 
@@ -199,6 +232,11 @@ public class IncenCalActivity extends TabActivity implements
 		}
 	}
 
+	/**
+	 * Sets UI Listener
+	 * 
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setUiListener() {
 		mIncenOverFlow.setOnClickListener(new View.OnClickListener() {
 
@@ -257,6 +295,12 @@ public class IncenCalActivity extends TabActivity implements
 		});
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * android.widget.TabHost.OnTabChangeListener#onTabChanged(java.lang.String)
+	 */
 	@Override
 	public void onTabChanged(String mString) {
 		// TODO Auto-generated method stub
@@ -383,6 +427,16 @@ public class IncenCalActivity extends TabActivity implements
 
 	}
 
+	/**
+	 * Sets Tab Position
+	 * 
+	 * @param mString
+	 *            : Tab Name
+	 * @param position
+	 *            : Tab Position
+	 * @return
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private View getIndicator(String mString, int position) {
 		LinearLayout mLinearLayout = new LinearLayout(IncenCalActivity.this);
 		TextView mTextView = new TextView(IncenCalActivity.this);
@@ -430,6 +484,10 @@ public class IncenCalActivity extends TabActivity implements
 		return mLinearLayout;
 	}
 
+	/**
+	 * Sets CurrentMonthTab
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setCurrentMonthTab() {
 		mTabHost.getTabWidget()
 				.getChildAt(0)
@@ -470,6 +528,10 @@ public class IncenCalActivity extends TabActivity implements
 		mTextView3.setTextColor(Color.parseColor("#006999"));
 	}
 
+	/**
+	 * Security : Couldn't Capture ScreenShot
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setSecurity() {
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			if (!BuildVars.debug) {
@@ -479,6 +541,10 @@ public class IncenCalActivity extends TabActivity implements
 		}
 	}
 
+	/**
+	 * Show OverFlow Menu
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	@SuppressLint("NewApi")
 	public void showPopUpMenu() {
 		final Dialog dialog = new Dialog(IncenCalActivity.this);
@@ -552,6 +618,10 @@ public class IncenCalActivity extends TabActivity implements
 		dialog.show();
 	}
 
+	/**
+	 * Show Summary
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void showSummary() {
 		Intent mIntent = new Intent(IncenCalActivity.this,
 				IncenSummaryActivity.class);
@@ -560,12 +630,16 @@ public class IncenCalActivity extends TabActivity implements
 		startActivity(mIntent);
 	}
 
+	/**
+	 * Show Incentive PDF
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void showPdf() {
-//		File file1 = new File("/sdcard/incen.pdf");
-//		if (!file1.exists()) {
-//			copyPdfFromAssets();
-//		}
-		
+		// File file1 = new File("/sdcard/incen.pdf");
+		// if (!file1.exists()) {
+		// copyPdfFromAssets();
+		// }
+
 		if (!TextUtils.isEmpty(ApplicationLoader.getPreferences()
 				.getIncenPdfPath())) {
 			File mFile = new File(Environment.getExternalStorageDirectory()
@@ -584,8 +658,12 @@ public class IncenCalActivity extends TabActivity implements
 		}
 	}
 
+	/**
+	 * Copy Incentive Pdf from Assets Folder
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void copyPdfFromAssets() {
-		try{
+		try {
 			AssetManager assetManager = getAssets();
 
 			InputStream in = null;
@@ -593,7 +671,8 @@ public class IncenCalActivity extends TabActivity implements
 			File file = new File(getFilesDir(), "incen.pdf");
 			try {
 				in = assetManager.open("incen.pdf");
-				out = openFileOutput(file.getName(), Context.MODE_WORLD_READABLE);
+				out = openFileOutput(file.getName(),
+						Context.MODE_WORLD_READABLE);
 
 				copyFile(in, out);
 				in.close();
@@ -613,11 +692,18 @@ public class IncenCalActivity extends TabActivity implements
 					"application/pdf");
 
 			startActivity(intent);
-		}catch(Exception e){
-			Toast.makeText(IncenCalActivity.this, "No Pdf Reader Application Found!", Toast.LENGTH_SHORT).show();
+		} catch (Exception e) {
+			Toast.makeText(IncenCalActivity.this,
+					"No Pdf Reader Application Found!", Toast.LENGTH_SHORT)
+					.show();
 		}
 	}
 
+	/**
+	 * @param in
+	 * @param out
+	 * @throws IOException
+	 */
 	private void copyFile(InputStream in, OutputStream out) throws IOException {
 		byte[] buffer = new byte[1024];
 		int read;
@@ -626,6 +712,10 @@ public class IncenCalActivity extends TabActivity implements
 		}
 	}
 
+	/**
+	 * Show Dialog : Open Incentive PDF
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void showOpenPdfDialog() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				IncenCalActivity.this);
@@ -669,6 +759,10 @@ public class IncenCalActivity extends TabActivity implements
 		alertDialog.show();
 	}
 
+	/**
+	 * Show Dialog : Download Incentive PDF
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void showDownloadDialog() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				IncenCalActivity.this);
@@ -705,6 +799,10 @@ public class IncenCalActivity extends TabActivity implements
 		alertDialog.show();
 	}
 
+	/**
+	 * Download PDF From WebServices
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void downloadPdfFromUrl() {
 		if (Utilities.isInternetConnected()) {
 			new AsyncDownloadPdfPathFromApi(true).execute();
@@ -715,6 +813,11 @@ public class IncenCalActivity extends TabActivity implements
 		}
 	}
 
+	/**
+	 * Aysnc Task : Download Incentive PDF Path from WebServices
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 *
+	 */
 	public class AsyncDownloadPdfPathFromApi extends
 			AsyncTask<Void, Void, Void> {
 		private ProgressDialog mProgress;
@@ -784,6 +887,11 @@ public class IncenCalActivity extends TabActivity implements
 		}
 	}
 
+	/**
+	 * Async Task : Download Incentive PDF from WebServices
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 *
+	 */
 	public class AsyncDownloadPdfDataFromApi extends
 			AsyncTask<String, String, String> {
 		private ProgressDialog mProgress;
@@ -805,11 +913,13 @@ public class IncenCalActivity extends TabActivity implements
 				mProgress.setMessage("Downloading...");
 				mProgress.setCanceledOnTouchOutside(false);
 				mProgress.setCancelable(false);
-				mProgress.setMax(100);
-				mProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-				Drawable customDrawable = getResources().getDrawable(
-						R.drawable.custom_progressbar);
-				mProgress.setProgressDrawable(customDrawable);
+				/*
+				 * mProgress.setMax(100);
+				 * mProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+				 * Drawable customDrawable = getResources().getDrawable(
+				 * R.drawable.custom_progressbar);
+				 * mProgress.setProgressDrawable(customDrawable);
+				 */
 				mProgress.show();
 			}
 		}
@@ -825,7 +935,7 @@ public class IncenCalActivity extends TabActivity implements
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			try {
-				URL mURL = new URL(pdfPath);
+				URL mURL = new URL(pdfPath.replace(" ", "%20"));
 				String mRoot = Environment.getExternalStorageDirectory()
 						.toString();
 				String foldername = "";
@@ -846,16 +956,13 @@ public class IncenCalActivity extends TabActivity implements
 				URLConnection mConnection = mURL.openConnection();
 				InputStream inputStream = mConnection.getInputStream();
 				BufferedInputStream bis = new BufferedInputStream(inputStream);
+				ByteArrayBuffer baf = new ByteArrayBuffer(50);
 				FileOutputStream mFileOutputStream = new FileOutputStream(mFile);
-				byte data[] = new byte[1024];
 				int current = 0;
-				long total = 0;
-				int lenghtOfFile = mConnection.getContentLength();
 				while ((current = bis.read()) != -1) {
-					total += current;
-					publishProgress("" + (int) ((total * 100) / lenghtOfFile));
-					mFileOutputStream.write(data, 0, current);
+					baf.append((byte) current);
 				}
+				mFileOutputStream.write(baf.toByteArray());
 				mFileOutputStream.flush();
 				mFileOutputStream.close();
 				inputStream.close();
@@ -890,6 +997,11 @@ public class IncenCalActivity extends TabActivity implements
 		}
 	}
 
+	/**
+	 * Trigger Intent : Capable to Read PDF Files
+	 * @param mName
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void openPDFReaderIntent(String mName) {
 		File file = new File(Environment.getExternalStorageDirectory()
 				.getAbsolutePath()
@@ -934,6 +1046,7 @@ public class IncenCalActivity extends TabActivity implements
 		show.setDataAndType(Uri.fromFile(file1), "application/pdf");
 		startActivity(show);
 	}
+
 	/*
 	 * Flurry Analytics
 	 */

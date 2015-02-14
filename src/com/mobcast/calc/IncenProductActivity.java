@@ -1,3 +1,16 @@
+/* HISTORY
+ * CATEGORY 		:- ACTIVITY
+ * DEVELOPER		:- VIKALP PATEL
+ * AIM			    :- INCENTIVE PRODUCT ACTIVITY
+ * DESCRIPTION 		:- SHOWS INCENTIVE PRODUCT SCREEN
+ * 
+ * S - START E- END  C- COMMENTED  U -EDITED A -ADDED
+ * --------------------------------------------------------------------------------------------------------------------
+ * INDEX       DEVELOPER		DATE			FUNCTION		DESCRIPTION
+ * --------------------------------------------------------------------------------------------------------------------
+ * 10001       VIKALP PATEL    01/01/2015       				CREATED
+ * --------------------------------------------------------------------------------------------------------------------
+ */
 package com.mobcast.calc;
 
 import java.util.ArrayList;
@@ -42,6 +55,10 @@ import com.mobcast.view.Slider.OnValueChangedListener;
 import com.sanofi.in.mobcast.ApplicationLoader;
 import com.sanofi.in.mobcast.R;
 
+/**
+ * @author Vikalp Patel(VikalpPatelCE)
+ *
+ */
 public class IncenProductActivity extends FragmentActivity {
 
 	private static final String TAG = IncenProductActivity.class
@@ -70,6 +87,9 @@ public class IncenProductActivity extends FragmentActivity {
 	public int whichQuarter;
 	public boolean isRestore = true;
 
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -83,6 +103,10 @@ public class IncenProductActivity extends FragmentActivity {
 		setListView();
 	}
 
+	/**
+	 * Initialize Ui Elements
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void initUi() {
 		mListView = (ListView) findViewById(R.id.incen_product_lv);
 		// mListView.setExpanded(true);
@@ -98,11 +122,19 @@ public class IncenProductActivity extends FragmentActivity {
 		mTypeFace = Utilities.getFontStyleRupee();
 	}
 
+	/**
+	 * Intent : Get Intent Data
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void getIntentData() {
 		whichQuarter = Integer.parseInt(getIntent().getStringExtra(
 				IncenDashBoardActivity.INTENT_QUARTER));
 	}
 
+	/**
+	 * Ui : Set Rupee Font
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setRupeeFont() {
 
 		mTotalRsSy.setTypeface(mTypeFace);
@@ -113,6 +145,10 @@ public class IncenProductActivity extends FragmentActivity {
 	/*
 	 * DYNAMIC PRODUCTS
 	 */
+	/**
+	 * Ui : Set ListView Adapter
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setListView() {
 		if (mProduct != null && mProduct.size() > 0) {
 			mAdapter = new ListProductAdapter(IncenProductActivity.this,
@@ -122,6 +158,10 @@ public class IncenProductActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Ui : Adapter : ListView Adapter
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public class ListProductAdapter extends BaseAdapter {
 
 		public Context mContext;
@@ -786,6 +826,10 @@ public class IncenProductActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Ui : ListView holder which holds View item of ListView
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	static class ViewHolder {
 		AccordionView mListAccordionView;
 		TextView mListName;
@@ -806,6 +850,10 @@ public class IncenProductActivity extends FragmentActivity {
 		LinearLayout bioSurgeryPerLayout;
 	}
 
+	/**
+	 * Api : Get Incentive JSON Value from Preferences
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void getProductJSON() {
 		if (!BuildVars.debug) {
 			if (!TextUtils.isEmpty(ApplicationLoader.getPreferences()
@@ -820,10 +868,20 @@ public class IncenProductActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Parse : Parse JSON Data
+	 * @param str
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void parseJSON(String str) {
 		getProductList(str);
 	}
 
+	/**
+	 * Parse : Parse JSON Data fill it in Beans
+	 * @param str
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public void getProductList(String str) {
 		mProduct = new ArrayList<Product>();
 
@@ -875,6 +933,10 @@ public class IncenProductActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Ui :  Dialog : Show Dialog if no data found in Preferences
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void showAlertDialog() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				IncenProductActivity.this);
@@ -913,6 +975,10 @@ public class IncenProductActivity extends FragmentActivity {
 		alertDialog.show();
 	}
 
+	/**
+	 * Async Task & Api : Task to fetch Incentive JSON data from Api
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	public class AsyncDataFromApi extends AsyncTask<Void, Void, Void> {
 		private ProgressDialog mProgress;
 		private boolean isProductData = false;
@@ -985,6 +1051,10 @@ public class IncenProductActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Security : Stop taking screenshot
+	 * @author Vikalp Patel(VikalpPatelCE)
+	 */
 	private void setSecurity() {
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			if (!BuildVars.debug) {

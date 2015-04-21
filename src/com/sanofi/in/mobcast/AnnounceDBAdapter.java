@@ -3,13 +3,7 @@ package com.sanofi.in.mobcast;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 
-import com.mobcast.util.Constants;
-import com.mobcast.util.Utilities;
-
-import android.app.ActivityManager;
-import android.app.ActivityManager.RunningTaskInfo;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -17,7 +11,11 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
+
+import com.mobcast.util.Constants;
+import com.mobcast.util.Utilities;
 
 public class AnnounceDBAdapter {
 
@@ -79,7 +77,7 @@ public class AnnounceDBAdapter {
 	public static final String SQLITE_DOCUMENT = "Document";
 	public static final String SQLITE_LINKS = "Links";
 
-	private static final int DATABASE_VERSION = 26;
+	private static final int DATABASE_VERSION = 27;
 
 	private final Context mCtx;
 
@@ -108,7 +106,8 @@ public class AnnounceDBAdapter {
 			// -------------------------------------------------------------------
 			// KEY_ANNOUNCEID + " , " + KEY_SHARE + " DEFAULT 'no'," + KEY_TAGS
 			// + " DEFAULT 'notags'" + ");";
-			KEY_ANNOUNCEID + " , " + KEY_SHARE + " DEFAULT 'no' " + ");";
+//			KEY_ANNOUNCEID + " , " + KEY_SHARE + " DEFAULT 'no' " + ");";
+	KEY_ANNOUNCEID + " TEXT UNIQUE " + " , " + KEY_SHARE + " DEFAULT 'no' " + ");"; //ADDED VIKALP PULL SERVICE
 
 	private static final String DATABASE_CREATE_EVENT = "CREATE TABLE if not exists "
 			+ SQLITE_EVENT
@@ -143,7 +142,8 @@ public class AnnounceDBAdapter {
 			+ " DEFAULT \'0\',"
 			+ " Rtime TIMESTAMP  DEFAULT CURRENT_TIMESTAMP, " +
 			// -------------------------------------------------------------------
-			KEY_EVENTID + " , " + KEY_SHARE + " DEFAULT 'no'" + ");";
+//			KEY_EVENTID + " , " + KEY_SHARE + " DEFAULT 'no'" + ");";
+	KEY_EVENTID +" TEXT UNIQUE"+ " , " + KEY_SHARE + " DEFAULT 'no'" + ");"; //ADDED VIKALP PULL SERVICE
 
 	private static final String DATABASE_CREATE_TRAINING = "CREATE TABLE if not exists "
 			+ SQLITE_TRAINING
@@ -168,7 +168,8 @@ public class AnnounceDBAdapter {
 			// -------------------------------------------------------------------
 			KEY_READ + " DEFAULT \'0\'," +
 			// -------------------------------------------------------------------
-			KEY_TRAINID + " , " + KEY_SHARE + " DEFAULT 'no'" + ");";
+//			KEY_TRAINID + " , " + KEY_SHARE + " DEFAULT 'no'" + ");";
+			KEY_TRAINID + " TEXT UNIQUE " + " , " + KEY_SHARE + " DEFAULT 'no'" + ");";//ADDED VIKALP PULL SERVICE
 
 	private static final String DATABASE_CREATE_NEWS = "CREATE TABLE if not exists "
 			+ SQLITE_NEWS
@@ -194,7 +195,8 @@ public class AnnounceDBAdapter {
 			// -------------------------------------------------------------------
 			KEY_READ + " DEFAULT \'0\'," +
 			// -------------------------------------------------------------------
-			KEY_NEWSID + " , " + KEY_SHARE + " DEFAULT 'no'" + ");";
+//			KEY_NEWSID + " , " + KEY_SHARE + " DEFAULT 'no'" + ");";
+			KEY_NEWSID +" TEXT UNIQUE " + " , " + KEY_SHARE + " DEFAULT 'no'" + ");"; //ADDED VIKALP PULL SERVICE
 
 	private static final String DATABASE_CREATE_AWARD = "CREATE TABLE if not exists "
 			+ SQLITE_AWARD
@@ -216,7 +218,8 @@ public class AnnounceDBAdapter {
 			+
 			// -------------------------------------------------------------------
 			KEY_AWARDID
-			+ " DEFAULT \'0\',"
+//			+ " DEFAULT \'0\',"
+			+ " TEXT UNIQUE ," //ADDED VIKALP PULL SERVICE
 			+ KEY_READ
 			+ " DEFAULT \'0\',"
 			+
@@ -341,11 +344,20 @@ public class AnnounceDBAdapter {
 			// " add column "+KEY_calenderEnabled+" default 'off' ;");
 			// db.execSQL("Alter TABLE  " + SQLITE_EVENT+
 			// " add column "+KEY_rsvpNeeded+" default 'off' ;");
+			//SA VIKALP PULL SERVICE
 			try {
+				ApplicationLoader.getPreferences().setInstallationDate(Utilities.getTodayDate());//ADDED VIKALP PULL SERVICE NOTFICATION BULK STOP
+				if (!ApplicationLoader.getPreferences().isPullAlarmService()) {
+					ApplicationLoader.setAlarm();
+				}
+				if(TextUtils.isEmpty(ApplicationLoader.getPreferences().getInstallationDate())){
+					ApplicationLoader.getPreferences().setInstallationDate(Utilities.getTodayDate());
+				}
 				Utilities.clearPreferences();
 			} catch (Exception e) {
 				Log.i(TAG, e.toString());
 			}
+			//EA VIKALP PULL SERVICE
 		}
 	}
 

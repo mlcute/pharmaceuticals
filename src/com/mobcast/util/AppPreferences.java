@@ -173,6 +173,103 @@ public class AppPreferences {
 
 	}
 
+	// SA VIKALP PULL SERVICE
+	//SA VIKALP PULL SERVICE BULK NOTIFICATION STOP
+	public void setInstallationDate(String str) {
+		editor = sharedPreferences.edit();
+		editor.putString("setInstallationDate", str);
+		editor.commit();
+	}
+
+	public String getInstallationDate() {
+		String flag = sharedPreferences.getString("setInstallationDate", null);
+		return flag;
+	}
+	//EA VIKALP PULL SERVICE BULK NOTIFICATION STOP
+	/*
+	 * PREFERENCES : LAST MODULE ID
+	 */
+
+	public void setLastAnnouncementId(String str) {
+		editor = sharedPreferences.edit();
+		editor.putString("lastAnnouncementId", str);
+		editor.commit();
+	}
+
+	public String getLastAnnouncementId() {
+		String flag = sharedPreferences.getString("lastAnnouncementId", "0");
+		return flag;
+	}
+
+	public void setLastNewsId(String str) {
+		editor = sharedPreferences.edit();
+		editor.putString("lastNewsId", str);
+		editor.commit();
+	}
+
+	public String getLastNewsId() {
+		String flag = sharedPreferences.getString("lastNewsId", "0");
+		return flag;
+	}
+
+	public void setLastEventsId(String str) {
+		editor = sharedPreferences.edit();
+		editor.putString("lastEventsId", str);
+		editor.commit();
+	}
+
+	public String getLastEventsId() {
+		String flag = sharedPreferences.getString("lastEventsId", "0");
+		return flag;
+	}
+
+	public void setLastTrainingId(String str) {
+		editor = sharedPreferences.edit();
+		editor.putString("lastTrainingId", str);
+		editor.commit();
+	}
+
+	public String getLastTrainingId() {
+		String flag = sharedPreferences.getString("lastTrainingId", "0");
+		return flag;
+	}
+
+	public void setLastFeedbackId(String str) {
+		editor = sharedPreferences.edit();
+		editor.putString("lastFeedbackId", str);
+		editor.commit();
+	}
+
+	public String getLastFeedbackId() {
+		String flag = sharedPreferences.getString("lastFeedbackId", "0");
+		return flag;
+	}
+
+	public void setLastAwardsId(String str) {
+		editor = sharedPreferences.edit();
+		editor.putString("lastAwardsId", str);
+		editor.commit();
+	}
+
+	public String getLastAwardsId() {
+		String flag = sharedPreferences.getString("lastAwardsId", "0");
+		return flag;
+	}
+
+	/*
+	 * PREFERENCES : PULL SET
+	 */
+
+	public void setPullAlarmService(boolean value) {
+		editor = sharedPreferences.edit();
+		editor.putBoolean("isPullAlarmService", value);
+		editor.commit();
+	}
+
+	public boolean isPullAlarmService() {
+		return sharedPreferences.getBoolean("isPullAlarmService", false);
+	}
+
 	/*
 	 * PREFERENCES : API DETAILS
 	 */
@@ -582,7 +679,7 @@ public class AppPreferences {
 	public String getProductNumber() { // JAN-FEB-MAR
 		return sharedPreferences.getString("productTotalNumber", null);
 	}
-	
+
 	public void setPrincipalProductNumber(String str) {
 		editor = sharedPreferences.edit();
 		editor.putString("principalProductTotalNumber", str);

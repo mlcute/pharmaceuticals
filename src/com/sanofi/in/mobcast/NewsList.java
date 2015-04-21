@@ -32,10 +32,10 @@ import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.DialogInterface.OnCancelListener;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -44,29 +44,24 @@ import android.os.PowerManager;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.Html;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.ContextMenu;
-import android.view.LayoutInflater;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.WindowManager.LayoutParams;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.flurry.android.FlurryAgent;
-import com.sanofi.in.mobcast.R;
 import com.mobcast.util.BuildVars;
 import com.mobcast.util.Constants;
 import com.mobcast.util.DeleteFile;
@@ -445,9 +440,7 @@ public class NewsList extends Activity {
 					SharedPreferences pref;
 					pref = getSharedPreferences("MobCastPref", 0);
 					pref.edit().putString("lastNews", ID).commit();
-
-					
-
+					ApplicationLoader.getPreferences().setLastNewsId(ID);//ADDED VIKALP PULL SERVICE
 					for (int i = 0; i < jsonArray.length(); i++) 
 					{
 						if (isCancelled())

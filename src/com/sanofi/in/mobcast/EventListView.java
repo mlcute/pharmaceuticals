@@ -1,14 +1,7 @@
 package com.sanofi.in.mobcast;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,35 +15,31 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.ByteArrayBuffer;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.DialogInterface.OnCancelListener;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.PowerManager;
 import android.text.Html;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.View.OnClickListener;
 import android.view.WindowManager.LayoutParams;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
@@ -60,10 +49,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
-import com.sanofi.in.mobcast.R;
 import com.mobcast.util.BuildVars;
 import com.mobcast.util.Constants;
 import com.mobcast.util.Utilities;
@@ -481,7 +468,7 @@ public class EventListView extends Activity {
 						SharedPreferences pref;
 						pref = getSharedPreferences("MobCastPref", 0);
 						pref.edit().putString("lastEvent", id).commit();
-
+						ApplicationLoader.getPreferences().setLastEventsId(id);//ADDED VIKALP PULL SERVICE
 					}
 
 					// verticle date logic

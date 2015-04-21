@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 
+import com.mobcast.receiver.PullAlarmReceiver;
 import com.mobcast.util.AppPreferences;
 import com.parse.Parse;
 
@@ -48,6 +49,15 @@ public class ApplicationLoader extends Application {
 	public static synchronized ApplicationLoader getInstance() {
 		return applicationLoader;
 	}
+	
+	// SA VIKALP PULL SERVICE
+		public static void setAlarm() {
+			PullAlarmReceiver alarm = new PullAlarmReceiver();
+			alarm.setAlarm(getApplication().getApplicationContext());
+			ApplicationLoader.getPreferences().setPullAlarmService(true);
+			ApplicationLoader.getPreferences().setLoggedIn(true);
+		}
+		// EA VIKALP PULL SERVICE
 	/*
 	 * private GoogleCloudMessaging gcm; private AtomicInteger msgId = new
 	 * AtomicInteger(); private String regid; public static final String

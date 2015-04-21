@@ -15,11 +15,11 @@ public class Constants {
 	public static final String FLURRY_ID = "RC65RKTGR94RTVXH77ND";
 	
 	//for app folder
-	public static final String APP_FOLDER        ="/.mobcast/";
-	public static final String APP_FOLDER_IMG    ="/.mobcast/mobcast_images/";
-	public static final String APP_FOLDER_VIDEO  ="/.mobcast/mobcast_videos/";
-	public static final String APP_FOLDER_AUDIO  ="/.mobcast/mobcast_audio/";
-	public static final String APP_FOLDER_TEMP   ="/.mobcast/temp/";
+		public static final String APP_FOLDER        ="/.con/.mobcast/sanofi/";
+		public static final String APP_FOLDER_IMG    ="/.con/.mobcast/sanofi/mobcast_images/";
+		public static final String APP_FOLDER_VIDEO  ="/.con/.mobcast/sanofi/mobcast_videos/";
+		public static final String APP_FOLDER_AUDIO  ="/.con/.mobcast/sanofi/mobcast_audio/";
+		public static final String APP_FOLDER_TEMP   ="/.con/.mobcast/sanofi/temp/";
 	
 	//for app code	
 
@@ -83,11 +83,17 @@ public class Constants {
 	public static final String KEY_AWARDS_ADDRESS =  COMPANY +"updateAwardsReports.php";
 	public static final String KEY_FEEDBACK_ADDRESS =  COMPANY +"updateFeedbackReports.php";
 	
+	//for 15 minutes refresh
+	public static final String PULL_SERVICE = COMPANY
+			+ "remotePushRequest.php";
 	//for training rating
 	public static final String TRAIN_RATE = COMPANY + "sendTrainingResponse.php";
 	
 	//for ruppee symbol
 	public static final String RUPEE = "fonts/Rupee.ttf";
+	
+	//for notification unique
+	public static final int Notification_Id = 123321;
 	
 	//NOT REALLY USING THESE VALUES
 	public static final int[] mMapMonth = new int[] { 550, 660, 770, 880, 990,

@@ -49,6 +49,7 @@ import com.flurry.android.FlurryAgent;
 import com.google.android.gcm.GCMRegistrar;
 import com.mobcast.util.BuildVars;
 import com.mobcast.util.Constants;
+import com.mobcast.util.Utilities;
 
 public class LoginV2 extends Activity {
 
@@ -639,6 +640,18 @@ public class LoginV2 extends Activity {
 			AsyncHttpPost asyncHttpPost11 = new AsyncHttpPost(params11);
 			asyncHttpPost11.execute(com.mobcast.util.Constants.M_UPDATE);
 			// sm.checkLogin();
+			
+			//SA VIKALP ADDED PULL SERVICE
+			if (!ApplicationLoader.getPreferences().isPullAlarmService()) {
+				getLastIdFromPreferences();
+				ApplicationLoader.setAlarm();
+				if(TextUtils.isEmpty(ApplicationLoader.getPreferences().getInstallationDate())){
+					ApplicationLoader.getPreferences().setInstallationDate(Utilities.getTodayDate());
+				}
+			}
+			//EA VIKALP ADDED PULL SERVICE
+			ApplicationLoader.getPreferences().setInstallationDate(Utilities.getTodayDate());//ADDED VIKALP PULL SERVICE NOTFICATION BULK STOP
+			
 			if (sm.checkSession()) {
 				startActivity(new Intent(LoginV2.this,
 						PreDashboardActivity.class));
@@ -846,6 +859,26 @@ public class LoginV2 extends Activity {
 		}
 	}
 
+	//SA VIKALP PULL SERVICE
+	private void getLastIdFromPreferences(){
+		try{
+			ApplicationLoader.getPreferences().setLoggedIn(true);
+			if (!ApplicationLoader.getPreferences().isPullAlarmService()) {
+			SharedPreferences pref;
+			pref = getSharedPreferences("MobCastPref", 0);
+			ApplicationLoader.getPreferences().setLastAnnouncementId(pref.getString("lastAnnounce", "0"));
+			ApplicationLoader.getPreferences().setLastEventsId(pref.getString("lastEvent", "0"));
+			ApplicationLoader.getPreferences().setLastNewsId(pref.getString("lastNews", "0"));
+			ApplicationLoader.getPreferences().setLastTrainingId(pref.getString("lastTraining", "0"));
+			ApplicationLoader.getPreferences().setLastAwardsId(pref.getString("lastAward", "0"));
+			ApplicationLoader.getPreferences().setLastFeedbackId(pref.getString("lastFeedback", "0"));
+			}
+		}catch(Exception e){
+			Log.i(TAG, e.toString());
+		}
+	}
+	//EA VIKALP PULL SERVICE
+	
 	void sendSms() {
 		String phnumber = "9223051616";
 		// String phnumber="9798768922";

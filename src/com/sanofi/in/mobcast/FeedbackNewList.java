@@ -435,6 +435,16 @@ public class FeedbackNewList extends Activity {
 
 				String feedbackID = jObject.getString("ID");
 				Log.d("feedbackID", feedbackID);
+//				SA ADDED VIKALP FEEDBACKID SAVE
+				try{
+					SharedPreferences pref;
+					pref = getSharedPreferences("MobCastPref", 0);
+					pref.edit().putString("lastFeedback", feedbackID).commit();
+					ApplicationLoader.getPreferences().setLastFeedbackId(feedbackID);//ADDED VIKALP PULL SERVICE
+				}catch(Exception e){
+					Log.i(TAG, e.toString());
+				}
+//				EA ADDED VIKALP FEEDBACKID SAVE
 
 				HashMap<String, String> params = new HashMap<String, String>();
 				params.put("feedbackID", feedbackID);

@@ -57,12 +57,12 @@ public class VideoFullscreen extends Activity {
 		Log.d("StartAt",""+StartTime);
 		Log.d("name", name);
 		String root = Environment.getExternalStorageDirectory().toString();
-		File myDir = new File(root + "/.mobcast/mobcast_videos");
+		File myDir = new File(root + Constants.APP_FOLDER_VIDEO);
 		// myDir.mkdirs();
 		String fname = name;
 		File file = new File(myDir, fname);
 		String roo1t = Environment.getExternalStorageDirectory().toString()
-				+ "/.mobcast/mobcast_videos/" + name;
+				+ Constants.APP_FOLDER_VIDEO + name;
 		Log.d("path", roo1t);
 		MediaController mMedia = new MediaController(this);
 		mMedia.setMediaPlayer(videoView);

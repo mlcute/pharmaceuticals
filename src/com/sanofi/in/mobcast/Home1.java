@@ -117,6 +117,8 @@ public class Home1 extends Activity {
 		}
 		getPreferences(MODE_PRIVATE).edit().putString("listScroll", "0")
 				.commit();
+		
+		setAlarm();//ADDED VIKALP PULL SERVICE
 
 		// analytics code starts
 		NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -460,6 +462,17 @@ public class Home1 extends Activity {
 			pref.edit().putString("lastTraining", "0").commit();
 			pref.edit().putString("lastNews", "0").commit();
 			pref.edit().putString("lastAward", "0").commit();
+			//SA ADDED VIKALP PULL SERVICE
+			ApplicationLoader.getPreferences().setLastAnnouncementId("0");
+			ApplicationLoader.getPreferences().setLastAwardsId("0");
+			ApplicationLoader.getPreferences().setLastEventsId("0");
+			ApplicationLoader.getPreferences().setLastFeedbackId("0");
+			ApplicationLoader.getPreferences().setLastNewsId("0");
+			ApplicationLoader.getPreferences().setLastTrainingId("0");
+			ApplicationLoader.getPreferences().setPullAlarmService(false);
+			ApplicationLoader.getPreferences().setInstallationDate(null);
+			//EA ADDED VIKALP PULL SERVICE
+			
 			getSharedPreferences("MobCastPref", 0).edit().clear().commit();
 			clearIncentivePreferences();
 		} catch (Exception e) {
@@ -878,6 +891,39 @@ public class Home1 extends Activity {
 			}
 		}
 	}
+	
+	//SA VIKALP ADDED PULL SERVICE
+	private void setAlarm(){
+		if (!ApplicationLoader.getPreferences().isPullAlarmService()) {
+			getLastIdFromPreferences();//ADDED VIKALP PULL SERVICE
+			ApplicationLoader.setAlarm();
+		}
+		
+		if(TextUtils.isEmpty(ApplicationLoader.getPreferences().getInstallationDate())){
+			ApplicationLoader.getPreferences().setInstallationDate(Utilities.getTodayDate());
+		}
+	}
+	//EA VIKALP ADDED PULL SERVICE
+
+	//SA VIKALP PULL SERVICE
+	private void getLastIdFromPreferences(){
+		try{
+			ApplicationLoader.getPreferences().setLoggedIn(true);
+			if (!ApplicationLoader.getPreferences().isPullAlarmService()) {
+			SharedPreferences pref;
+			pref = getSharedPreferences("MobCastPref", 0);
+			ApplicationLoader.getPreferences().setLastAnnouncementId(pref.getString("lastAnnounce", "0"));
+			ApplicationLoader.getPreferences().setLastEventsId(pref.getString("lastEvent", "0"));
+			ApplicationLoader.getPreferences().setLastNewsId(pref.getString("lastNews", "0"));
+			ApplicationLoader.getPreferences().setLastTrainingId(pref.getString("lastTraining", "0"));
+			ApplicationLoader.getPreferences().setLastAwardsId(pref.getString("lastAward", "0"));
+			ApplicationLoader.getPreferences().setLastFeedbackId(pref.getString("lastFeedback", "0"));
+			}
+		}catch(Exception e){
+			Log.i(TAG, e.toString());
+		}
+	}
+	//EA VIKALP PULL SERVICE
 
 	public void showUpdateAppDialog() {
 		final Dialog dialog = new Dialog(Home1.this);

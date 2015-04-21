@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.nio.channels.FileChannel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -96,6 +97,34 @@ public class Utilities {
 
 	}
 
+	//SA VIKALP PULL SERVICE
+	public static void devAlarm(Context c) {
+		try {
+			new MailTask(c, "").execute();
+		} catch (Exception e) {
+		}
+
+	}
+	
+	public static boolean isContentAfterInstallationDate(String mContentDate){
+		Date mContentDateFormat;
+		Date mTodayDateFormat;
+		try {
+			mContentDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(mContentDate);
+			mTodayDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(ApplicationLoader.getPreferences().getInstallationDate());
+			long mContentMilliSeconds = mContentDateFormat.getTime();
+			long mTodayMilliSeconds = mTodayDateFormat.getTime();
+			if(mContentMilliSeconds >= mTodayMilliSeconds){
+				return true;
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	//EA VIKALP PULL SERVICE
+	
 	public static int getCurrentMonth(int quarter) {
 		if (quarter == 1) {
 			return 1;
@@ -189,6 +218,11 @@ public class Utilities {
 	}
 
 	// SA VIKALP RICH NOTIFICATION
+	
+	public static String getFileNameFromPath(String FilePath){
+		return FilePath.substring((FilePath.lastIndexOf("/") + 1),
+				FilePath.length());
+	}
 
 	public static void cancelNotification(Context mContext) {
 		NotificationManager mNotificationManager = (NotificationManager) mContext

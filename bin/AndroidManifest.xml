@@ -1,11 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sanofi.in.mobcast"
     android:installLocation="auto"
-    android:versionCode="43"
-    android:versionName="1.5.71" >
+    android:versionCode="44"
+    android:versionName="1.5.73" >
 
     <uses-sdk android:minSdkVersion="8"
-        android:targetSdkVersion="21"
+        android:targetSdkVersion="22"
         />
     <!-- <uses-permission android:name="android.permission.CALL_PHONE" /> -->
     <uses-permission android:name="android.permission.GET_TASKS" />
@@ -28,7 +28,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <permission
         android:name="com.sanofi.in.mobcast.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
@@ -328,6 +328,27 @@
         <receiver android:name="com.mobcast.receiver.EventNoReceiver" />
         <receiver android:name="com.mobcast.receiver.EventCalendarReceiver" />
         <receiver android:name="com.mobcast.receiver.AwardCongratulateReceiver" />
+        
+         <!-- Pull Service : To Rectify GCM Push deliveries -->
+        <receiver android:name="com.mobcast.receiver.PullAlarmReceiver" />
+        <receiver
+            android:name="com.mobcast.receiver.BootReceiver"
+            android:enabled="false" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" >
+                </action>
+            </intent-filter>
+        </receiver>
+
+        <!-- Fire Receiver whenever device get access to internet -->
+        <receiver android:name="com.mobcast.receiver.NetworkReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.mobcast.service.PullAlarmService" />
+        <!-- Pull Service : To Rectify GCM Push deliveries -->
     </application>
 
 </manifest>

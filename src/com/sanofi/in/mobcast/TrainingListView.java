@@ -59,10 +59,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
-import com.sanofi.in.mobcast.R;
 import com.mobcast.util.BuildVars;
 import com.mobcast.util.Constants;
 import com.mobcast.util.DeleteFile;
@@ -449,6 +447,7 @@ public class TrainingListView extends Activity {
 					SharedPreferences pref;
 					pref = getSharedPreferences("MobCastPref", 0);
 					pref.edit().putString("lastTraining", id).commit();
+					ApplicationLoader.getPreferences().setLastTrainingId(id);//ADDED VIKALP PULL SERVICE
 					for (int i = 0; i < jsonArray.length(); i++)
 					{
 						if (this.isCancelled()) {

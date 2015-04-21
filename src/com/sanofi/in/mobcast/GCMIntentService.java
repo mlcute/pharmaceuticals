@@ -40,7 +40,6 @@ import android.app.ActivityManager.RunningTaskInfo;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -57,7 +56,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.gcm.GCMBaseIntentService;
-import com.mobcast.calc.IncenDashBoardActivity;
 import com.mobcast.receiver.AwardCongratulateReceiver;
 import com.mobcast.receiver.EventCalendarReceiver;
 import com.mobcast.receiver.EventNoReceiver;
@@ -336,7 +334,7 @@ import com.sanofi.in.mobcast.AsyncHttpPost.OnPostExecuteListener;
 				SharedPreferences pref;
 				pref = getSharedPreferences("MobCastPref", 0);
 				pref.edit().putString("lastEvent", id).commit();
-
+				ApplicationLoader.getPreferences().setLastEventsId(id);//ADDED VIKALP PULL SERVICE
 			}
 
 			db.close();
@@ -415,7 +413,7 @@ import com.sanofi.in.mobcast.AsyncHttpPost.OnPostExecuteListener;
 				SharedPreferences pref;
 				pref = getSharedPreferences("MobCastPref", 0);
 				pref.edit().putString("lastAnnounce", id).commit();
-
+				ApplicationLoader.getPreferences().setLastAnnouncementId(id);//ADDED VIKALP PULL SERVICE
 			}
 
 			announce.close();
@@ -493,7 +491,7 @@ import com.sanofi.in.mobcast.AsyncHttpPost.OnPostExecuteListener;
 			SharedPreferences pref;
 			pref = getSharedPreferences("MobCastPref", 0);
 			pref.edit().putString("lastTraining", id).commit();
-
+			ApplicationLoader.getPreferences().setLastTrainingId(id);//ADDED VIKALP PULL SERVICE
 			DownloadForTraining(ctx);
 
 		}
@@ -550,7 +548,7 @@ import com.sanofi.in.mobcast.AsyncHttpPost.OnPostExecuteListener;
 				SharedPreferences pref;
 				pref = getSharedPreferences("MobCastPref", 0);
 				pref.edit().putString("lastNews", id).commit();
-
+				ApplicationLoader.getPreferences().setLastNewsId(id);//ADDED VIKALP PULL SERVICE
 			}
 			db.close();
 
@@ -680,7 +678,8 @@ import com.sanofi.in.mobcast.AsyncHttpPost.OnPostExecuteListener;
 					SharedPreferences pref;
 					pref = getSharedPreferences("MobCastPref", 0);
 					pref.edit().putString("lastAward", id).commit();
-				db.close();
+					ApplicationLoader.getPreferences().setLastAwardsId(id);//ADDED VIKALP PULL SERVICE
+					db.close();
 				
 				try{
 					URLConnection ucon = url.openConnection();
@@ -819,6 +818,16 @@ import com.sanofi.in.mobcast.AsyncHttpPost.OnPostExecuteListener;
 				JSONObject jObject = new JSONObject(Fedbackrow);
 
 				String feedbackID = jObject.getString("feedbackID");
+				// SA ADDED VIKALP FEEDBACKID SAVE
+				try {
+					SharedPreferences pref;
+					pref = getSharedPreferences("MobCastPref", 0);
+					pref.edit().putString("lastFeedback", feedbackID).commit();
+					ApplicationLoader.getPreferences().setLastFeedbackId(feedbackID);//ADDED VIKALP PULL SERVICE
+				} catch (Exception e) {
+					Log.i(TAG, e.toString());
+				}
+				// EA ADDED VIKALP FEEDBACKID SAVE
 				String feedbackTitle = jObject.getString("feedbackTitle");
 				String feedbackDescription = jObject
 						.getString("feedbackDescription");

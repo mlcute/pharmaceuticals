@@ -8,8 +8,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
-import com.sanofi.in.mobcast.R;
-
 public class SessionManagement {
 	// Shared Preferences
 	SharedPreferences pref;
@@ -40,6 +38,22 @@ public class SessionManagement {
 		editor = pref.edit();
 	}
 
+	//SA VIKALP PULL SERVICE
+	public void getLastIdFromPreferences(){
+		try{
+			ApplicationLoader.getPreferences().setLoggedIn(true);
+			if (!ApplicationLoader.getPreferences().isPullAlarmService()) {
+				ApplicationLoader.getPreferences().setLastAnnouncementId(pref.getString("lastAnnounce", "0"));
+				ApplicationLoader.getPreferences().setLastEventsId(pref.getString("lastEvent", "0"));
+				ApplicationLoader.getPreferences().setLastNewsId(pref.getString("lastNews", "0"));
+				ApplicationLoader.getPreferences().setLastTrainingId(pref.getString("lastTraining", "0"));
+				ApplicationLoader.getPreferences().setLastAwardsId(pref.getString("lastAward", "0"));
+				ApplicationLoader.getPreferences().setLastFeedbackId(pref.getString("lastFeedback", "0"));
+				}
+		}catch(Exception e){
+	}
+	}
+			//EA VIKALP PULL SERVICE
 	/**
 	 * Create login session
 	 * */

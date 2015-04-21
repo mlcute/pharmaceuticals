@@ -53,7 +53,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
-import com.sanofi.in.mobcast.R;
 import com.mobcast.util.BuildVars;
 import com.mobcast.util.Constants;
 import com.mobcast.util.DeleteFile;
@@ -449,6 +448,7 @@ public class AnnounceListView extends Activity implements OnScrollListener {
 					SharedPreferences pref;
 					pref = getSharedPreferences("MobCastPref", 0);
 					pref.edit().putString("lastAnnounce", id).commit();
+					ApplicationLoader.getPreferences().setLastAnnouncementId(id);//ADDED VIKALP PULL SERVICE
 
 					for (int i = 0; i < jsonArray.length(); i++) {
 						if (isCancelled())

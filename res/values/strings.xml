@@ -17,6 +17,8 @@
     <string name="Rs">\u20B9</string>
     <string name="rs">\u20A8</string>
     <string name="logout_alert_message">Are you sure want to Log Out? You will not get notification.</string>
+    
+    <string name="download_interrupted">Downloading has been interrupted.Requested File need to be download once again.</string>
 
     <!-- Incentive Calculator -->
     <string name="incen_mid_month">Mid Month Achieved \u2265 40 : </string>

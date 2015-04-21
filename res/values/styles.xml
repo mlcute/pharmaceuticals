@@ -43,5 +43,14 @@
         <item name="android:textSize">22sp</item>
         <item name="android:background">@color/gray</item>
     </style>
+    
+     <style name="DialogTheme" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="popupStyle" parent="android:Theme.Dialog">
+        <item name="android:textColor">#006999</item>
+        <item name="android:windowBackground">@drawable/white</item>
+    </style>
 
 </resources>

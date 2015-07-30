@@ -5,6 +5,12 @@
 
     <color name="black">#000000</color>
     <color name="theme_color">#006999</color>
+    <color name="performance_tab_color">#515BA2</color>
+    <color name="performance_tab_color_dim">#EFEFF1</color>
+    <color name="consistency_bar_background">#F1F5F8</color>
+    <color name="sfkpi_bar_color_dim">#F3F7FA</color>
+    <color name="sales_performance_red">#FE3C3C</color>
+    <color name="sales_performance_green">#ACB315</color>
     <color name="gray">#ECECEC</color>
     <color name="default_screen_bg">#f9f9f9</color>
     <color name="rounded_container_bg">#222222</color>
@@ -12,14 +18,14 @@
     <color name="light_gray_header_color">#646663</color>
     <color name="sanofi_color">#33b5e5</color>
     <color name="blue_btn_bg">#01afd2</color>
-	<color name="blue_btn_bg_trans">#ff01afd2</color>
-	<color name="option_grey_btn_bg">#e2e2e2</color>
-	<color name="metadata_background">#ffcccccc</color>
-	<color name="link_color">#ff3f739a</color>
-	<color name="text_shadow_green_button">#ff237531</color>
-	<color name="white">#ffffffff</color>
-	<color name="dark_grey">#ff888888</color>
-	<color name="header_color">#f6f6f6</color>
+    <color name="blue_btn_bg_trans">#ff01afd2</color>
+    <color name="option_grey_btn_bg">#e2e2e2</color>
+    <color name="metadata_background">#ffcccccc</color>
+    <color name="link_color">#ff3f739a</color>
+    <color name="text_shadow_green_button">#ff237531</color>
+    <color name="white">#ffffffff</color>
+    <color name="dark_grey">#ff888888</color>
+    <color name="header_color">#f6f6f6</color>
     <color name="header_border_shadow">#ffffff</color>
     <color name="section_color">#f0f0f0</color>
     <color name="border_color">#dedede</color>

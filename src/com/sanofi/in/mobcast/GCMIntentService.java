@@ -1650,6 +1650,8 @@ import com.sanofi.in.mobcast.AsyncHttpPost.OnPostExecuteListener;
 
 		} catch (IOException e) {
 			Log.d("ImageManager", "Error: " + e);
+		}catch(Exception e){
+			
 		}
 
 	}
@@ -2255,6 +2257,7 @@ import com.sanofi.in.mobcast.AsyncHttpPost.OnPostExecuteListener;
 
 		} catch (IOException e) {
 			Log.d("ImageManager", "Error: " + e);
+		}catch(Exception e){
 		}
 
 	}// end of Download for training
@@ -2569,6 +2572,8 @@ import com.sanofi.in.mobcast.AsyncHttpPost.OnPostExecuteListener;
 
 		} catch (IOException e) {
 			Log.d("ImageManager", "Error: " + e);
+		} catch(Exception e){
+			
 		}
 	}
 
@@ -2872,6 +2877,8 @@ import com.sanofi.in.mobcast.AsyncHttpPost.OnPostExecuteListener;
 
 		} catch (IOException e) {
 			Log.d("ImageManager", "Error: " + e);
+		}catch(Exception e){
+			
 		}
 	}// End of DownloadFromNews
 

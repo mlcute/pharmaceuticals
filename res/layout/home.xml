@@ -443,6 +443,7 @@
             <!-- 6 -->
 
             <LinearLayout
+                android:id="@+id/performanceModule"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.3"
@@ -463,7 +464,7 @@
                         android:layout_margin="7dp"
                         android:background="@drawable/button_gradient"
                         android:padding="7dp"
-                        android:src="@drawable/capture" />
+                        android:src="@drawable/dash_gp" />
 
                     <TextView
                         android:id="@+id/unreadCapture"
@@ -483,7 +484,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
                     android:gravity="center"
-                    android:text="Capture"
+                    android:text="My Performance"
                     android:textColor="#006999" />
             </LinearLayout>
         </TableRow>

@@ -61,6 +61,7 @@ import com.flurry.android.FlurryAgent;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.mobcast.calc.IncenDashBoardActivity;
+import com.mobcast.myperformance.MyPerformanceActivity;
 import com.mobcast.util.BuildVars;
 import com.mobcast.util.Constants;
 import com.mobcast.util.Utilities;
@@ -85,6 +86,7 @@ public class Home1 extends Activity {
 
 	private TableRow mTableRow3;
 	private LinearLayout mIncenModule;
+	private LinearLayout mPerformanceModule;
 	private TableLayout mTableLayout;
 
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -181,6 +183,7 @@ public class Home1 extends Activity {
 
 		mTableLayout = (TableLayout) findViewById(R.id.tableLayout1);
 		mIncenModule = (LinearLayout) findViewById(R.id.incenModule);
+		mPerformanceModule = (LinearLayout) findViewById(R.id.performanceModule);
 		mTableRow3 = (TableRow) findViewById(R.id.tableRow2);
 
 		adb = new AnnounceDBAdapter(Home1.this);
@@ -378,18 +381,8 @@ public class Home1 extends Activity {
 			}
 
 			else if (v.getId() == R.id.imageButton8) {
-				// Intent settings = new Intent("com.mobcast.ncp.DocumentList");
-
-				// Intent settings = new Intent(Home1.this, DocumentList.class);
-				// startActivity(settings);
-				// Toast.makeText(getBaseContext(), "POST",
-				// Toast.LENGTH_SHORT).show();
-				Intent ImageUpload = new Intent(Home1.this, Imageupload.class);
-				easyTracker.send(MapBuilder.createEvent(
-						"home screen click event", "POST module",
-						"button_name/id", null).build());
-				startActivity(ImageUpload);
-
+				Intent myPerformance = new Intent(Home1.this, MyPerformanceActivity.class);
+				startActivity(myPerformance);
 			}
 
 			else if (v.getId() == R.id.imageButton9) {
@@ -870,16 +863,26 @@ public class Home1 extends Activity {
 				}
 
 				try {
+					department = jObject.getString("department");
+//					ApplicationLoader.getPreferences().setDesignation(jObject.getString("designation"));
 					if (department.contentEquals("sales")) {
 						ApplicationLoader.getPreferences()
 								.setIncenModuleEnable(true);
 						ApplicationLoader.getPreferences()
 								.setIncenModuleLayoutEnable(true);
+						ApplicationLoader.getPreferences()
+						.setPerformanceModuleEnable(true);
+				ApplicationLoader.getPreferences()
+						.setPerformanceModuleLayoutEnable(true);
 					} else {
 						ApplicationLoader.getPreferences()
 								.setIncenModuleEnable(false);
 						ApplicationLoader.getPreferences()
 								.setIncenModuleLayoutEnable(false);
+						ApplicationLoader.getPreferences()
+						.setPerformanceModuleEnable(false);
+						ApplicationLoader.getPreferences()
+						.setPerformanceModuleLayoutEnable(false);
 					}
 					setIncenModule();
 				} catch (Exception e) {
@@ -1070,15 +1073,9 @@ public class Home1 extends Activity {
 		try {
 			if (ApplicationLoader.getPreferences().isIncenModuleLayoutEnable()) {
 				if (ApplicationLoader.getPreferences().isIncenModuleEnable()) {
-					/*
-					 * runOnUiThread(new Runnable() {
-					 * 
-					 * @Override public void run() { // TODO Auto-generated
-					 * method stub mTableRow3.setVisibility(View.VISIBLE);
-					 * mIncenModule.setVisibility(View.VISIBLE); } });
-					 */
 					mTableRow3.setVisibility(View.VISIBLE);
 					mIncenModule.setVisibility(View.VISIBLE);
+					mPerformanceModule.setVisibility(View.VISIBLE);
 					mTableLayout.invalidate();
 				}
 			}

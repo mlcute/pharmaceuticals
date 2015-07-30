@@ -2,6 +2,7 @@ package com.sanofi.in.mobcast;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.content.ContentValues;
@@ -14,6 +15,9 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.mobcast.myperformance.Consistency;
+import com.mobcast.myperformance.SalesPerformance;
+import com.mobcast.myperformance.Sfkpi;
 import com.mobcast.util.Constants;
 import com.mobcast.util.Utilities;
 
@@ -62,6 +66,25 @@ public class AnnounceDBAdapter {
 	public static final String KEY_OPTION4 = "option4"; // For Feedback Module
 
 	public static final String KEY_RSVP = "rsvp";
+	
+	/*
+	 * My Performance
+	 */
+	
+	public static final String KEY_PRODUCTNAME = "productname";
+	public static final String KEY_QUARTER     = "quarter";
+	public static final String KEY_YEAR = "year";
+	public static final String KEY_VALUE1 = "value1";
+	public static final String KEY_VALUE2 = "value2";
+	public static final String KEY_VALUE3 = "value3";
+	
+	public static final String KEY_ACTUAL_SALES = "actualSales";
+	public static final String KEY_ACTUAL_ACH   = "actualAchievement";
+	public static final String KEY_SALES        = "sales";
+	public static final String KEY_ACH          = "achievement";
+	public static final String KEY_GROWTH       = "growth";
+	public static final String KEY_MONTH        = "month";
+	public static final String KEY_TARGET       = "target";
 
 	private static final String TAG = "AnnounceDBAdapter";
 	private DatabaseHelper mDbHelper;
@@ -76,8 +99,11 @@ public class AnnounceDBAdapter {
 	public static final String SQLITE_FEEDBACK = "Feedback";
 	public static final String SQLITE_DOCUMENT = "Document";
 	public static final String SQLITE_LINKS = "Links";
+	public static final String SQLITE_SFKPI = "Sfkpi";
+	public static final String SQLITE_CONSISTENCY = "Consistency";
+	public static final String SQLITE_SALES_PERF = "SalesPerformance";
 
-	private static final int DATABASE_VERSION = 27;
+	private static final int DATABASE_VERSION = 31;//Incremented : My Performance
 
 	private final Context mCtx;
 
@@ -285,6 +311,67 @@ public class AnnounceDBAdapter {
 			+ " ("
 			+ KEY_ROWID
 			+ " integer PRIMARY KEY autoincrement," + KEY_FILELINK + " text);";
+	
+	private static final String DATABASE_CREATE_SFKPI = "CREATE TABLE if not exists "
+			+ SQLITE_SFKPI
+			+ " ("
+			+ KEY_ROWID
+			+ " integer PRIMARY KEY autoincrement,"
+			+ KEY_PRODUCTNAME
+			+ ","
+			+ KEY_YEAR
+			+ ","
+			+ KEY_QUARTER
+			+ ","
+			+ KEY_VALUE1
+			+ ","
+			+ KEY_VALUE2
+			+ ","
+			+ KEY_VALUE3 + ");";
+	
+	private static final String DATABASE_CREATE_CONSISTENCY = "CREATE TABLE if not exists "
+			+ SQLITE_CONSISTENCY
+			+ " ("
+			+ KEY_ROWID
+			+ " integer PRIMARY KEY autoincrement,"
+			+ KEY_ACH
+			+ ","
+			+ KEY_SALES
+			+ ","
+			+ KEY_ACTUAL_SALES
+			+ ","
+			+ KEY_ACTUAL_ACH
+			+ ","
+			+ KEY_GROWTH
+			+ ","
+			+ KEY_MONTH
+			+ ","
+			+ KEY_YEAR + ");";
+	
+	private static final String DATABASE_CREATE_SALES_PERF = "CREATE TABLE if not exists "
+			+ SQLITE_SALES_PERF
+			+ " ("
+			+ KEY_ROWID
+			+ " integer PRIMARY KEY autoincrement,"
+			+ KEY_PRODUCTNAME
+			+ ","
+			+ KEY_ACH
+			+ ","
+			+ KEY_SALES
+			+ ","
+			+ KEY_ACTUAL_SALES
+			+ ","
+			+ KEY_ACTUAL_ACH
+			+ ","
+			+ KEY_GROWTH
+			+ ","
+			+ KEY_TARGET
+			+ ","
+			+ KEY_QUARTER
+			+ ","
+			+ KEY_MONTH
+			+ ","
+			+ KEY_YEAR + ");";
 
 	public static class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -305,6 +392,9 @@ public class AnnounceDBAdapter {
 			db.execSQL(DATABASE_CREATE_DOCUMENT);
 			db.execSQL(DATABASE_CREATE_UPLOAD);
 			db.execSQL(DATABASE_CREATE_LINKS);
+			db.execSQL(DATABASE_CREATE_SFKPI);
+			db.execSQL(DATABASE_CREATE_CONSISTENCY);
+			db.execSQL(DATABASE_CREATE_SALES_PERF);
 		}
 
 		public static void deleteFolder(File folder) {
@@ -338,6 +428,9 @@ public class AnnounceDBAdapter {
 			db.execSQL("DROP TABLE IF EXISTS " + SQLITE_FEEDBACK);
 			db.execSQL("DROP TABLE IF EXISTS " + SQLITE_DOCUMENT);
 			db.execSQL("DROP TABLE IF EXISTS " + SQLITE_LINKS);
+			db.execSQL("DROP TABLE IF EXISTS " + SQLITE_SFKPI);
+			db.execSQL("DROP TABLE IF EXISTS " + SQLITE_CONSISTENCY);
+			db.execSQL("DROP TABLE IF EXISTS " + SQLITE_SALES_PERF);
 			db.execSQL("DROP TABLE IF EXISTS Images");
 			onCreate(db);
 			// db.execSQL("Alter TABLE  " + SQLITE_EVENT+
@@ -444,6 +537,7 @@ public class AnnounceDBAdapter {
 			mDb.execSQL("Delete FROM " + SQLITE_FEEDBACK);
 			mDb.execSQL("Delete FROM " + SQLITE_DOCUMENT);
 			mDb.execSQL("Delete FROM " + SQLITE_LINKS);
+			mDb.execSQL("Delete FROM " + SQLITE_SFKPI);
 			mDb.execSQL("Delete FROM Images");
 			Log.d("remotewipe", "finished");
 		} catch (Exception e) {
@@ -1448,6 +1542,188 @@ public class AnnounceDBAdapter {
 			mCursor.moveToFirst();
 
 		return mCursor;
+	}
+	
+	/*
+	 * My Performance
+	 */
+	/**
+	 * SFKPI
+	 */
+	
+	public void addSfkpi(ArrayList<Sfkpi> mList) {
+		deleteSfkpi(mList.get(0).getmYear(), mList.get(0).getmQuarter());
+		for(int i = 0 ;i< mList.size();i++){
+			Sfkpi Obj = mList.get(i);
+			ContentValues initialValues = new ContentValues();
+			initialValues.put(KEY_PRODUCTNAME, Obj.getmProductName());
+			initialValues.put(KEY_QUARTER, Obj.getmQuarter());
+			initialValues.put(KEY_YEAR, Obj.getmYear());
+			initialValues.put(KEY_VALUE1, Obj.getmValue1());
+			initialValues.put(KEY_VALUE2, Obj.getmValue2());
+			initialValues.put(KEY_VALUE3, Obj.getmValue3());
+			mDb.insert(SQLITE_SFKPI, null, initialValues);
+		}
+	}
+	
+	public void deleteSfkpi(String mYear, String mQuarter) {
+		try {
+			mDb.delete(SQLITE_SFKPI,
+					"quarter=\'" + mQuarter + "\'" + " AND  year=\'" + mYear + "\'", null);
+		} catch (Exception e) {
+			Log.i(TAG, e.toString());
+		}
+	}
+	
+	public ArrayList<Sfkpi> fetchSfkpi(String mQuarter, String mYear){
+		ArrayList<Sfkpi> mList = new ArrayList<Sfkpi>();
+		Cursor mCursor = mDb.query(SQLITE_SFKPI, null, KEY_QUARTER + "=?"
+				+ " AND " + KEY_YEAR + "=?", new String[] { mQuarter, mYear },
+				null, null, null);
+
+		
+		if (mCursor != null && mCursor.getCount() >0){
+			mCursor.moveToFirst();
+			do {
+				Sfkpi Obj = new Sfkpi();
+				Obj.setmProductName(mCursor.getString(mCursor.getColumnIndex(KEY_PRODUCTNAME)));
+				Obj.setmQuarter(mCursor.getString(mCursor.getColumnIndex(KEY_QUARTER)));
+				Obj.setmYear(mCursor.getString(mCursor.getColumnIndex(KEY_YEAR)));
+				Obj.setmValue1(mCursor.getString(mCursor.getColumnIndex(KEY_VALUE1)));
+				Obj.setmValue2(mCursor.getString(mCursor.getColumnIndex(KEY_VALUE2)));
+				Obj.setmValue3(mCursor.getString(mCursor.getColumnIndex(KEY_VALUE3)));
+				mList.add(Obj);
+			} while (mCursor.moveToNext());
+		}
+		
+		if(mCursor!=null){
+			mCursor.close();
+		}
+			
+		return mList;
+	}
+	
+	/**
+	 * Consistency
+	 */
+
+	public void addConsistency(ArrayList<Consistency> mList) {
+		deleteConsistency(mList.get(0).getmYear());
+		for(int i = 0 ;i< mList.size();i++){
+			Consistency Obj = mList.get(i);
+			ContentValues initialValues = new ContentValues();
+			initialValues.put(KEY_GROWTH, Obj.getmGrowth());
+			initialValues.put(KEY_YEAR, Obj.getmYear());
+			initialValues.put(KEY_MONTH, Obj.getmMonth());
+			initialValues.put(KEY_ACH, Obj.getmAchievement());
+			initialValues.put(KEY_SALES, Obj.getmSales());
+			initialValues.put(KEY_ACTUAL_ACH, Obj.getmActualAchievement());
+			initialValues.put(KEY_ACTUAL_SALES, Obj.getmActualSales());
+			mDb.insert(SQLITE_CONSISTENCY, null, initialValues);
+		}
+	}
+	
+	public void deleteConsistency(String mYear) {
+		try {
+			mDb.delete(SQLITE_CONSISTENCY,
+					"year=\'" + mYear + "\'" , null);
+		} catch (Exception e) {
+			Log.i(TAG, e.toString());
+		}
+	}
+	
+	public ArrayList<Consistency> fetchConsistency(String mYear){
+		ArrayList<Consistency> mList = new ArrayList<Consistency>();
+		Cursor mCursor = mDb.query(SQLITE_CONSISTENCY, null, KEY_YEAR + "=?",
+				new String[] { mYear }, null, null, null);
+
+		
+		if (mCursor != null && mCursor.getCount() >0){
+			mCursor.moveToFirst();
+			do {
+				Consistency Obj = new Consistency();
+				Obj.setmYear(mCursor.getString(mCursor.getColumnIndex(KEY_YEAR)));
+				Obj.setmAchievement(mCursor.getString(mCursor.getColumnIndex(KEY_ACH)));
+				Obj.setmSales(mCursor.getString(mCursor.getColumnIndex(KEY_SALES)));
+				Obj.setmActualAchievement(mCursor.getString(mCursor.getColumnIndex(KEY_ACTUAL_ACH)));
+				Obj.setmActualSales(mCursor.getString(mCursor.getColumnIndex(KEY_ACTUAL_SALES)));
+				Obj.setmMonth(mCursor.getString(mCursor.getColumnIndex(KEY_MONTH)));
+				Obj.setmGrowth(mCursor.getString(mCursor.getColumnIndex(KEY_GROWTH)));
+				mList.add(Obj);
+			} while (mCursor.moveToNext());
+		}
+		
+		if(mCursor!=null){
+			mCursor.close();
+		}
+			
+		return mList;
+	}
+	
+	/**
+	 * Sales Performance
+	 */
+	/**
+	 * Consistency
+	 */
+
+	public void addSalesPerformance(ArrayList<SalesPerformance> mList) {
+		deleteSalesPerformance(mList.get(0).getmYear(), mList.get(0).getmQuarter(), mList.get(0).getmMonth());
+		for(int i = 0 ;i< mList.size();i++){
+			SalesPerformance Obj = mList.get(i);
+			ContentValues initialValues = new ContentValues();
+			initialValues.put(KEY_YEAR, Obj.getmYear());
+			initialValues.put(KEY_QUARTER, Obj.getmQuarter());
+			initialValues.put(KEY_MONTH, Obj.getmMonth());
+			initialValues.put(KEY_PRODUCTNAME, Obj.getmProductName());
+			initialValues.put(KEY_GROWTH, Obj.getmGrowth());
+			initialValues.put(KEY_TARGET, Obj.getmTarget());
+			initialValues.put(KEY_ACH, Obj.getmAch());
+			initialValues.put(KEY_SALES, Obj.getmSales());
+			initialValues.put(KEY_ACTUAL_ACH, Obj.getmActualAch());
+			initialValues.put(KEY_ACTUAL_SALES, Obj.getmActualSales());
+			mDb.insert(SQLITE_SALES_PERF, null, initialValues);
+		}
+	}
+	
+	public void deleteSalesPerformance(String mYear, String mQuarter, String mMonth) {
+		try {
+			mDb.delete(SQLITE_SALES_PERF,
+					"year=\'" + mYear + "\'" + " AND  quarter=\'" + mQuarter + "\'"+ " AND  month=\'" + mMonth + "\'", null);
+		} catch (Exception e) {
+			Log.i(TAG, e.toString());
+		}
+	}
+	
+	public ArrayList<SalesPerformance> fetchSalesPerformance(String mYear, String mQuarter, String mMonth){
+		ArrayList<SalesPerformance> mList = new ArrayList<SalesPerformance>();
+		Cursor mCursor = mDb.query(SQLITE_SALES_PERF, null, KEY_YEAR + "=?"+ " AND " + KEY_QUARTER +"=?" + " AND " + KEY_MONTH + "=?",
+				new String[] { mYear , mQuarter, mMonth}, null, null, null);
+
+		
+		if (mCursor != null && mCursor.getCount() >0){
+			mCursor.moveToFirst();
+			do {
+				SalesPerformance Obj = new SalesPerformance();
+				Obj.setmYear(mCursor.getString(mCursor.getColumnIndex(KEY_YEAR)));
+				Obj.setmQuarter(mCursor.getString(mCursor.getColumnIndex(KEY_QUARTER)));
+				Obj.setmMonth(mCursor.getString(mCursor.getColumnIndex(KEY_MONTH)));
+				Obj.setmProductName(mCursor.getString(mCursor.getColumnIndex(KEY_PRODUCTNAME)));
+				Obj.setmAch(mCursor.getString(mCursor.getColumnIndex(KEY_ACH)));
+				Obj.setmSales(mCursor.getString(mCursor.getColumnIndex(KEY_SALES)));
+				Obj.setmActualAch(mCursor.getString(mCursor.getColumnIndex(KEY_ACTUAL_ACH)));
+				Obj.setmActualSales(mCursor.getString(mCursor.getColumnIndex(KEY_ACTUAL_SALES)));
+				Obj.setmGrowth(mCursor.getString(mCursor.getColumnIndex(KEY_GROWTH)));
+				Obj.setmTarget(mCursor.getString(mCursor.getColumnIndex(KEY_TARGET)));
+				mList.add(Obj);
+			} while (mCursor.moveToNext());
+		}
+		
+		if(mCursor!=null){
+			mCursor.close();
+		}
+			
+		return mList;
 	}
 
 }

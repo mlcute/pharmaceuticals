@@ -1,5 +1,7 @@
 package com.mobcast.util;
 
+import com.squareup.okhttp.MediaType;
+
 
 public class Constants {
 
@@ -61,15 +63,17 @@ public class Constants {
 	
 	public static final String RESET_PASSWORD = COMPANY
 			+ "resetPassword.php";
+
+	//INCENTIVE
+	public static final String INCEN_PRODUCT = COMPANY + "getIncenProductName.php";
+	public static final String INCEN_BASE = COMPANY + "getIncenBase.php";
+	public static final String INCEN_SCHEME_PDF = COMPANY + "getIncenSchemePdf.php";
 	
-	public static final String INCEN_PRODUCT = COMPANY
-			+ "getIncenProductName.php";
-	
-	public static final String INCEN_BASE = COMPANY
-			+ "getIncenBase.php";
-	
-	public static final String INCEN_SCHEME_PDF = COMPANY
-			+ "getIncenSchemePdf.php";
+	//MYPERFORMANCE
+	public static final String PERF_USER_LEVEL = COMPANY + "myPerformanceUserHierarchy.php";
+	public static final String PERF_SFKPI = COMPANY + "sfkpiResponse.php";
+	public static final String PERF_CONSISTENCY = COMPANY + "consistencyResponse.php";
+	public static final String PERF_SALESPERF = COMPANY + "salesPerformanceResponse.php";
 	
 	//update link
 	public static final String APP_UPDATE_LINK = "http://mobc.in/d/4";
@@ -99,4 +103,11 @@ public class Constants {
 	public static final int[] mMapMonth = new int[] { 550, 660, 770, 880, 990,
 			1100, 1265, 1430, 1815, 2475, 5500, 5775, 6050, 6325, 6600, 6875,
 			7150, 7425, 7700, 7975, 8250 };
+	
+	public interface API_KEY_PARAMETER{
+		public static final String success                 = "success";
+		public static final String errorMessage            = "errorMessage";
+	}
+	
+	public static final MediaType API_CONTENTTYPE = MediaType.parse("application/json; charset=utf-8");
 }

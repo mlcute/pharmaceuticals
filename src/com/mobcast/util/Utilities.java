@@ -6,12 +6,17 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.nio.channels.FileChannel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
@@ -45,6 +50,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.google.android.gcm.GCMRegistrar;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.mobcast.myperformance.SalesDesigLevel;
 import com.sanofi.in.mobcast.ApplicationLoader;
 import com.sanofi.in.mobcast.R;
 
@@ -579,5 +587,53 @@ public class Utilities {
 		}
 
 		return str.toString();
+	}
+	
+	public static boolean isSuccessFromApi(String mResponseFromApi){
+		try {
+			return new JSONObject(mResponseFromApi).getBoolean(Constants.API_KEY_PARAMETER.success);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			Log.i(TAG, e.toString());
+		} 
+		return false;
+	}
+	
+	public static String getErrorMessageFromApi(String mResponseFromApi){
+		try {
+			return new JSONObject(mResponseFromApi)
+					.getString(Constants.API_KEY_PARAMETER.errorMessage);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			Log.i(TAG, e.toString());
+		}
+		return null;
+	}
+	
+	public static void saveArrayListInPreferencesUsingGSON(ArrayList<SalesDesigLevel> mArrayListBanner){
+		//Set the values
+		Gson gson = new Gson();
+		String jsonText = gson.toJson(mArrayListBanner);
+		ApplicationLoader.getPreferences().setFirstLevelObjectForMyPerformance(jsonText);
+	}
+	
+	public static ArrayList<SalesDesigLevel> retrieveArrayListFromPreferencesUsingGSON(){
+		Gson gson = new Gson();
+		String json = ApplicationLoader.getPreferences().getFirstLevelObjectForMyPerformance();
+		Type type = new TypeToken<ArrayList<SalesDesigLevel>>() {}.getType();
+		ArrayList<SalesDesigLevel> mArrayListBanner = gson.fromJson(json, type);
+		return mArrayListBanner;
+	}
+	
+	public static String[] getArrayFromSalesDesigLevelList(ArrayList<SalesDesigLevel> mList, String mLabel){
+		if(mList.size() > 0){
+			String[] mArray = new String[mList.size()+1];
+			mArray[0]= mLabel;
+			for(int i = 1 ;i <= mList.size();i++){
+				mArray[i]= mList.get(i-1).getName();
+			}
+			return mArray;
+		}
+		return null;
 	}
 }

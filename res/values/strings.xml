@@ -17,7 +17,6 @@
     <string name="Rs">\u20B9</string>
     <string name="rs">\u20A8</string>
     <string name="logout_alert_message">Are you sure want to Log Out? You will not get notification.</string>
-    
     <string name="download_interrupted">Downloading has been interrupted.Requested File need to be download once again.</string>
 
     <!-- Incentive Calculator -->
@@ -58,14 +57,89 @@
         <item name="month_10">October</item>
         <item name="month_11">November</item>
         <item name="month_12">December</item>
-        
     </string-array>
 
     <string name="quarter_month_1">Jan-Feb-Mar</string>
     <string name="quarter_month_2">Apr-May-Jun</string>
     <string name="quarter_month_3">Jul-Aug-Sep</string>
     <string name="quarter_month_4">Oct-Nov-Dec</string>
-    
     <string name="download_alert_message">Do you want to download Incentive Scheme document?</string>
     <string name="open_alert_message">Do you want to open Incentive Scheme document?</string>
+
+    <!-- My Performance -->
+
+    <string name="choose_year">Year</string>
+    <string name="choose_quarter">Quarter</string>
+    <string name="choose_month">Month</string>
+    <string name="choose_rbm">RBM</string>
+    <string name="choose_am">AM</string>
+    <string name="choose_ff">FF</string>
+    <string name="jan">JAN</string>
+    <string name="feb">FEB</string>
+    <string name="mar">MAR</string>
+    <string name="apr">APR</string>
+    <string name="may">MAY</string>
+    <string name="jun">JUN</string>
+    <string name="jul">JUL</string>
+    <string name="aug">AUG</string>
+    <string name="sep">SEP</string>
+    <string name="oct">OCT</string>
+    <string name="nov">NOV</string>
+    <string name="dec">DEC</string>
+
+    <string-array name="month_short">
+        <item name="jan">JAN</item>
+        <item name="feb">FEB</item>
+        <item name="mar">MAR</item>
+        <item name="apr">APR</item>
+        <item name="may">MAY</item>
+        <item name="jun">JUN</item>
+        <item name="jul">JUL</item>
+        <item name="aug">AUG</item>
+        <item name="sep">SEP</item>
+        <item name="oct">OCT</item>
+        <item name="nov">NOV</item>
+        <item name="dec">DEC</item>
+    </string-array>
+    <string-array name="sfkpi_year">
+        <item name="choose_year">Year</item>
+        <item name="2012">2012</item>
+        <item name="2013">2013</item>
+        <item name="2014">2014</item>
+        <item name="2015">2015</item>
+        <item name="2016">2016</item>
+        <item name="2017">2017</item>
+        <item name="2018">2018</item>
+        <item name="2019">2019</item>
+        <item name="2020">2020</item>
+        <item name="2021">2021</item>
+        <item name="2022">2022</item>
+        <item name="2023">2023</item>
+        <item name="2024">2024</item>
+        <item name="2025">2025</item>
+    </string-array>
+    <string-array name="sfkpi_quarter">
+        <item name="choose_quarter">Quarter</item>
+        <item name="q1">Q1(Jan-Feb-Mar)</item>
+        <item name="q2">Q2(Apr-May-Jun)</item>
+        <item name="a3">Q3(Jul-Aug-Sep)</item>
+        <item name="a4">Q4(Oct-Nov-Dec)</item>
+    </string-array>
+    
+     <string-array name="sales_month">
+         <item name="choose_month">Month</item>
+        <item name="jan">Jan</item>
+        <item name="feb">Feb</item>
+        <item name="mar">Mar</item>
+        <item name="apr">Apr</item>
+        <item name="may">May</item>
+        <item name="jun">Jun</item>
+        <item name="jul">Jul</item>
+        <item name="aug">Aug</item>
+        <item name="sep">Sep</item>
+        <item name="oct">Oct</item>
+        <item name="nov">Nov</item>
+        <item name="dec">Dec</item>
+    </string-array>
+
 </resources>

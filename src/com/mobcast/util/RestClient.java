@@ -57,7 +57,7 @@ import com.sanofi.in.mobcast.ApplicationLoader;
 public class RestClient {
 
 	private static final String TAG = RestClient.class.getSimpleName();
-			
+	private static final int TIME_OUT = 30000;
 			
 	public static String postJSON(String url, JSONObject dataToSend)
 			throws JSONException {
@@ -119,6 +119,13 @@ public class RestClient {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}catch(Exception e){
+			text = RequestBuilder.getPostFailMessage().toString();
+		}
+		if(BuildVars.debugRestClient){
+			Log.i(TAG, dataToSend.toString());
+			Log.i(TAG, url);	
+			Log.i(TAG, ""+text);
 		}
 		if (text != null) {
 			Log.e("----------> ", text);

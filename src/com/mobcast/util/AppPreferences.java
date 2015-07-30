@@ -174,7 +174,7 @@ public class AppPreferences {
 	}
 
 	// SA VIKALP PULL SERVICE
-	//SA VIKALP PULL SERVICE BULK NOTIFICATION STOP
+	// SA VIKALP PULL SERVICE BULK NOTIFICATION STOP
 	public void setInstallationDate(String str) {
 		editor = sharedPreferences.edit();
 		editor.putString("setInstallationDate", str);
@@ -185,7 +185,8 @@ public class AppPreferences {
 		String flag = sharedPreferences.getString("setInstallationDate", null);
 		return flag;
 	}
-	//EA VIKALP PULL SERVICE BULK NOTIFICATION STOP
+
+	// EA VIKALP PULL SERVICE BULK NOTIFICATION STOP
 	/*
 	 * PREFERENCES : LAST MODULE ID
 	 */
@@ -307,6 +308,17 @@ public class AppPreferences {
 		return flag;
 	}
 
+	public void setDesignation(String str) {
+		editor = sharedPreferences.edit();
+		editor.putString("_designation", str);
+		editor.commit();
+	}
+
+	public String getDesignation() {
+		String flag = sharedPreferences.getString("_designation", null);
+		return flag;
+	}
+
 	public void setApiKey(String str) {
 		editor = sharedPreferences.edit();
 		editor.putString("API_KEY", str);
@@ -378,6 +390,27 @@ public class AppPreferences {
 
 	public boolean isIncenModuleEnable() {
 		return sharedPreferences.getBoolean("isIncenModuleEnable", false);
+	}
+
+	public void setPerformanceModuleLayoutEnable(boolean value) {
+		editor = sharedPreferences.edit();
+		editor.putBoolean("isPerformanceModuleLayoutEnable", value);
+		editor.commit();
+	}
+
+	public boolean isPerformanceModuleLayoutEnable() {
+		return sharedPreferences.getBoolean("isPerformanceModuleLayoutEnable",
+				false);
+	}
+
+	public void setPerformanceModuleEnable(boolean value) {
+		editor = sharedPreferences.edit();
+		editor.putBoolean("isPerformanceModuleEnable", value);
+		editor.commit();
+	}
+
+	public boolean isPerformanceModuleEnable() {
+		return sharedPreferences.getBoolean("isPerformanceModuleEnable", false);
 	}
 
 	/*
@@ -1633,6 +1666,40 @@ public class AppPreferences {
 	public String getIncenBioSurgeryVialSlider4() { // JAN-FEB-MAR : COVERAGE :
 													// 40 %
 		return sharedPreferences.getString("incenBioSurgeryVialSlider4", null);
+	}
+
+	/*
+	 * My Performance : Preferences
+	 */
+	public void setUserDesignation(String str) {// My Performance : Designation
+		editor = sharedPreferences.edit();
+		editor.putString("userDesignation", str);
+		editor.commit();
+	}
+
+	public String getUserDesignation() { // My Performance : Designation
+		return sharedPreferences.getString("userDesignation", null);
+	}
+	
+	public void setUserDisplayName(String str) {// My Performance : Designation
+		editor = sharedPreferences.edit();
+		editor.putString("userDisplayName", str);
+		editor.commit();
+	}
+
+	public String getUserDisplayName() { // My Performance : Designation
+		return sharedPreferences.getString("userDisplayName", null);
+	}
+
+	public void setFirstLevelObjectForMyPerformance(String str) {
+		editor = sharedPreferences.edit();
+		editor.putString("setFirstLevelObjectForMyPerformance", str);
+		editor.commit();
+	}
+
+	public String getFirstLevelObjectForMyPerformance() {
+		String flag = sharedPreferences.getString("setFirstLevelObjectForMyPerformance", null);
+		return flag;
 	}
 
 }

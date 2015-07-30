@@ -575,16 +575,25 @@ public class LoginV2 extends Activity {
 						
 						try {
 							department = jObject.getString("department");
+//							ApplicationLoader.getPreferences().setDesignation(jObject.getString("designation"));
 							if (department.contentEquals("sales")) {
 								ApplicationLoader.getPreferences()
 										.setIncenModuleEnable(true);
 								ApplicationLoader.getPreferences()
 										.setIncenModuleLayoutEnable(true);
+								ApplicationLoader.getPreferences()
+								.setPerformanceModuleEnable(true);
+						ApplicationLoader.getPreferences()
+								.setPerformanceModuleLayoutEnable(true);
 							} else {
 								ApplicationLoader.getPreferences()
 										.setIncenModuleEnable(false);
 								ApplicationLoader.getPreferences()
 										.setIncenModuleLayoutEnable(false);
+								ApplicationLoader.getPreferences()
+								.setPerformanceModuleEnable(false);
+								ApplicationLoader.getPreferences()
+								.setPerformanceModuleLayoutEnable(false);
 							}
 						} catch (Exception e) {
 							Log.i(TAG, e.toString());

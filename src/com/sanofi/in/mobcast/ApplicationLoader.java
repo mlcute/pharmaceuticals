@@ -7,8 +7,10 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 
+import com.facebook.stetho.Stetho;
 import com.mobcast.receiver.PullAlarmReceiver;
 import com.mobcast.util.AppPreferences;
+import com.mobcast.util.BuildVars;
 import com.parse.Parse;
 
 public class ApplicationLoader extends Application {
@@ -32,6 +34,10 @@ public class ApplicationLoader extends Application {
 		applicationLoader = this;
 		preferences = new AppPreferences(this);
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		
+		if(BuildVars.DEBUG_STETHO){
+			initStetho(applicationLoader);
+		}
 	}
 
 	public static Context getApplication() {
@@ -48,6 +54,18 @@ public class ApplicationLoader extends Application {
 
 	public static synchronized ApplicationLoader getInstance() {
 		return applicationLoader;
+	}
+	
+	/*
+	 * STETHO DEBUG BRIDGE
+	 */
+	
+	public static void initStetho(Context applicationContext){
+		Stetho.initialize(
+		        Stetho.newInitializerBuilder(applicationContext)
+		            .enableDumpapp(Stetho.defaultDumperPluginsProvider(applicationContext))
+		            .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(applicationContext))
+		            .build());
 	}
 	
 	// SA VIKALP PULL SERVICE

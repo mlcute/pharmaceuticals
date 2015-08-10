@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.mobcast.myperformance.Consistency;
+import com.mobcast.myperformance.MyEarnings;
 import com.mobcast.myperformance.SalesPerformance;
 import com.mobcast.myperformance.Sfkpi;
 import com.mobcast.util.Constants;
@@ -102,8 +103,9 @@ public class AnnounceDBAdapter {
 	public static final String SQLITE_SFKPI = "Sfkpi";
 	public static final String SQLITE_CONSISTENCY = "Consistency";
 	public static final String SQLITE_SALES_PERF = "SalesPerformance";
+	public static final String SQLITE_MYEARNINGS = "MyEarnings";
 
-	private static final int DATABASE_VERSION = 31;//Incremented : My Performance
+	private static final int DATABASE_VERSION = 32;//Incremented : My Performance
 
 	private final Context mCtx;
 
@@ -372,6 +374,19 @@ public class AnnounceDBAdapter {
 			+ KEY_MONTH
 			+ ","
 			+ KEY_YEAR + ");";
+	
+	private static final String DATABASE_CREATE_MYEARNINGS = "CREATE TABLE if not exists "
+			+ SQLITE_MYEARNINGS
+			+ " ("
+			+ KEY_ROWID
+			+ " integer PRIMARY KEY autoincrement,"
+			+ KEY_PRODUCTNAME
+			+ ","
+			+ KEY_YEAR
+			+ ","
+			+ KEY_QUARTER
+			+ ","
+			+ KEY_VALUE1 + ");";
 
 	public static class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -395,6 +410,7 @@ public class AnnounceDBAdapter {
 			db.execSQL(DATABASE_CREATE_SFKPI);
 			db.execSQL(DATABASE_CREATE_CONSISTENCY);
 			db.execSQL(DATABASE_CREATE_SALES_PERF);
+			db.execSQL(DATABASE_CREATE_MYEARNINGS);
 		}
 
 		public static void deleteFolder(File folder) {
@@ -431,6 +447,7 @@ public class AnnounceDBAdapter {
 			db.execSQL("DROP TABLE IF EXISTS " + SQLITE_SFKPI);
 			db.execSQL("DROP TABLE IF EXISTS " + SQLITE_CONSISTENCY);
 			db.execSQL("DROP TABLE IF EXISTS " + SQLITE_SALES_PERF);
+			db.execSQL("DROP TABLE IF EXISTS " + SQLITE_MYEARNINGS);
 			db.execSQL("DROP TABLE IF EXISTS Images");
 			onCreate(db);
 			// db.execSQL("Alter TABLE  " + SQLITE_EVENT+
@@ -538,6 +555,9 @@ public class AnnounceDBAdapter {
 			mDb.execSQL("Delete FROM " + SQLITE_DOCUMENT);
 			mDb.execSQL("Delete FROM " + SQLITE_LINKS);
 			mDb.execSQL("Delete FROM " + SQLITE_SFKPI);
+			mDb.execSQL("Delete FROM " + SQLITE_SALES_PERF);
+			mDb.execSQL("Delete FROM " + SQLITE_CONSISTENCY);
+			mDb.execSQL("Delete FROM " + SQLITE_MYEARNINGS);
 			mDb.execSQL("Delete FROM Images");
 			Log.d("remotewipe", "finished");
 		} catch (Exception e) {
@@ -1663,9 +1683,6 @@ public class AnnounceDBAdapter {
 	/**
 	 * Sales Performance
 	 */
-	/**
-	 * Consistency
-	 */
 
 	public void addSalesPerformance(ArrayList<SalesPerformance> mList) {
 		deleteSalesPerformance(mList.get(0).getmYear(), mList.get(0).getmQuarter(), mList.get(0).getmMonth());
@@ -1715,6 +1732,58 @@ public class AnnounceDBAdapter {
 				Obj.setmActualSales(mCursor.getString(mCursor.getColumnIndex(KEY_ACTUAL_SALES)));
 				Obj.setmGrowth(mCursor.getString(mCursor.getColumnIndex(KEY_GROWTH)));
 				Obj.setmTarget(mCursor.getString(mCursor.getColumnIndex(KEY_TARGET)));
+				mList.add(Obj);
+			} while (mCursor.moveToNext());
+		}
+		
+		if(mCursor!=null){
+			mCursor.close();
+		}
+			
+		return mList;
+	}
+	
+	/**
+	 * MY EARNINGS
+	 */
+	
+	public void addMyEarnings(ArrayList<MyEarnings> mList) {
+		deleteMyEarnings(mList.get(0).getmYear(), mList.get(0).getmQuarter());
+		for(int i = 0 ;i< mList.size();i++){
+			MyEarnings Obj = mList.get(i);
+			ContentValues initialValues = new ContentValues();
+			initialValues.put(KEY_PRODUCTNAME, Obj.getmProductName());
+			initialValues.put(KEY_QUARTER, Obj.getmQuarter());
+			initialValues.put(KEY_YEAR, Obj.getmYear());
+			initialValues.put(KEY_VALUE1, Obj.getmValue());
+			mDb.insert(SQLITE_MYEARNINGS, null, initialValues);
+		}
+	}
+	
+	public void deleteMyEarnings(String mYear, String mQuarter) {
+		try {
+			mDb.delete(SQLITE_MYEARNINGS,
+					"quarter=\'" + mQuarter + "\'" + " AND  year=\'" + mYear + "\'", null);
+		} catch (Exception e) {
+			Log.i(TAG, e.toString());
+		}
+	}
+	
+	public ArrayList<MyEarnings> fetchMyEarnings(String mQuarter, String mYear){
+		ArrayList<MyEarnings> mList = new ArrayList<MyEarnings>();
+		Cursor mCursor = mDb.query(SQLITE_MYEARNINGS, null, KEY_QUARTER + "=?"
+				+ " AND " + KEY_YEAR + "=?", new String[] { mQuarter, mYear },
+				null, null, null);
+
+		
+		if (mCursor != null && mCursor.getCount() >0){
+			mCursor.moveToFirst();
+			do {
+				MyEarnings Obj = new MyEarnings();
+				Obj.setmProductName(mCursor.getString(mCursor.getColumnIndex(KEY_PRODUCTNAME)));
+				Obj.setmQuarter(mCursor.getString(mCursor.getColumnIndex(KEY_QUARTER)));
+				Obj.setmYear(mCursor.getString(mCursor.getColumnIndex(KEY_YEAR)));
+				Obj.setmValue(mCursor.getString(mCursor.getColumnIndex(KEY_VALUE1)));
 				mList.add(Obj);
 			} while (mCursor.moveToNext());
 		}

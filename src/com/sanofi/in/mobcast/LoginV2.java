@@ -575,7 +575,11 @@ public class LoginV2 extends Activity {
 						
 						try {
 							department = jObject.getString("department");
-//							ApplicationLoader.getPreferences().setDesignation(jObject.getString("designation"));
+							try{
+								ApplicationLoader.getPreferences().setDesignation(jObject.getString("designation"));
+							}catch(Exception e){
+								Log.i(TAG, e.toString());
+							}
 							if (department.contentEquals("sales")) {
 								ApplicationLoader.getPreferences()
 										.setIncenModuleEnable(true);

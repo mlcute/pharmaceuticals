@@ -56,6 +56,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.gcm.GCMBaseIntentService;
+import com.mobcast.myperformance.MyPerformanceActivity;
 import com.mobcast.receiver.AwardCongratulateReceiver;
 import com.mobcast.receiver.EventCalendarReceiver;
 import com.mobcast.receiver.EventNoReceiver;
@@ -159,611 +160,619 @@ import com.sanofi.in.mobcast.AsyncHttpPost.OnPostExecuteListener;
 
 	@Override
 	protected void onMessage(Context ctx, Intent intent) {
+		try{
 
-		this.ctx = ctx;
-		i = new Random();
-		j = new Random();
-		postParam = new HashMap<String, String>();
-		Log.d(TAG, "Message Received");
-		// Bundle bundle = intent.getExtras();
-		// JSONObject jObj = null;
-		// try {
-		// jObj = new JSONObject(String.valueOf(bundle.get("data")));
-		// } catch (JSONException e1) {
-		// // TODO Auto-generated catch block
-		// e1.printStackTrace();
-		// }
-		//
-		String category = "";
-		category = intent.getStringExtra("mobcast");
-		// Log.d("Category", "is: "+category );
-		/*
-		 * for (String key : bundle.keySet()) { Object value = bundle.get(key);
-		 * Log.d(TAG, String.format("%s %s", key, value.toString())); }
-		 * Log.d("Intent", "haha"+bundle.keySet());
-		 * 
-		 * Log.d("Mobcast", "is: "+String.valueOf(bundle.get("mobcast")));
-		 * Log.d("Push Hash", "is: "+bundle.get("push_hash")); Log.d("Details",
-		 * "is: "+bundle.get("details")); Log.d("Description",
-		 * "is: "+bundle.get("description").toString());
-		 */
-
-		dumpIntent(intent);
-		// if(intent!=null)
-		// category = intent.getStringExtra("mobcast");
-
-		Log.d("Category", "is: " + category);
-		if (category.contains("remoteWipe")) {
-
-			Log.i(TAG, "remoteWipe - Received");
-			AnnounceDBAdapter adb = new AnnounceDBAdapter(ctx);
-			adb.open();
-			adb.remotewipe(ctx);
-			adb.close();
-			getSharedPreferences("MobCastPref", 0).edit().clear().commit();
-			SessionManagement sm = new SessionManagement(ctx);
-			System.out.print("is in foreground :" + isInForeground(ctx));
-			try {
-				sm.logoutUser(isInForeground(ctx));
-				ApplicationLoader.getPreferences().setLoggedIn(false);
-				ApplicationLoader.getPreferences().setMobileNumber("");
-				ApplicationLoader.getPreferences().setRegId("");
-			} catch (Exception e) {
-				Log.i(TAG, e.toString());
-			}
-			Log.i(TAG, "remoteWipe - Successful");
-		}
-
-		check = new SessionManagement(getApplicationContext());
-		Log.v("Category", category);
-
-		if (category.contentEquals("forceExit")) {
-			SessionManagement logout = new SessionManagement(
-					getApplicationContext());
-			;
-			logout.logoutUser(true);
-
-		}
-
-		if (category.contentEquals("logout")) {
-
-		}
-
-		if (category.contentEquals("Feedback")) {
-			Log.v("feedback notif", "feedback....");
-
-			feedbackID = intent.getStringExtra("feedbackID");
-
-			Log.e("feedbackID", feedbackID);
-
-			Log.v("Feedback", "  feedbackID:" + feedbackID);
-
-			postParam.put("feedbackID", feedbackID);
-
-			try {
-				readFromXml();
-				// SA VIKALP UPDATE NOTIFICATION RECEIVED
-				try {
-					updateNotificationReceived(ctx, "Feedback", feedbackID);
-				} catch (Exception ex) {
-					Log.e("updateNotificationReceived", ex.toString());
-				}
-				// EA VIKALP UPDATE NOTIFICATION RECEIVED
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			// write data onto to the list.
-
-			Log.v("XML", "xmlString is :" + xmlString);
-
-			writeData(xmlString);
-
-			Log.v("GCM", "data is written");
-			Log.v("Feedback", "position of new data is " + (size + 1));
-			notificationIntent = new OpenContent(ctx,
-					AnnounceDBAdapter.SQLITE_FEEDBACK, feedbackID).itemView();
-//			generateNotification(ctx, "Feedback", "");
-			// SA VIKALP RICH NOTIFICATION
-			String nQuestions = "0";
-			try {
-				JSONArray mJSONArray = new JSONArray(xmlString);
-				nQuestions = String.valueOf(mJSONArray.length());
-			} catch (Exception e) {
-			}
-			if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-				generateFeedbackNotification(ctx, "Feedback", "", nQuestions);
-			} else {
-				generateNotification(ctx, "Feedback", "");
-			}
-			// EA VIKALP RICH NOTIFICATION
-						
-
-		}// end of Feedback Category
-
-		if (category.contentEquals("Events")) {
-			String date, venue, summary, day, time, cmpl;
-
-			// 'title' => $eTitle , 'eventID' => $eID, 'mobcast' => 'Events' ,
-			// 'date' => $eDate, 'venue' => $eVenue,
-			// 'day' => $eDay, 'time' => $eTime, 'description' => $eDesc,
-			// 'socialSharing' => $socialSharing,
-			// 'calendarEnabled' => $showCalendar, 'rsvpNeeded' => $rsvpNeeded,
-			// 'contentExpiry' => $contentExpiry
-
-			title = intent.getStringExtra("title");
-			date = intent.getStringExtra("date");
-			id = intent.getStringExtra("eventID");
-			venue = intent.getStringExtra("venue");
-			day = intent.getStringExtra("day");
-			time = intent.getStringExtra("time");
-			endTime = intent.getStringExtra("endTime"); //ADDED VIKALP EVENT END TIME
-
-			summary = intent.getStringExtra("description");
-			social = intent.getStringExtra("socialSharing");
-			contentExpiry = convertdate(intent.getStringExtra("contentExpiry"));
-			// "calendarEnabled":"on","rsvpNeeded":"on"
-			String calenderEnabled = intent.getStringExtra("calendarEnabled");
-			Log.d("calenderEnabled", calenderEnabled);
-			String rsvpNeeded = intent.getStringExtra("rsvpNeeded");
-			Log.d("rsvpNeeded", rsvpNeeded);
-
+			this.ctx = ctx;
+			i = new Random();
+			j = new Random();
+			postParam = new HashMap<String, String>();
+			Log.d(TAG, "Message Received");
+			// Bundle bundle = intent.getExtras();
+			// JSONObject jObj = null;
+			// try {
+			// jObj = new JSONObject(String.valueOf(bundle.get("data")));
+			// } catch (JSONException e1) {
+			// // TODO Auto-generated catch block
+			// e1.printStackTrace();
+			// }
+			//
+			String category = "";
+			category = intent.getStringExtra("mobcast");
+			// Log.d("Category", "is: "+category );
 			/*
-			 * message = intent.getStringExtra("description"); cmpl =
-			 * intent.getStringExtra("cmpl");
+			 * for (String key : bundle.keySet()) { Object value = bundle.get(key);
+			 * Log.d(TAG, String.format("%s %s", key, value.toString())); }
+			 * Log.d("Intent", "haha"+bundle.keySet());
 			 * 
-			 * 
-			 * 
-			 * /* Log.d(TAG, title); Log.d(TAG, date); Log.d(TAG, venue);
-			 * Log.d(TAG, summary); Log.d(TAG, time);
+			 * Log.d("Mobcast", "is: "+String.valueOf(bundle.get("mobcast")));
+			 * Log.d("Push Hash", "is: "+bundle.get("push_hash")); Log.d("Details",
+			 * "is: "+bundle.get("details")); Log.d("Description",
+			 * "is: "+bundle.get("description").toString());
 			 */
 
-			AnnounceDBAdapter db = new AnnounceDBAdapter(this);
-			// db.createEvent(Dtitle, Dwhen, Dwhen, Dwhen, Dwhen, summary);
-			db.open();
-			String _id = db.createEvent(title, date, day, time, venue, summary,
-					id, social, contentExpiry, rsvpNeeded, calenderEnabled,endTime)
-					+ "";
+			dumpIntent(intent);
+			// if(intent!=null)
+			// category = intent.getStringExtra("mobcast");
 
-			// if(db.getUnreadCount("Event")>25)
-			{
-				SharedPreferences pref;
-				pref = getSharedPreferences("MobCastPref", 0);
-				pref.edit().putString("lastEvent", id).commit();
-				ApplicationLoader.getPreferences().setLastEventsId(id);//ADDED VIKALP PULL SERVICE
-			}
+			Log.d("Category", "is: " + category);
+			if (category.contains("remoteWipe")) {
 
-			db.close();
-			notificationIntent = new OpenContent(ctx,
-					AnnounceDBAdapter.SQLITE_EVENT, _id).itemView();
-
-//			generateNotification(ctx, "Event", title);
-
-			// SA VIKALP RICH NOTIFICATION
-			if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-				generateEventNotification(ctx, "Event", title, _id);
-			} else {
-				generateNotification(ctx, "Event", title);
-			}
-			// EA VIKALP RICH NOTIFICATION
-						
-			// SA VIKALP UPDATE NOTIFICATION RECEIVED
-			try {
-				updateNotificationReceived(ctx, "Events", id);
-			} catch (Exception ex) {
-				Log.e("updateNotificationReceived", ex.toString());
-			}
-			// EA VIKALP UPDATE NOTIFICATION RECEIVED
-		}
-
-		if (category.contentEquals("Announcements")) {
-			Log.v("Category", "Announcement");
-
-			title = intent.getStringExtra("title");
-			fro = intent.getStringExtra("by");
-			summary = intent.getStringExtra("description");
-			// SU VIKALP DATE ORDER ISSUE
-			// detail = intent.getStringExtra("details");
-			detail = Utilities.convertdate(intent.getStringExtra("details"));
-			// EU VIKALP
-			type = intent.getStringExtra("type");
-			id = intent.getStringExtra("id");
-
-			social = intent.getStringExtra("socialSharing");
-
-			name = intent.getStringExtra("fileName");
-			link = intent.getStringExtra("link");
-			fileLink = link;
-			contentExpiry = convertdate(intent.getStringExtra("contentExpiry"));
-			Log.e("announceDBAdapter", "test");
-			System.out.println("title  ===> " + title);
-			System.out.println("fro  ===> " + fro);
-			System.out.println("summary  ===> " + summary);
-			System.out.println("detail  ===> " + detail);
-			System.out.println("type  ===> " + type);
-			System.out.println("id  ===> " + id);
-			System.out.println("social  ===> " + social);
-
-			System.out.println("name  ===> " + name);
-			System.out.println("link  ===> " + link);
-
-			Log.d("content expiry", contentExpiry);
-
-			fro = fro.replaceAll("\\\\", "");
-			title = title.replaceAll("\\\\", "");
-			summary = summary.replaceAll("\\\\", "");
-
-			if (link != null) {
-				final_name = link.substring((link.lastIndexOf('/') + 1));
-			}
-
-			else
-				final_name = name;
-			System.out.println("Final Name  ===> " + final_name);
-
-			AnnounceDBAdapter announce = new AnnounceDBAdapter(this);
-			announce.open();
-
-			// if(announce.getUnreadCount("Announce")>25)
-			{
-				SharedPreferences pref;
-				pref = getSharedPreferences("MobCastPref", 0);
-				pref.edit().putString("lastAnnounce", id).commit();
-				ApplicationLoader.getPreferences().setLastAnnouncementId(id);//ADDED VIKALP PULL SERVICE
-			}
-
-			announce.close();
-
-			if (!type.contentEquals("text"))
-				DownloadForAnnounce(ctx);
-			else {
-
-				// AnnounceDBAdapter announce = new AnnounceDBAdapter(this);
-				announce.open();
-
-				String _id = announce.createAnnouncement(title, detail, fro,
-						type, "0", summary, id, social, contentExpiry, "0")
-						+ "";
-
-				announce.close();
-				notificationIntent = new OpenContent(ctx,
-						AnnounceDBAdapter.SQLITE_ANNOUNCE, _id).itemView();
-
-				generateNotification(ctx, "Announcement", title);
-
-				// SA VIKALP UPDATE NOTIFICATION RECEIVED
+				Log.i(TAG, "remoteWipe - Received");
+				AnnounceDBAdapter adb = new AnnounceDBAdapter(ctx);
+				adb.open();
+				adb.remotewipe(ctx);
+				adb.close();
+				getSharedPreferences("MobCastPref", 0).edit().clear().commit();
+				SessionManagement sm = new SessionManagement(ctx);
+				System.out.print("is in foreground :" + isInForeground(ctx));
 				try {
-					updateNotificationReceived(ctx, "Announcements", id);
-				} catch (Exception ex) {
-					Log.e("updateNotificationReceived", ex.toString());
+					sm.logoutUser(isInForeground(ctx));
+					ApplicationLoader.getPreferences().setLoggedIn(false);
+					ApplicationLoader.getPreferences().setMobileNumber("");
+					ApplicationLoader.getPreferences().setRegId("");
+				} catch (Exception e) {
+					Log.i(TAG, e.toString());
 				}
-				// EA VIKALP UPDATE NOTIFICATION RECEIVED
+				Log.i(TAG, "remoteWipe - Successful");
 			}
-		}
 
-		if (category.contentEquals("Training")) {
-			Log.v("training", "In training ");
+			check = new SessionManagement(getApplicationContext());
+			Log.v("Category", category);
 
-			// 'title' => $tTitle, 'mobcast' => 'Training', 'description' =>
-			// $tDesc, 'fileName' => $fileName, 'details' => $todaysDate,
-			// 'id' => $tID, 'link' => $fileLink, 'type' => $fileType,
-			// 'socialSharing' => $socialSharing, 'contentExpiry' =>
-			// $contentExpiry
+			if (category.contentEquals("forceExit")) {
+				SessionManagement logout = new SessionManagement(
+						getApplicationContext());
+				;
+				logout.logoutUser(true);
 
-			title = intent.getStringExtra("title");
-			name = intent.getStringExtra("fileName");
-			// SU VIKALP
-			// detail = intent.getStringExtra("details");
-			detail = Utilities.convertdate(intent.getStringExtra("details"));
-			// EU VIKALP
-			// TODO
-			// TODO
-			// social = intent.getStringExtra("socialSharing");
-			// SA VIKALP ADDED RICH NOTIFICATION
-			try {
-				fileMetaData = intent.getStringExtra("fileMetaData");
-			} catch (Exception e) {
-				Log.i(TAG, e.toString());
 			}
-			// EA VIKALP ADDED RICH NOTIFICATION
-			social = intent.getStringExtra("socialSharing");
 
-			contentExpiry = convertdate(intent.getStringExtra("contentExpiry"));
-			// if(social.contentEquals(null)) social = "off";
-			// Log.d("socialSharing", social);
-			summary = intent.getStringExtra("description");
-			id = intent.getStringExtra("id");
-			String link1 = intent.getStringExtra("link");
-			link = urlencode(link1);
-			fileLink = link;
-			type = intent.getStringExtra("type");
+			if (category.contentEquals("logout")) {
 
-			Log.v("training title", title);
-			Log.v("training detail", detail);
-			Log.v("training type", type);
-			Log.v("training summary", summary);
-			Log.v("training", link);
-
-			SharedPreferences pref;
-			pref = getSharedPreferences("MobCastPref", 0);
-			pref.edit().putString("lastTraining", id).commit();
-			ApplicationLoader.getPreferences().setLastTrainingId(id);//ADDED VIKALP PULL SERVICE
-			DownloadForTraining(ctx);
-
-		}
-
-		if (category.contentEquals("News")) {
-
-			title = intent.getStringExtra("title");
-			name = intent.getStringExtra("fileName");
-			// SU VIKALP DATE ORDER
-			// detail = intent.getStringExtra("details");
-			detail = Utilities.convertdate(intent.getStringExtra("details"));
-			try{
-				contentExpiry = convertdate(intent.getStringExtra("contentExpiry"));
-			}catch(Exception e){
-				
 			}
-			// EU VIKALP
-			String link1 = intent.getStringExtra("link");
-			summary = intent.getStringExtra("description");
-			url = intent.getStringExtra("source");
 
-			id = intent.getStringExtra("id");
-			type = intent.getStringExtra("type");
-			social = intent.getStringExtra("socialSharing");
+			if (category.contentEquals("Feedback")) {
+				Log.v("feedback notif", "feedback....");
 
-			// 'title' => $nTitle , 'source' => $nSource, 'mobcast' => 'News',
-			// 'description' => $nDesc,
-			// 'details' => $todaysDate, 'type' => 'audio', 'id' => $nID,
-			// 'fileName' => $fileName,
-			// 'socialSharing' => $socialSharing, 'contentExpiry' =>
-			// $contentExpiry, 'link' => '$fileLink',
+				feedbackID = intent.getStringExtra("feedbackID");
 
-			/*
-			 * caption = intent.getStringExtra("caption"); Log.e("LINK", link1);
-			 */
+				Log.e("feedbackID", feedbackID);
 
-			link = urlencode(link1);
-			fileLink = link;
-			// Log.d(TAG, title);
-			// Log.d(TAG, detail);
-			// Log.d(TAG, caption);
-			// Log.d(TAG, summary);
-			Log.d(TAG, link);
+				Log.v("Feedback", "  feedbackID:" + feedbackID);
 
-			final_name = link.substring((link.lastIndexOf('/') + 1));
-			System.out.println("Final Name  ===> " + final_name);
+				postParam.put("feedbackID", feedbackID);
 
-			AnnounceDBAdapter db = new AnnounceDBAdapter(this);
-			// db.createEvent(Dtitle, Dwhen, Dwhen, Dwhen, Dwhen, summary);
-			db.open();
-
-			// if(announce.getUnreadCount("News")>25)
-			{
-				SharedPreferences pref;
-				pref = getSharedPreferences("MobCastPref", 0);
-				pref.edit().putString("lastNews", id).commit();
-				ApplicationLoader.getPreferences().setLastNewsId(id);//ADDED VIKALP PULL SERVICE
-			}
-			db.close();
-
-			if (!type.contentEquals("text"))
-				DownloadForNews(ctx, url);
-			else {
-
-				// db.createEvent(Dtitle, Dwhen, Dwhen, Dwhen, Dwhen, summary);
-				db.open();
-				String _id = db.createNews(title, detail, name, url, type,
-						summary, id, social, contentExpiry, "0") + "";
-				Log.d(TAG, "Training added to list");
-				db.close();
-				notificationIntent = new OpenContent(ctx,
-						AnnounceDBAdapter.SQLITE_NEWS, _id).itemView();
-
-				generateNotification(ctx, "News", title);
-
-				// SA VIKALP UPDATE NOTIFICATION RECEIVED
 				try {
-					updateNotificationReceived(ctx, "News", id);
-				} catch (Exception ex) {
-					Log.e("updateNotificationReceived", ex.toString());
-				}
-				// EA VIKALP UPDATE NOTIFICATION RECEIVED
-			}
-		}
-
-		if (category.contentEquals("Recruitment")) {
-
-			SharedPreferences pref;
-			pref = getSharedPreferences("MobCastPref", 0);
-			pref.edit().putString("gcmregID", null).commit();
-			mobileNumber = pref.getString("LoginID", null);
-
-			HashMap<String, String> params = new HashMap<String, String>();
-			params.put(com.mobcast.util.Constants.user_id, mobileNumber);
-
-			AsyncHttpPost asyncHttpPost = new AsyncHttpPost(params);
-			asyncHttpPost.execute(com.mobcast.util.Constants.CHECK_RECRUITMENT);
-
-			asyncHttpPost.setOnPostExecuteListener(new OnPostExecuteListener() {
-
-				@Override
-				public void onPostExecute(String result) {
-					// TODO Auto-generated method stub
-
-					Intent i = new Intent(GCMIntentService.this.ctx,
-							RecruitList.class);
-					i.putExtra(RecruitList.RECRUIT_DATA, result);
-					// startActivity(i);
-					notificationIntent = i;
-					generateNotification(GCMIntentService.this.ctx, "",
-							"New Recruitment");
-				}
-			});
-
-			// SA VIKALP UPDATE NOTIFICATION RECEIVED
-			try {
-				updateNotificationReceived(ctx, "Recruitment", id);
-			} catch (Exception ex) {
-				Log.e("updateNotificationReceived", ex.toString());
-			}
-			// EA VIKALP UPDATE NOTIFICATION RECEIVED
-
-			// RecruitTask asyncHttpPost1 = new RecruitTask();
-
-			// asyncHttpPost1
-			// .execute(com.mobcast.util.Constants.CHECK_RECRUITMENT);;
-
-		}// End of Recruitment category
-
-		// For Award Category
-		if (category.contentEquals("Award")) {
-
-			// Getting Data from pushed notification
-			id = intent.getStringExtra("id");// server award id for the award
-			Log.e("award id", id + "");
-			name = intent.getStringExtra("winnerName");// Person who won the
-														// award
-			// name = "winner";// Person who won the award
-			link = intent.getStringExtra("link");// link to download the image
-			link = link.replace(" ", "%20");
-			fileLink = link;
-			title = intent.getStringExtra("title");// Title of the award
-			// SU VIKALP DATE ORDER ISSUE
-			// detail = intent.getStringExtra("details");// Time detail
-			detail = Utilities.convertdate(intent.getStringExtra("details"));// Time
-																				// detail
-			rdate = intent.getStringExtra("timeStamp").substring(0, 10);// ADDED
-																		// VIKALP
-																		// AWARD
-																		// RDATE
-			// EU VIKALP DATE ORDER ISSUE
-			// TODO
-			// TODO
-			// social = intent.getStringExtra("socialSharing");
-			social = intent.getStringExtra("socialSharing");
-
-			// contentExpiry = convertdate
-			// (intent.getStringExtra("contentExpiry"));
-			contentExpiry = convertdate("off");
-			summary = intent.getStringExtra("description");// Summary of the
-															// award
-			imgName = intent.getStringExtra("fileName");// Name of image file
-
-			// DownloadImage from Link Code
-			try {
-				URL url = new URL(link);
-				String root = Environment.getExternalStorageDirectory()
-						.toString();
-				File myDir = new File(root + Constants.APP_FOLDER_IMG);
-				myDir.mkdirs();
-				String fname = imgName;
-				File file = new File(myDir, fname);
-				if (file.exists())
-					file.delete();
-				
-				imagePath = root + Constants.APP_FOLDER_IMG + fname;
-				Log.v("image name", fname);
-				
-				AnnounceDBAdapter db = new AnnounceDBAdapter(this);
-				db.open();
-				String _id = db.createAward(title, name, detail, rdate, id,
-						summary, // ADDED VIKALP AWARD RDATE
-						imagePath, social, contentExpiry, fileLink) + "";
-					SharedPreferences pref;
-					pref = getSharedPreferences("MobCastPref", 0);
-					pref.edit().putString("lastAward", id).commit();
-					ApplicationLoader.getPreferences().setLastAwardsId(id);//ADDED VIKALP PULL SERVICE
-					db.close();
-				
-				try{
-					URLConnection ucon = url.openConnection();
-					InputStream is = ucon.getInputStream();
-					BufferedInputStream bis = new BufferedInputStream(is);
-					ByteArrayBuffer baf = new ByteArrayBuffer(50);
-					int current = 0;
-					while ((current = bis.read()) != -1) {
-						baf.append((byte) current);
-					}
-
-					FileOutputStream fos = new FileOutputStream(file);
-					fos.write(baf.toByteArray());
-					fos.close();
-					
-					// Storing in Database
-					
-					// Passing intent to Award with data
-					if (check.isLoggedIn()) {
-						notificationIntent = new Intent(new OpenContent(ctx,
-								AnnounceDBAdapter.SQLITE_AWARD, _id).itemView());
-					} else
-						notificationIntent = new Intent(ctx, LoginV2.class);
-//					generateNotification(ctx, "Award", title);
-					
-//					SA VIKALP RICH NOTIFICATION
-					if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-						generateAwardNotification(ctx, "Award", title,
-								file.getAbsolutePath());
-					} else {
-						generateNotification(ctx, "Award", title);
-					}
-//					EA VIKALP RICH NOTIFICATION
-					
+					readFromXml();
 					// SA VIKALP UPDATE NOTIFICATION RECEIVED
 					try {
-						updateNotificationReceived(ctx, "Award", id);
+						updateNotificationReceived(ctx, "Feedback", feedbackID);
 					} catch (Exception ex) {
 						Log.e("updateNotificationReceived", ex.toString());
 					}
 					// EA VIKALP UPDATE NOTIFICATION RECEIVED
-				}catch(Exception e){
-					if (check.isLoggedIn()) {
-						notificationIntent = new Intent(new OpenContent(ctx,
-								AnnounceDBAdapter.SQLITE_AWARD, _id).itemView());
-					} else
-						notificationIntent = new Intent(ctx, LoginV2.class);
-					
-					generateNotification(ctx, "Award", title);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 
-			} catch (IOException e) {
-				e.printStackTrace();
+				// write data onto to the list.
+
+				Log.v("XML", "xmlString is :" + xmlString);
+
+				writeData(xmlString);
+
+				Log.v("GCM", "data is written");
+				Log.v("Feedback", "position of new data is " + (size + 1));
+				notificationIntent = new OpenContent(ctx,
+						AnnounceDBAdapter.SQLITE_FEEDBACK, feedbackID).itemView();
+//				generateNotification(ctx, "Feedback", "");
+				// SA VIKALP RICH NOTIFICATION
+				String nQuestions = "0";
+				try {
+					JSONArray mJSONArray = new JSONArray(xmlString);
+					nQuestions = String.valueOf(mJSONArray.length());
+				} catch (Exception e) {
+				}
+				if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+					generateFeedbackNotification(ctx, "Feedback", "", nQuestions);
+				} else {
+					generateNotification(ctx, "Feedback", "");
+				}
+				// EA VIKALP RICH NOTIFICATION
+							
+
+			}// end of Feedback Category
+
+			if (category.contentEquals("Events")) {
+				String date, venue, summary, day, time, cmpl;
+
+				// 'title' => $eTitle , 'eventID' => $eID, 'mobcast' => 'Events' ,
+				// 'date' => $eDate, 'venue' => $eVenue,
+				// 'day' => $eDay, 'time' => $eTime, 'description' => $eDesc,
+				// 'socialSharing' => $socialSharing,
+				// 'calendarEnabled' => $showCalendar, 'rsvpNeeded' => $rsvpNeeded,
+				// 'contentExpiry' => $contentExpiry
+
+				title = intent.getStringExtra("title");
+				date = intent.getStringExtra("date");
+				id = intent.getStringExtra("eventID");
+				venue = intent.getStringExtra("venue");
+				day = intent.getStringExtra("day");
+				time = intent.getStringExtra("time");
+				endTime = intent.getStringExtra("endTime"); //ADDED VIKALP EVENT END TIME
+
+				summary = intent.getStringExtra("description");
+				social = intent.getStringExtra("socialSharing");
+				contentExpiry = convertdate(intent.getStringExtra("contentExpiry"));
+				// "calendarEnabled":"on","rsvpNeeded":"on"
+				String calenderEnabled = intent.getStringExtra("calendarEnabled");
+				Log.d("calenderEnabled", calenderEnabled);
+				String rsvpNeeded = intent.getStringExtra("rsvpNeeded");
+				Log.d("rsvpNeeded", rsvpNeeded);
+
+				/*
+				 * message = intent.getStringExtra("description"); cmpl =
+				 * intent.getStringExtra("cmpl");
+				 * 
+				 * 
+				 * 
+				 * /* Log.d(TAG, title); Log.d(TAG, date); Log.d(TAG, venue);
+				 * Log.d(TAG, summary); Log.d(TAG, time);
+				 */
+
+				AnnounceDBAdapter db = new AnnounceDBAdapter(this);
+				// db.createEvent(Dtitle, Dwhen, Dwhen, Dwhen, Dwhen, summary);
+				db.open();
+				String _id = db.createEvent(title, date, day, time, venue, summary,
+						id, social, contentExpiry, rsvpNeeded, calenderEnabled,endTime)
+						+ "";
+
+				// if(db.getUnreadCount("Event")>25)
+				{
+					SharedPreferences pref;
+					pref = getSharedPreferences("MobCastPref", 0);
+					pref.edit().putString("lastEvent", id).commit();
+					ApplicationLoader.getPreferences().setLastEventsId(id);//ADDED VIKALP PULL SERVICE
+				}
+
+				db.close();
+				notificationIntent = new OpenContent(ctx,
+						AnnounceDBAdapter.SQLITE_EVENT, _id).itemView();
+
+//				generateNotification(ctx, "Event", title);
+
+				// SA VIKALP RICH NOTIFICATION
+				if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+					generateEventNotification(ctx, "Event", title, _id);
+				} else {
+					generateNotification(ctx, "Event", title);
+				}
+				// EA VIKALP RICH NOTIFICATION
+							
+				// SA VIKALP UPDATE NOTIFICATION RECEIVED
+				try {
+					updateNotificationReceived(ctx, "Events", id);
+				} catch (Exception ex) {
+					Log.e("updateNotificationReceived", ex.toString());
+				}
+				// EA VIKALP UPDATE NOTIFICATION RECEIVED
 			}
 
-		}// end of Award Category
+			if (category.contentEquals("Announcements")) {
+				Log.v("Category", "Announcement");
 
-		// SA VIKALP
-		// For Remote Folder Wipe
-		if (category.contentEquals("remoteFolderWipe")) {
-			AnnounceDBAdapter adb = new AnnounceDBAdapter(ctx);
-			adb.open();
-			adb.remoteWipeFolder(ctx);
-			adb.close();
-		}
+				title = intent.getStringExtra("title");
+				fro = intent.getStringExtra("by");
+				summary = intent.getStringExtra("description");
+				// SU VIKALP DATE ORDER ISSUE
+				// detail = intent.getStringExtra("details");
+				detail = Utilities.convertdate(intent.getStringExtra("details"));
+				// EU VIKALP
+				type = intent.getStringExtra("type");
+				id = intent.getStringExtra("id");
 
-		if (category.contentEquals("askUserToLogin")) {
-			if (!check.isLoggedIn()) {
-				notificationIntent = new Intent(ctx, LoginV2.class);
-				generateLoginNotification(ctx);
-				clearPreferences();
+				social = intent.getStringExtra("socialSharing");
+
+				name = intent.getStringExtra("fileName");
+				link = intent.getStringExtra("link");
+				fileLink = link;
+				contentExpiry = convertdate(intent.getStringExtra("contentExpiry"));
+				Log.e("announceDBAdapter", "test");
+				System.out.println("title  ===> " + title);
+				System.out.println("fro  ===> " + fro);
+				System.out.println("summary  ===> " + summary);
+				System.out.println("detail  ===> " + detail);
+				System.out.println("type  ===> " + type);
+				System.out.println("id  ===> " + id);
+				System.out.println("social  ===> " + social);
+
+				System.out.println("name  ===> " + name);
+				System.out.println("link  ===> " + link);
+
+				Log.d("content expiry", contentExpiry);
+
+				fro = fro.replaceAll("\\\\", "");
+				title = title.replaceAll("\\\\", "");
+				summary = summary.replaceAll("\\\\", "");
+
+				if (link != null) {
+					final_name = link.substring((link.lastIndexOf('/') + 1));
+				}
+
+				else
+					final_name = name;
+				System.out.println("Final Name  ===> " + final_name);
+
+				AnnounceDBAdapter announce = new AnnounceDBAdapter(this);
+				announce.open();
+
+				// if(announce.getUnreadCount("Announce")>25)
+				{
+					SharedPreferences pref;
+					pref = getSharedPreferences("MobCastPref", 0);
+					pref.edit().putString("lastAnnounce", id).commit();
+					ApplicationLoader.getPreferences().setLastAnnouncementId(id);//ADDED VIKALP PULL SERVICE
+				}
+
+				announce.close();
+
+				if (!type.contentEquals("text"))
+					DownloadForAnnounce(ctx);
+				else {
+
+					// AnnounceDBAdapter announce = new AnnounceDBAdapter(this);
+					announce.open();
+
+					String _id = announce.createAnnouncement(title, detail, fro,
+							type, "0", summary, id, social, contentExpiry, "0")
+							+ "";
+
+					announce.close();
+					notificationIntent = new OpenContent(ctx,
+							AnnounceDBAdapter.SQLITE_ANNOUNCE, _id).itemView();
+
+					generateNotification(ctx, "Announcement", title);
+
+					// SA VIKALP UPDATE NOTIFICATION RECEIVED
+					try {
+						updateNotificationReceived(ctx, "Announcements", id);
+					} catch (Exception ex) {
+						Log.e("updateNotificationReceived", ex.toString());
+					}
+					// EA VIKALP UPDATE NOTIFICATION RECEIVED
+				}
 			}
-		}
 
-		if (category.contentEquals("newUpdate")) {
-			notificationIntent = new Intent(ctx, Home1.class);
-			generateUpdateNotification(ctx);
-		}
-		
-		if(category.contentEquals("changeTeamIncentive")){
-			new AsyncDataFromApiForIncentive().execute();
-		}
-		// EA VIKALP
+			if (category.contentEquals("Training")) {
+				Log.v("training", "In training ");
 
+				// 'title' => $tTitle, 'mobcast' => 'Training', 'description' =>
+				// $tDesc, 'fileName' => $fileName, 'details' => $todaysDate,
+				// 'id' => $tID, 'link' => $fileLink, 'type' => $fileType,
+				// 'socialSharing' => $socialSharing, 'contentExpiry' =>
+				// $contentExpiry
+
+				title = intent.getStringExtra("title");
+				name = intent.getStringExtra("fileName");
+				// SU VIKALP
+				// detail = intent.getStringExtra("details");
+				detail = Utilities.convertdate(intent.getStringExtra("details"));
+				// EU VIKALP
+				// TODO
+				// TODO
+				// social = intent.getStringExtra("socialSharing");
+				// SA VIKALP ADDED RICH NOTIFICATION
+				try {
+					fileMetaData = intent.getStringExtra("fileMetaData");
+				} catch (Exception e) {
+					Log.i(TAG, e.toString());
+				}
+				// EA VIKALP ADDED RICH NOTIFICATION
+				social = intent.getStringExtra("socialSharing");
+
+				contentExpiry = convertdate(intent.getStringExtra("contentExpiry"));
+				// if(social.contentEquals(null)) social = "off";
+				// Log.d("socialSharing", social);
+				summary = intent.getStringExtra("description");
+				id = intent.getStringExtra("id");
+				String link1 = intent.getStringExtra("link");
+				link = urlencode(link1);
+				fileLink = link;
+				type = intent.getStringExtra("type");
+
+				Log.v("training title", title);
+				Log.v("training detail", detail);
+				Log.v("training type", type);
+				Log.v("training summary", summary);
+				Log.v("training", link);
+
+				SharedPreferences pref;
+				pref = getSharedPreferences("MobCastPref", 0);
+				pref.edit().putString("lastTraining", id).commit();
+				ApplicationLoader.getPreferences().setLastTrainingId(id);//ADDED VIKALP PULL SERVICE
+				DownloadForTraining(ctx);
+
+			}
+
+			if (category.contentEquals("News")) {
+
+				title = intent.getStringExtra("title");
+				name = intent.getStringExtra("fileName");
+				// SU VIKALP DATE ORDER
+				// detail = intent.getStringExtra("details");
+				detail = Utilities.convertdate(intent.getStringExtra("details"));
+				try{
+					contentExpiry = convertdate(intent.getStringExtra("contentExpiry"));
+				}catch(Exception e){
+					
+				}
+				// EU VIKALP
+				String link1 = intent.getStringExtra("link");
+				summary = intent.getStringExtra("description");
+				url = intent.getStringExtra("source");
+
+				id = intent.getStringExtra("id");
+				type = intent.getStringExtra("type");
+				social = intent.getStringExtra("socialSharing");
+
+				// 'title' => $nTitle , 'source' => $nSource, 'mobcast' => 'News',
+				// 'description' => $nDesc,
+				// 'details' => $todaysDate, 'type' => 'audio', 'id' => $nID,
+				// 'fileName' => $fileName,
+				// 'socialSharing' => $socialSharing, 'contentExpiry' =>
+				// $contentExpiry, 'link' => '$fileLink',
+
+				/*
+				 * caption = intent.getStringExtra("caption"); Log.e("LINK", link1);
+				 */
+
+				link = urlencode(link1);
+				fileLink = link;
+				// Log.d(TAG, title);
+				// Log.d(TAG, detail);
+				// Log.d(TAG, caption);
+				// Log.d(TAG, summary);
+				Log.d(TAG, link);
+
+				final_name = link.substring((link.lastIndexOf('/') + 1));
+				System.out.println("Final Name  ===> " + final_name);
+
+				AnnounceDBAdapter db = new AnnounceDBAdapter(this);
+				// db.createEvent(Dtitle, Dwhen, Dwhen, Dwhen, Dwhen, summary);
+				db.open();
+
+				// if(announce.getUnreadCount("News")>25)
+				{
+					SharedPreferences pref;
+					pref = getSharedPreferences("MobCastPref", 0);
+					pref.edit().putString("lastNews", id).commit();
+					ApplicationLoader.getPreferences().setLastNewsId(id);//ADDED VIKALP PULL SERVICE
+				}
+				db.close();
+
+				if (!type.contentEquals("text"))
+					DownloadForNews(ctx, url);
+				else {
+
+					// db.createEvent(Dtitle, Dwhen, Dwhen, Dwhen, Dwhen, summary);
+					db.open();
+					String _id = db.createNews(title, detail, name, url, type,
+							summary, id, social, contentExpiry, "0") + "";
+					Log.d(TAG, "Training added to list");
+					db.close();
+					notificationIntent = new OpenContent(ctx,
+							AnnounceDBAdapter.SQLITE_NEWS, _id).itemView();
+
+					generateNotification(ctx, "News", title);
+
+					// SA VIKALP UPDATE NOTIFICATION RECEIVED
+					try {
+						updateNotificationReceived(ctx, "News", id);
+					} catch (Exception ex) {
+						Log.e("updateNotificationReceived", ex.toString());
+					}
+					// EA VIKALP UPDATE NOTIFICATION RECEIVED
+				}
+			}
+
+			if (category.contentEquals("Recruitment")) {
+
+				SharedPreferences pref;
+				pref = getSharedPreferences("MobCastPref", 0);
+				pref.edit().putString("gcmregID", null).commit();
+				mobileNumber = pref.getString("LoginID", null);
+
+				HashMap<String, String> params = new HashMap<String, String>();
+				params.put(com.mobcast.util.Constants.user_id, mobileNumber);
+
+				AsyncHttpPost asyncHttpPost = new AsyncHttpPost(params);
+				asyncHttpPost.execute(com.mobcast.util.Constants.CHECK_RECRUITMENT);
+
+				asyncHttpPost.setOnPostExecuteListener(new OnPostExecuteListener() {
+
+					@Override
+					public void onPostExecute(String result) {
+						// TODO Auto-generated method stub
+
+						Intent i = new Intent(GCMIntentService.this.ctx,
+								RecruitList.class);
+						i.putExtra(RecruitList.RECRUIT_DATA, result);
+						// startActivity(i);
+						notificationIntent = i;
+						generateNotification(GCMIntentService.this.ctx, "",
+								"New Recruitment");
+					}
+				});
+
+				// SA VIKALP UPDATE NOTIFICATION RECEIVED
+				try {
+					updateNotificationReceived(ctx, "Recruitment", id);
+				} catch (Exception ex) {
+					Log.e("updateNotificationReceived", ex.toString());
+				}
+				// EA VIKALP UPDATE NOTIFICATION RECEIVED
+
+				// RecruitTask asyncHttpPost1 = new RecruitTask();
+
+				// asyncHttpPost1
+				// .execute(com.mobcast.util.Constants.CHECK_RECRUITMENT);;
+
+			}// End of Recruitment category
+
+			// For Award Category
+			if (category.contentEquals("Award")) {
+
+				// Getting Data from pushed notification
+				id = intent.getStringExtra("id");// server award id for the award
+				Log.e("award id", id + "");
+				name = intent.getStringExtra("winnerName");// Person who won the
+															// award
+				// name = "winner";// Person who won the award
+				link = intent.getStringExtra("link");// link to download the image
+				link = link.replace(" ", "%20");
+				fileLink = link;
+				title = intent.getStringExtra("title");// Title of the award
+				// SU VIKALP DATE ORDER ISSUE
+				// detail = intent.getStringExtra("details");// Time detail
+				detail = Utilities.convertdate(intent.getStringExtra("details"));// Time
+																					// detail
+				rdate = intent.getStringExtra("timeStamp").substring(0, 10);// ADDED
+																			// VIKALP
+																			// AWARD
+																			// RDATE
+				// EU VIKALP DATE ORDER ISSUE
+				// TODO
+				// TODO
+				// social = intent.getStringExtra("socialSharing");
+				social = intent.getStringExtra("socialSharing");
+
+				// contentExpiry = convertdate
+				// (intent.getStringExtra("contentExpiry"));
+				contentExpiry = convertdate("off");
+				summary = intent.getStringExtra("description");// Summary of the
+																// award
+				imgName = intent.getStringExtra("fileName");// Name of image file
+
+				// DownloadImage from Link Code
+				try {
+					URL url = new URL(link);
+					String root = Environment.getExternalStorageDirectory()
+							.toString();
+					File myDir = new File(root + Constants.APP_FOLDER_IMG);
+					myDir.mkdirs();
+					String fname = imgName;
+					File file = new File(myDir, fname);
+					if (file.exists())
+						file.delete();
+					
+					imagePath = root + Constants.APP_FOLDER_IMG + fname;
+					Log.v("image name", fname);
+					
+					AnnounceDBAdapter db = new AnnounceDBAdapter(this);
+					db.open();
+					String _id = db.createAward(title, name, detail, rdate, id,
+							summary, // ADDED VIKALP AWARD RDATE
+							imagePath, social, contentExpiry, fileLink) + "";
+						SharedPreferences pref;
+						pref = getSharedPreferences("MobCastPref", 0);
+						pref.edit().putString("lastAward", id).commit();
+						ApplicationLoader.getPreferences().setLastAwardsId(id);//ADDED VIKALP PULL SERVICE
+						db.close();
+					
+					try{
+						URLConnection ucon = url.openConnection();
+						InputStream is = ucon.getInputStream();
+						BufferedInputStream bis = new BufferedInputStream(is);
+						ByteArrayBuffer baf = new ByteArrayBuffer(50);
+						int current = 0;
+						while ((current = bis.read()) != -1) {
+							baf.append((byte) current);
+						}
+
+						FileOutputStream fos = new FileOutputStream(file);
+						fos.write(baf.toByteArray());
+						fos.close();
+						
+						// Storing in Database
+						
+						// Passing intent to Award with data
+						if (check.isLoggedIn()) {
+							notificationIntent = new Intent(new OpenContent(ctx,
+									AnnounceDBAdapter.SQLITE_AWARD, _id).itemView());
+						} else
+							notificationIntent = new Intent(ctx, LoginV2.class);
+//						generateNotification(ctx, "Award", title);
+						
+//						SA VIKALP RICH NOTIFICATION
+						if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+							generateAwardNotification(ctx, "Award", title,
+									file.getAbsolutePath());
+						} else {
+							generateNotification(ctx, "Award", title);
+						}
+//						EA VIKALP RICH NOTIFICATION
+						
+						// SA VIKALP UPDATE NOTIFICATION RECEIVED
+						try {
+							updateNotificationReceived(ctx, "Award", id);
+						} catch (Exception ex) {
+							Log.e("updateNotificationReceived", ex.toString());
+						}
+						// EA VIKALP UPDATE NOTIFICATION RECEIVED
+					}catch(Exception e){
+						if (check.isLoggedIn()) {
+							notificationIntent = new Intent(new OpenContent(ctx,
+									AnnounceDBAdapter.SQLITE_AWARD, _id).itemView());
+						} else
+							notificationIntent = new Intent(ctx, LoginV2.class);
+						
+						generateNotification(ctx, "Award", title);
+					}
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			}// end of Award Category
+
+			// SA VIKALP
+			// For Remote Folder Wipe
+			if (category.contentEquals("remoteFolderWipe")) {
+				AnnounceDBAdapter adb = new AnnounceDBAdapter(ctx);
+				adb.open();
+				adb.remoteWipeFolder(ctx);
+				adb.close();
+			}
+
+			if (category.contentEquals("askUserToLogin")) {
+				if (!check.isLoggedIn()) {
+					notificationIntent = new Intent(ctx, LoginV2.class);
+					generateLoginNotification(ctx);
+					clearPreferences();
+				}
+			}
+
+			if (category.contentEquals("newUpdate")) {
+				notificationIntent = new Intent(ctx, Home1.class);
+				generateUpdateNotification(ctx);
+			}
+			
+			if(category.contentEquals("changeTeamIncentive")){
+				new AsyncDataFromApiForIncentive().execute();
+			}
+			
+			if (category.contentEquals("myperformance")) {
+				notificationIntent = new Intent(ctx, MyPerformanceActivity.class);
+				generateMyPerformanceNotification(ctx);
+			}
+			// EA VIKALP
+		}catch(Exception e){
+			Log.i(TAG, e.toString());
+		}
 	}// end of onMessage
 
 	public void clearPreferences() {
@@ -1313,6 +1322,28 @@ import com.sanofi.in.mobcast.AsyncHttpPost.OnPostExecuteListener;
 				this).setSmallIcon(R.drawable.ic_stat_sanofi_notification)
 				.setContentTitle("A new update is available.")
 				.setContentText("Please update the application.");
+
+		mBuilder.setDefaults(-1);
+		mBuilder.setOnlyAlertOnce(true);
+		mBuilder.setAutoCancel(true);
+		// mBuilder.getNotification().flags|= Notification.FLAG_AUTO_CANCEL;
+		PendingIntent resultPendingIntent = PendingIntent.getActivity(ctx,
+				uniqueID, notificationIntent,
+				//
+				// PendingIntent.FLAG_ONE_SHOT);
+				PendingIntent.FLAG_UPDATE_CURRENT);
+		mBuilder.setContentIntent(resultPendingIntent);
+		NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		// mId allows you to update the notification later on.
+		mNotificationManager.cancel(434);
+		mNotificationManager.notify(434, mBuilder.build());
+	}
+	
+	private void generateMyPerformanceNotification(Context ctx) {
+		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+				this).setSmallIcon(R.drawable.ic_stat_sanofi_notification)
+				.setContentTitle("A new data for My Performance is available")
+				.setContentText("Please open the application to view it");
 
 		mBuilder.setDefaults(-1);
 		mBuilder.setOnlyAlertOnce(true);

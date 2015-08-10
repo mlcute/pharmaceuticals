@@ -107,6 +107,18 @@ public class RequestBuilder {
 		return stringBuffer;
 	}
 	
+	public static JSONObject getPostMyPerfMyEarnings(String mEmailAddress, String mQuarter, String mYear){
+		JSONObject stringBuffer = new JSONObject();
+		try {
+			stringBuffer.put(Constants.user_id, mEmailAddress);
+			stringBuffer.put("quarter", mQuarter);
+			stringBuffer.put("year", mYear);
+		} catch (Exception e) {
+			Log.e(TAG, e.toString());
+		}
+		return stringBuffer;
+	}
+	
 	public static JSONObject getPostMyPerfConsistency(String mEmailAddress, String mYear){
 		JSONObject stringBuffer = new JSONObject();
 		try {

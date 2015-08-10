@@ -11,6 +11,7 @@
     <color name="sfkpi_bar_color_dim">#F3F7FA</color>
     <color name="sales_performance_red">#FE3C3C</color>
     <color name="sales_performance_green">#ACB315</color>
+    <color name="myearnings_incentive">#7D89D3</color>
     <color name="gray">#ECECEC</color>
     <color name="default_screen_bg">#f9f9f9</color>
     <color name="rounded_container_bg">#222222</color>

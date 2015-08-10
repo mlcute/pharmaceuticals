@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.sanofi.in.mobcast"
     android:installLocation="auto"
-    android:versionCode="45"
-    android:versionName="1.5.75" >
+    android:versionCode="48"
+    android:versionName="1.5.81" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -39,7 +39,7 @@
 
     <application
         android:name="com.sanofi.in.mobcast.ApplicationLoader"
-        android:debuggable="true"
+        android:debuggable="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"

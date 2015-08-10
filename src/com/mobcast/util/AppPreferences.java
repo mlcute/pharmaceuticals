@@ -1678,7 +1678,7 @@ public class AppPreferences {
 	}
 
 	public String getUserDesignation() { // My Performance : Designation
-		return sharedPreferences.getString("userDesignation", null);
+		return sharedPreferences.getString("userDesignation", "ff");
 	}
 	
 	public void setUserDisplayName(String str) {// My Performance : Designation
@@ -1699,6 +1699,28 @@ public class AppPreferences {
 
 	public String getFirstLevelObjectForMyPerformance() {
 		String flag = sharedPreferences.getString("setFirstLevelObjectForMyPerformance", null);
+		return flag;
+	}
+	
+	public void setConsistencyBarHeight(int str) {
+		editor = sharedPreferences.edit();
+		editor.putInt("setConsistencyBarHeight", str);
+		editor.commit();
+	}
+
+	public int getConsistencyBarHeight() {
+		int flag = sharedPreferences.getInt("setConsistencyBarHeight", 0);
+		return flag;
+	}
+	
+	public void setSalesPerformanceBarWidth(int str) {
+		editor = sharedPreferences.edit();
+		editor.putInt("setSalesPerformanceBarWidth", str);
+		editor.commit();
+	}
+
+	public int getSalesPerformanceBarWidth() {
+		int flag = sharedPreferences.getInt("setSalesPerformanceBarWidth", 0);
 		return flag;
 	}
 

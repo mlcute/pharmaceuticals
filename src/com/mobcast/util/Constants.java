@@ -74,6 +74,7 @@ public class Constants {
 	public static final String PERF_SFKPI = COMPANY + "sfkpiResponse.php";
 	public static final String PERF_CONSISTENCY = COMPANY + "consistencyResponse.php";
 	public static final String PERF_SALESPERF = COMPANY + "salesPerformanceResponse.php";
+	public static final String PERF_MYEARNINGS = COMPANY + "myEarningResponse.php";
 	
 	//update link
 	public static final String APP_UPDATE_LINK = "http://mobc.in/d/4";

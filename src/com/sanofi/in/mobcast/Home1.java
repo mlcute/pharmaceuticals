@@ -468,6 +468,7 @@ public class Home1 extends Activity {
 			
 			getSharedPreferences("MobCastPref", 0).edit().clear().commit();
 			clearIncentivePreferences();
+			clearMyPerformancePreferences();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -620,6 +621,18 @@ public class Home1 extends Activity {
 			 ApplicationLoader.getPreferences().setKPIPOBQ4(nullString);
 				
 			//Annual
+		}catch(Exception e){
+			Log.i(TAG, e.toString());
+		}
+	}
+	
+	private void clearMyPerformancePreferences(){
+		try{
+			ApplicationLoader.getPreferences().setConsistencyBarHeight(0);
+			ApplicationLoader.getPreferences().setSalesPerformanceBarWidth(0);
+			ApplicationLoader.getPreferences().setUserDesignation("ff");
+			ApplicationLoader.getPreferences().setUserDisplayName(null);
+			ApplicationLoader.getPreferences().setFirstLevelObjectForMyPerformance(null);
 		}catch(Exception e){
 			Log.i(TAG, e.toString());
 		}
@@ -857,6 +870,11 @@ public class Home1 extends Activity {
 				JSONObject jObject1 = new JSONObject(update);
 				String update1 = jObject1.getString("updateAvailable");
 				String department = jObject1.getString("department");
+				try{
+					ApplicationLoader.getPreferences().setUserDesignation(jObject1.getString("designation"));
+				}catch(Exception e){
+					
+				}
 				Log.e("update1", update1);
 				if (update1.contentEquals("yes")) {
 					showUpdateAppDialog();
